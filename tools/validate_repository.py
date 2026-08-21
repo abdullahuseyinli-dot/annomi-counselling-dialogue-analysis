@@ -42,7 +42,9 @@ FORBIDDEN = {
     "local file URI": re.compile("file:" + "/" * 2, re.IGNORECASE),
     "course identifier": re.compile(r"\bcs\s*552j\b", re.IGNORECASE),
     "personal identifier": re.compile(r"\b" + "5253" + "3844" + r"\b"),
-    "academic framing": re.compile(r"\b(" + "|".join(release_hygiene_terms) + r")\b", re.IGNORECASE),
+    "academic framing": re.compile(
+        r"\b(" + "|".join(release_hygiene_terms) + r")\b", re.IGNORECASE
+    ),
     "assistant attribution": re.compile(
         r"\b(" + "|".join(attribution_terms) + r")\b", re.IGNORECASE
     ),
