@@ -6,7 +6,6 @@ import math
 from pathlib import Path
 from typing import Any
 
-
 DEFAULT_ROOT = Path(__file__).resolve().parents[2]
 
 

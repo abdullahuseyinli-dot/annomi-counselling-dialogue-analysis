@@ -6,11 +6,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-
-from annomi_portfolio.evidence import validate_evidence  # noqa: E402
 
 
 REQUIRED = {
@@ -120,6 +117,8 @@ def validate_links() -> str:
 
 
 def main() -> None:
+    from annomi_portfolio.evidence import validate_evidence
+
     files = repository_files()
     relative = {path.relative_to(ROOT).as_posix() for path in files}
     missing = sorted(REQUIRED - relative)

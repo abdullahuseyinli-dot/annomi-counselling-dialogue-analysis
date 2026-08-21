@@ -6,7 +6,6 @@ import nbformat
 from nbclient import NotebookClient
 from nbformat.v4 import new_code_cell, new_markdown_cell, new_notebook
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "annomi_counselling_dialogue_analysis.ipynb"
 

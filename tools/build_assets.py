@@ -8,7 +8,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 ASSETS = ROOT / "assets"

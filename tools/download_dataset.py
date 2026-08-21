@@ -8,7 +8,6 @@ import shutil
 import urllib.request
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "data" / "source_manifest.json"
 DEFAULT_DESTINATION = ROOT / "data" / "raw" / "AnnoMI" / "dataset.csv"

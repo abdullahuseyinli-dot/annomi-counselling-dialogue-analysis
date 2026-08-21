@@ -2,7 +2,6 @@ from pathlib import Path
 
 from annomi_portfolio.evidence import read_csv, read_json, validate_evidence
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
