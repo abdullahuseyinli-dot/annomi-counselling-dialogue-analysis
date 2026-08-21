@@ -1,0 +1,10 @@
+{
+  "n_bins_ece": 15,
+  "fitted_temperature": 1.132490634918213,
+  "logreg_ece": 0.044995807435519126,
+  "roberta_uncalibrated_ece": 0.10733770344019675,
+  "roberta_calibrated_ece": 0.0876788060197115,
+  "roberta_uncalibrated_brier": 0.2937909132385735,
+  "roberta_calibrated_brier": 0.2859876967477885,
+  "note": "ECE binning matches the upstream temperature-scaling cell. Top-1 metrics are unchanged by temperature scaling because temperature rescales logits without altering argmax."
+}

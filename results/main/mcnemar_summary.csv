@@ -1,0 +1,10 @@
+Measure,Value,Meaning
+Test,Exact McNemar / binomial,Two-sided paired correctness test
+Held-out items,973,Same utterances scored by both classifiers
+Discordant pairs,130,Only these pairs drive McNemar's test
+RoBERTa-only correct,85,RoBERTa correct while baseline is wrong
+Baseline-only correct,45,Baseline correct while RoBERTa is wrong
+Discordant difference,+40,RoBERTa-only correct minus baseline-only correct
+Discordant odds,1.8889,Values above 1 favour RoBERTa
+Exact p-value,0.0006,Significant at 0.05
+Direction,FacebookAI/roberta-base (HP search + multi-seed) correct on more discordant items,Diagnostic conclusion on paired correctness

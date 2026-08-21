@@ -1,0 +1,20 @@
+{
+  "Elastic-net logistic regression": {
+    "accuracy": 0.9032258064516129,
+    "precision": 0.6666666666666666,
+    "recall": 0.8,
+    "f1": 0.7272727272727273,
+    "roc_auc": 0.9538461538461538,
+    "average_precision": 0.8211111111111111,
+    "brier": 0.08745946941178682
+  },
+  "XGBoost": {
+    "accuracy": 0.9032258064516129,
+    "precision": 0.6666666666666666,
+    "recall": 0.8,
+    "f1": 0.7272727272727273,
+    "roc_auc": 0.9461538461538461,
+    "average_precision": 0.81,
+    "brier": 0.1099855899810791
+  }
+}

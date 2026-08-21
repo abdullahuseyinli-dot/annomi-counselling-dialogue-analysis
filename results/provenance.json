@@ -1,0 +1,110 @@
+{
+  "prepared_at_utc": "2026-08-21T14:14:10+00:00",
+  "source_notebook_sha256": "8f18140d0abfbc7ea2f664f3931fa0bf297c5e59e76a3c6c3bc5d754dbf975ef",
+  "dataset_sha256": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61",
+  "headline_result": "results/main/model_comparison.csv",
+  "official_split": "results/protocol/official_split.json",
+  "result_files": [
+    {
+      "path": "results/main/model_comparison.csv",
+      "sha256": "073c78b29c77783ebc172f2582dd8327e2ef8b1b1fd97a45065f4e5207b07e1d",
+      "bytes": 505
+    },
+    {
+      "path": "results/main/metric_deltas.csv",
+      "sha256": "363954b117c76b3afaa7ac290ec185c39b493fb013dc4711afbd14228708d1b5",
+      "bytes": 489
+    },
+    {
+      "path": "results/main/grouped_significance.csv",
+      "sha256": "43da97f7f44579dbd1ab0bb7f0eb72c168774800b50adf283ba79b3349ef4366",
+      "bytes": 531
+    },
+    {
+      "path": "results/main/mcnemar_summary.csv",
+      "sha256": "da5eaf7d127cc3a1b40167d61c1a3bfd4a7ac84942fa47a0d7ac04db946e093e",
+      "bytes": 651
+    },
+    {
+      "path": "results/main/calibration.csv",
+      "sha256": "28055f67c199df94c86f206023b424ed128075c5553870dc2c7bab762b3999bd",
+      "bytes": 468
+    },
+    {
+      "path": "results/main/calibration_summary.json",
+      "sha256": "9b4fbf25c47fbaa1c28695ac2a8980f35760595309f2d0332c830917ad979edc",
+      "bytes": 497
+    },
+    {
+      "path": "results/main/per_class_metrics.csv",
+      "sha256": "a5b1c39543ac3e9e12860b9eca7c5f0b0e19aa9827f9079f4c5de0d6b9021726",
+      "bytes": 1873
+    },
+    {
+      "path": "results/main/error_slices.csv",
+      "sha256": "82a35a834ef762f9434429328df74e3e8a52675ca1c9f5b250f8530f916bdc6b",
+      "bytes": 7242
+    },
+    {
+      "path": "results/summarisation/method_means.csv",
+      "sha256": "03c4b7d8498b0cfb7da94a65097bd156556b3a102e63b5649c959fd1c0a8e8d4",
+      "bytes": 525
+    },
+    {
+      "path": "results/summarisation/method_by_class.csv",
+      "sha256": "152af613602e2bfb1dc1f14fd049f9b4515989076accbbc7ac2d98b35e094b32",
+      "bytes": 903
+    },
+    {
+      "path": "results/summarisation/support_rubric.csv",
+      "sha256": "5995f262bf618c4dcd2b8a119f40e788977c5f3d3bee8be4d988be536a09bd8f",
+      "bytes": 1052
+    },
+    {
+      "path": "results/extensions/context_ablation.csv",
+      "sha256": "f812d60c7d2c5339eaeed2fbf650a2127a16b6ee977cc96ce31d21835a6fcb05",
+      "bytes": 1002
+    },
+    {
+      "path": "results/extensions/topic_shift.csv",
+      "sha256": "aa8c363cc0e238deb4ef9cbdc8f78c8f61f9aaa85b837e432a32dfbf4ce1f3a5",
+      "bytes": 1797
+    },
+    {
+      "path": "results/extensions/transcript_classification.json",
+      "sha256": "a084bd9899344c7af370fb89d0aeda3dd2463030a696446c4ee3471200306cca",
+      "bytes": 540
+    },
+    {
+      "path": "results/extensions/transcript_classification_intervals.csv",
+      "sha256": "1b2bddc9d4d0c6c8a2c75f8fddf97c2292275d74eb80b9fb1f5676a7f0b70b74",
+      "bytes": 402
+    },
+    {
+      "path": "results/extensions/transcript_classification_nested_cv.csv",
+      "sha256": "6674bce30f009165aeeb5545b050877a949a3910d7627b1d9d4f4cb171126514",
+      "bytes": 712
+    },
+    {
+      "path": "results/extensions/next_behaviour_forecasting.csv",
+      "sha256": "dece2239a0c788817391bf58a560b64834d9ee37e2f883ba0515a33a4e2a2f4e",
+      "bytes": 590
+    },
+    {
+      "path": "results/extensions/next_behaviour_forecasting_topk.csv",
+      "sha256": "03ddb426929511db1a906e101a010351ffd71af0ec1df0afe0b3cf62f890e2f3",
+      "bytes": 233
+    },
+    {
+      "path": "results/protocol/roberta_config.json",
+      "sha256": "6410a71a3ff5d135300b76193ce5f1dab85c9be85f65731378c5e5672d15f2c9",
+      "bytes": 948
+    },
+    {
+      "path": "results/protocol/official_split.json",
+      "sha256": "99ecd3534c4fbb28d2cfe20895ae31bf124184e8422235fb50fa83fbc4e43726",
+      "bytes": 1505
+    }
+  ],
+  "consistency_note": "The aggregate summarisation table ranks Pre-BERTopic KMeans + MMR above BERTopic + MMR on overall usefulness; the public narrative follows the table."
+}

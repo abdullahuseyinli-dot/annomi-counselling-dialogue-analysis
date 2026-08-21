@@ -1,0 +1,65 @@
+slice_feature,slice_value,n,accuracy,f1_macro,model
+main_therapist_behaviour,other,317,0.886435331230284,0.3132664437012263,Elastic-net logistic regression
+main_therapist_behaviour,question,277,0.8483754512635379,0.2294921875,Elastic-net logistic regression
+main_therapist_behaviour,reflection,257,0.7042801556420234,0.20662100456621005,Elastic-net logistic regression
+main_therapist_behaviour,therapist_input,122,0.48360655737704916,0.16298342541436464,Elastic-net logistic regression
+main_therapist_behaviour,other,317,0.9116719242902208,0.23844884488448845,FacebookAI/roberta-base (HP search + multi-seed)
+main_therapist_behaviour,question,277,0.9205776173285198,0.31954887218045114,FacebookAI/roberta-base (HP search + multi-seed)
+main_therapist_behaviour,reflection,257,0.7431906614785992,0.21316964285714285,FacebookAI/roberta-base (HP search + multi-seed)
+main_therapist_behaviour,therapist_input,122,0.5,0.16666666666666666,FacebookAI/roberta-base (HP search + multi-seed)
+mi_quality,high,881,0.7854710556186152,0.7310194028625487,Elastic-net logistic regression
+mi_quality,low,92,0.6956521739130435,0.5742042606516291,Elastic-net logistic regression
+mi_quality,high,881,0.8286038592508513,0.7718506879434263,FacebookAI/roberta-base (HP search + multi-seed)
+mi_quality,low,92,0.717391304347826,0.6201329534662868,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,better oral health,19,0.8421052631578947,0.6505681818181819,Elastic-net logistic regression
+topic_norm,birth control,18,0.7777777777777778,0.6017857142857143,Elastic-net logistic regression
+topic_norm,compliance with rules,34,0.7941176470588235,0.6585497835497836,Elastic-net logistic regression
+topic_norm,diabetes management,20,0.8,0.6819875776397515,Elastic-net logistic regression
+topic_norm,more exercise / increasing activity,13,0.7692307692307693,0.7964743589743589,Elastic-net logistic regression
+topic_norm,problem recognition,8,0.5,0.375,Elastic-net logistic regression
+topic_norm,providing information on medicines,6,1.0,1.0,Elastic-net logistic regression
+topic_norm,recognising success,5,0.8,0.7619047619047619,Elastic-net logistic regression
+topic_norm,reducing alcohol consumption,145,0.7793103448275862,0.6910551134689066,Elastic-net logistic regression
+topic_norm,reducing drug use,160,0.75625,0.734231982177813,Elastic-net logistic regression
+topic_norm,reducing recidivism,268,0.7350746268656716,0.6844486188677023,Elastic-net logistic regression
+topic_norm,reducing violence,21,0.9047619047619048,0.8507936507936508,Elastic-net logistic regression
+topic_norm,smoking cessation,49,0.8367346938775511,0.5946078431372549,Elastic-net logistic regression
+topic_norm,supporting client to live in more alignment with her values,67,0.8507462686567164,0.6372994821270683,Elastic-net logistic regression
+topic_norm,taking medicine / following medical procedure,30,0.7666666666666667,0.7072676896845695,Elastic-net logistic regression
+topic_norm,taking steps towards getting help with day-care,29,0.6206896551724138,0.6554695304695305,Elastic-net logistic regression
+topic_norm,unidentifiable,33,0.9090909090909091,0.6994949494949495,Elastic-net logistic regression
+topic_norm,weight loss,45,0.8444444444444444,0.804498022985418,Elastic-net logistic regression
+topic_norm,better oral health,19,0.7368421052631579,0.6022727272727273,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,birth control,18,0.9444444444444444,0.9307692307692308,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,compliance with rules,34,0.8235294117647058,0.667989417989418,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,diabetes management,20,0.95,0.9,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,more exercise / increasing activity,13,0.7692307692307693,0.7916666666666666,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,problem recognition,8,0.75,0.6166666666666667,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,providing information on medicines,6,0.8333333333333334,0.8666666666666667,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,recognising success,5,0.8,0.7619047619047619,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,reducing alcohol consumption,145,0.8,0.737716083073767,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,reducing drug use,160,0.84375,0.8087369652802464,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,reducing recidivism,268,0.7574626865671642,0.7135520972807501,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,reducing violence,21,0.9523809523809523,0.9111111111111111,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,smoking cessation,49,0.9183673469387755,0.7014571948998178,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,supporting client to live in more alignment with her values,67,0.9402985074626866,0.7116514404290296,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,taking medicine / following medical procedure,30,0.7333333333333333,0.6533333333333333,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,taking steps towards getting help with day-care,29,0.5862068965517241,0.59375,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,unidentifiable,33,0.9696969696969697,0.9731615673644659,FacebookAI/roberta-base (HP search + multi-seed)
+topic_norm,weight loss,45,0.8444444444444444,0.7791363482852844,FacebookAI/roberta-base (HP search + multi-seed)
+length_bucket,very_short (≤3w),307,0.9087947882736156,0.5404629272826186,Elastic-net logistic regression
+length_bucket,short (4–8w),177,0.7175141242937854,0.609122595135181,Elastic-net logistic regression
+length_bucket,medium (9–15w),155,0.7870967741935484,0.5839080459770115,Elastic-net logistic regression
+length_bucket,long (16+w),334,0.6826347305389222,0.5847610188849974,Elastic-net logistic regression
+length_bucket,very_short (≤3w),307,0.9609120521172638,0.6473666946723906,FacebookAI/roberta-base (HP search + multi-seed)
+length_bucket,short (4–8w),177,0.768361581920904,0.6877707732546442,FacebookAI/roberta-base (HP search + multi-seed)
+length_bucket,medium (9–15w),155,0.7741935483870968,0.6018985079960689,FacebookAI/roberta-base (HP search + multi-seed)
+length_bucket,long (16+w),334,0.7335329341317365,0.6088539274904218,FacebookAI/roberta-base (HP search + multi-seed)
+position_bucket,q1 (start),252,0.7817460317460317,0.7025839702776611,Elastic-net logistic regression
+position_bucket,q2,242,0.8099173553719008,0.7747448572479612,Elastic-net logistic regression
+position_bucket,q3,235,0.7787234042553192,0.7562534205732677,Elastic-net logistic regression
+position_bucket,q4 (end),244,0.7377049180327869,0.6978569030858919,Elastic-net logistic regression
+position_bucket,q1 (start),252,0.8293650793650794,0.7373280696964908,FacebookAI/roberta-base (HP search + multi-seed)
+position_bucket,q2,242,0.8223140495867769,0.7856770311633735,FacebookAI/roberta-base (HP search + multi-seed)
+position_bucket,q3,235,0.8638297872340426,0.8420438294100265,FacebookAI/roberta-base (HP search + multi-seed)
+position_bucket,q4 (end),244,0.7581967213114754,0.711732016917439,FacebookAI/roberta-base (HP search + multi-seed)

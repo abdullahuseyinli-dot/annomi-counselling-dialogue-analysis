@@ -1,0 +1,31 @@
+{
+  "base_model": "FacebookAI/roberta-base",
+  "used_checkpoint": "FacebookAI/roberta-base",
+  "context_k": 10,
+  "text_col": "context_k10_text",
+  "max_length": 384,
+  "learning_rate": 2e-05,
+  "weight_decay": 0.01,
+  "precision": "fp16",
+  "train_batch_size": 2,
+  "eval_batch_size": 4,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": false,
+  "selection_source": "grouped_hparam_search_plus_multiseed_confirmation",
+  "display_name": "FacebookAI/roberta-base (HP search + multi-seed)",
+  "multiseed_mean_f1_macro": 0.7923496144418709,
+  "multiseed_std_f1_macro": 0.0028639390390980814,
+  "multiseed_min_f1_macro": 0.7885935007516518,
+  "multiseed_max_f1_macro": 0.7955398937106254,
+  "multiseed_mean_accuracy": 0.8109743561235022,
+  "successful_seeds": 3,
+  "total_seeds": 3,
+  "search_seed": 42,
+  "multiseed_seeds": [
+    17,
+    42,
+    101
+  ],
+  "hp_search_epochs": 3,
+  "multiseed_epochs": 3
+}

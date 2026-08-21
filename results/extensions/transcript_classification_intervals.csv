@@ -1,0 +1,3 @@
+model,accuracy_point,accuracy_ci95_low,accuracy_ci95_high,f1_point,f1_ci95_low,f1_ci95_high,roc_auc_point,roc_auc_ci95_low,roc_auc_ci95_high,average_precision_point,average_precision_ci95_low,average_precision_ci95_high
+Elastic-net logistic regression,0.9032,0.7742,1.0,0.7273,0.3333,1.0,0.9538,0.8533,1.0,0.8211,0.4167,1.0
+XGBoost,0.9032,0.7742,1.0,0.7273,0.3333,1.0,0.9462,0.8333,1.0,0.81,0.4,1.0

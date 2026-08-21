@@ -1,0 +1,25 @@
+label,metric,score,model
+reflection,precision,0.6703703703703704,Elastic-net logistic regression
+question,precision,0.793918918918919,Elastic-net logistic regression
+therapist_input,precision,0.6145833333333334,Elastic-net logistic regression
+other,precision,0.9035369774919614,Elastic-net logistic regression
+reflection,recall,0.7042801556420234,Elastic-net logistic regression
+question,recall,0.8483754512635379,Elastic-net logistic regression
+therapist_input,recall,0.48360655737704916,Elastic-net logistic regression
+other,recall,0.886435331230284,Elastic-net logistic regression
+reflection,f1,0.6869070208728653,Elastic-net logistic regression
+question,f1,0.8202443280977313,Elastic-net logistic regression
+therapist_input,f1,0.5412844036697247,Elastic-net logistic regression
+other,f1,0.8949044585987261,Elastic-net logistic regression
+reflection,precision,0.7892561983471075,FacebookAI/roberta-base (HP search + multi-seed)
+question,precision,0.7566765578635015,FacebookAI/roberta-base (HP search + multi-seed)
+therapist_input,precision,0.648936170212766,FacebookAI/roberta-base (HP search + multi-seed)
+other,precision,0.9633333333333334,FacebookAI/roberta-base (HP search + multi-seed)
+reflection,recall,0.7431906614785992,FacebookAI/roberta-base (HP search + multi-seed)
+question,recall,0.9205776173285198,FacebookAI/roberta-base (HP search + multi-seed)
+therapist_input,recall,0.5,FacebookAI/roberta-base (HP search + multi-seed)
+other,recall,0.9116719242902208,FacebookAI/roberta-base (HP search + multi-seed)
+reflection,f1,0.7655310621242485,FacebookAI/roberta-base (HP search + multi-seed)
+question,f1,0.8306188925081434,FacebookAI/roberta-base (HP search + multi-seed)
+therapist_input,f1,0.5648148148148148,FacebookAI/roberta-base (HP search + multi-seed)
+other,f1,0.9367909238249594,FacebookAI/roberta-base (HP search + multi-seed)

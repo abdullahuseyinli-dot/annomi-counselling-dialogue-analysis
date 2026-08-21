@@ -1,0 +1,4 @@
+model,top_1_accuracy,top_2_accuracy,top_3_accuracy
+Majority-class baseline (always predicts 'other'),0.3258,0.4512,0.7153
+CatBoost structured state model,0.446,0.7616,0.9219
+Hybrid GRU with local-state fusion,0.446,0.7256,0.9075

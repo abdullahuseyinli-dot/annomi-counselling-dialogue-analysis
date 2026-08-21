@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments and editors
+.venv/
+.venv*/
+venv/
+.env
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local data and heavyweight experiment state
+data/raw/
+artifacts/
+checkpoints/
+models/
+outputs/
+.runs/
+*.zip
+*.joblib
+*.pkl
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+
+# Notebook transient state
+.ipynb_checkpoints/

@@ -1,0 +1,25 @@
+# Captured package versions from the completed experiment environment.
+# Use requirements-experiment.txt for installation; this file documents provenance.
+# Python 3.11.9
+bertopic==0.17.4
+catboost==1.2.10
+datasets==3.6.0
+ipykernel==6.31.0
+joblib==1.5.3
+keybert==0.8.5
+matplotlib==3.10.8
+nbclient==0.10.4
+nbformat==5.10.4
+numpy==2.4.3
+pandas==2.3.3
+protobuf==6.33.6
+scikit-learn==1.8.0
+scipy==1.17.1
+seaborn==0.13.2
+sentence-transformers==3.4.1
+sentencepiece==0.2.1
+torch==2.11.0+cu126
+tqdm==4.67.3
+transformers==4.57.6
+umap-learn==0.5.12
+xgboost==3.2.0

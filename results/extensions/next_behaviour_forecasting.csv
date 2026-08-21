@@ -1,0 +1,6 @@
+model,accuracy,f1_macro,f1_weighted,brier_multiclass,scope,predictor,predictor_inputs
+"Majority-class floor (test, always predicts 'other')",0.3258,0.1229,0.1601,1.3484,test_set,,
+CatBoost structured state model,0.446,0.4304,0.4486,0.6687,test_set,,
+Hybrid GRU with local-state fusion,0.446,0.4348,0.4443,0.6829,test_set,,
+,0.4085443847531338,0.40553589669859313,,,train_set_oracle_ceiling,Markov-1 oracle,ground-truth previous therapist label
+,0.41596316193399846,0.4070622914100272,,,train_set_oracle_ceiling,Markov-2 oracle,ground-truth previous therapist label + last client talk

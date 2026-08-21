@@ -1,0 +1,28 @@
+{
+  "dataset": "AnnoMI-simple",
+  "upstream_repository": "https://github.com/uccollab/AnnoMI",
+  "upstream_commit": "42936645ec3857a9c84ab296a36a3c34b779ef49",
+  "download_url": "https://raw.githubusercontent.com/uccollab/AnnoMI/42936645ec3857a9c84ab296a36a3c34b779ef49/AnnoMI-simple.csv",
+  "sha256": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61",
+  "bytes": 2386609,
+  "rows": 9699,
+  "transcripts": 133,
+  "expected_columns": [
+    "transcript_id",
+    "mi_quality",
+    "video_title",
+    "video_url",
+    "topic",
+    "utterance_id",
+    "interlocutor",
+    "timestamp",
+    "utterance_text",
+    "main_therapist_behaviour",
+    "client_talk_type"
+  ],
+  "citations": [
+    "https://doi.org/10.1109/ICASSP43922.2022.9746035",
+    "https://doi.org/10.3390/fi15030110"
+  ],
+  "data_handling": "The raw counselling text is downloaded from the official source and is not redistributed by this repository."
+}

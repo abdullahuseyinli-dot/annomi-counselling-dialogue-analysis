@@ -1,0 +1,4 @@
+model,accuracy,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,brier_multiclass,ece
+Elastic-net logistic regression,0.777,0.7456,0.7307,0.7358,0.7745,0.777,0.7744,0.3192,0.045
+FacebookAI/roberta-base (HP search + multi-seed) (uncalibrated),0.8181,0.7896,0.7689,0.7744,0.8191,0.8181,0.8147,0.2938,0.1073
+FacebookAI/roberta-base (HP search + multi-seed) (calibrated),0.8181,0.7896,0.7689,0.7744,0.8191,0.8181,0.8147,0.286,0.0877
