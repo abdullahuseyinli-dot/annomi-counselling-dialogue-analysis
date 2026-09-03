@@ -1,0 +1,29 @@
+{
+  "recovery_id": "dash-mi-sparse-baseline-recovery-v1",
+  "registered_date": "2026-09-03",
+  "parent_protocol": "dash-mi-source-cv-v1",
+  "reason": "SAGA failed to converge before any outer predictions or aggregate results were produced.",
+  "invariants": [
+    "same data and source folds",
+    "same causal input policies",
+    "same TF-IDF feature family",
+    "same elastic-net logistic model family",
+    "same source-balanced selection metric",
+    "same four-recipe budget"
+  ],
+  "solver": {
+    "estimator": "sklearn.linear_model.SGDClassifier",
+    "loss": "log_loss",
+    "penalty": "elasticnet",
+    "max_iter": 3000,
+    "tol": 0.0001,
+    "average": true
+  },
+  "recipes": [
+    {"id": "alpha1e-4_l2", "alpha": 0.0001, "l1_ratio": 0.0},
+    {"id": "alpha3e-5_l2", "alpha": 0.00003, "l1_ratio": 0.0},
+    {"id": "alpha1e-5_l2", "alpha": 0.00001, "l1_ratio": 0.0},
+    {"id": "alpha3e-5_elastic15", "alpha": 0.00003, "l1_ratio": 0.15}
+  ],
+  "result_access_before_registration": false
+}

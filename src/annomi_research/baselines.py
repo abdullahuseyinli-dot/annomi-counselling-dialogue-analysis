@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import f1_score
 from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.pipeline import FeatureUnion
@@ -25,15 +25,15 @@ from .splits import fold_lookup
 @dataclass(frozen=True)
 class Recipe:
     recipe_id: str
-    c: float
+    alpha: float
     l1_ratio: float
 
 
 RECIPES = (
-    Recipe("c0.25_l2", 0.25, 0.0),
-    Recipe("c1_l2", 1.0, 0.0),
-    Recipe("c4_l2", 4.0, 0.0),
-    Recipe("c1_elastic15", 1.0, 0.15),
+    Recipe("alpha1e-4_l2", 1e-4, 0.0),
+    Recipe("alpha3e-5_l2", 3e-5, 0.0),
+    Recipe("alpha1e-5_l2", 1e-5, 0.0),
+    Recipe("alpha3e-5_elastic15", 3e-5, 0.15),
 )
 
 
@@ -81,17 +81,18 @@ def _fit(
     text_column: str,
     recipe: Recipe,
     seed: int,
-) -> tuple[FeatureUnion, LogisticRegression]:
+) -> tuple[FeatureUnion, SGDClassifier]:
     features = _features()
     matrix = features.fit_transform(train[text_column])
-    classifier = LogisticRegression(
-        C=recipe.c,
-        solver="saga",
+    classifier = SGDClassifier(
+        loss="log_loss",
+        alpha=recipe.alpha,
         penalty="elasticnet",
         l1_ratio=recipe.l1_ratio,
-        max_iter=2_000,
+        max_iter=3_000,
+        tol=1e-4,
+        average=True,
         random_state=seed,
-        n_jobs=1,
     )
     classifier.fit(matrix, train["label"], sample_weight=_sample_weights(train))
     return features, classifier
@@ -99,7 +100,7 @@ def _fit(
 
 def _predict(
     features: FeatureUnion,
-    classifier: LogisticRegression,
+    classifier: SGDClassifier,
     frame: pd.DataFrame,
     text_column: str,
 ) -> np.ndarray:

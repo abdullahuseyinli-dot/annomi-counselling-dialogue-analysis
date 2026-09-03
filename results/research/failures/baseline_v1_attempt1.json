@@ -1,0 +1,13 @@
+{
+  "failure_id": "baseline-v1-attempt1-saga-nonconvergence",
+  "date": "2026-09-03",
+  "code_commit": "51bbd18",
+  "command": "python -m annomi_research run-baselines",
+  "stage": "inner-fold sparse baseline tuning",
+  "observed": "Repeated fits reached max_iter=2000 without convergence.",
+  "intervention": "Operator interrupted the run before completion.",
+  "outer_predictions_written": false,
+  "aggregate_metrics_observed": false,
+  "recovery": "Retain the same TF-IDF elastic-net logistic model and recipe budget, but use SGDClassifier with deterministic convergence controls suited to sparse high-dimensional input.",
+  "claim_status": "failed_execution_no_result"
+}
