@@ -55,7 +55,14 @@ def test_context_is_causal_and_dialogue_local() -> None:
     )
     examples = build_therapist_examples(Corpus(utterances, pd.DataFrame()), context_turns=10)
     context = examples.loc[examples["transcript_id"].eq(1), "context_text"].item()
+    target_first = examples.loc[
+        examples["transcript_id"].eq(1), "target_first_context_text"
+    ].item()
     assert "past client" in context
     assert "current therapist" in context
     assert "future client" not in context
     assert "other dialogue" not in context
+    assert target_first.startswith("[TARGET_THERAPIST] current therapist")
+    assert "past client" in target_first
+    assert "future client" not in target_first
+    assert "other dialogue" not in target_first

@@ -103,6 +103,12 @@ def build_therapist_examples(corpus: Corpus, context_turns: int = 10) -> pd.Data
             if row.interlocutor == "therapist":
                 prior = history[-context_turns:] if context_turns else []
                 context = "\n".join([*prior, f"[TARGET_THERAPIST] {row.utterance_text}"])
+                target_first_context = "\n".join(
+                    [
+                        f"[TARGET_THERAPIST] {row.utterance_text}",
+                        *reversed(prior),
+                    ]
+                )
                 examples.append(
                     {
                         "transcript_id": int(row.transcript_id),
@@ -111,6 +117,7 @@ def build_therapist_examples(corpus: Corpus, context_turns: int = 10) -> pd.Data
                         "label": str(row.main_therapist_behaviour),
                         "utterance_text": str(row.utterance_text),
                         "context_text": context,
+                        "target_first_context_text": target_first_context,
                         "normalized_text": str(row.normalized_text),
                     }
                 )

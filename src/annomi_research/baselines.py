@@ -265,7 +265,7 @@ def run_baselines(
         "protocol_id": protocol["protocol_id"],
         "code_commit": _git_commit(),
         "split_manifest_sha256": split_manifest["manifest_sha256"],
-        "dataset_sha256": read_json(Path(protocol["data"]["simple_manifest"]))["sha256"],
+        "dataset_sha256": read_json(ROOT / protocol["data"]["simple_manifest"])["sha256"],
         "seed": seed,
         "models": sorted(metrics),
         "metrics": metrics,

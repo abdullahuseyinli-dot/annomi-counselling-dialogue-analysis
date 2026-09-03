@@ -90,6 +90,10 @@ python -m annomi_research audit-data
 python -m annomi_research make-splits
 python -m annomi_research validate
 python -m annomi_research run-baselines
+# CUDA 13.0 PyTorch is selected by the uv lock on Windows/Linux:
+uv sync --extra dev --extra neural
+python -m annomi_research smoke-neural --model roberta_utterance
+python -m annomi_research run-neural --model roberta_utterance
 ```
 
 The downloader verifies each upstream commit, byte count, SHA-256 digest, schema, row

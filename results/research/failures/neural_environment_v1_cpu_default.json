@@ -1,0 +1,15 @@
+{
+  "attempt_id": "annomi-neural-environment-v1-default-index",
+  "status": "failed_before_training",
+  "command": "uv sync --extra dev --extra neural",
+  "observed": {
+    "torch": "2.14.0+cpu",
+    "cuda_available": false,
+    "cuda_runtime": null,
+    "visible_gpu_via_nvidia_smi": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU"
+  },
+  "cause": "The default Python package index resolved the CPU-only PyTorch wheel.",
+  "recovery": "Pin torch 2.14.0 to the official PyTorch CUDA 13.0 index in pyproject.toml and uv.lock.",
+  "model_training_started": false,
+  "performance_result_produced": false
+}

@@ -39,9 +39,19 @@ neural = [
   "datasets>=3.6,<5",
   "peft>=0.17,<1",
   "sentencepiece>=0.2,<0.3",
-  "torch>=2.8,<3",
+  "torch==2.14.0",
   "transformers>=4.55,<6",
 ]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu130", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
 
 [tool.setuptools.packages.find]
 where = ["src"]

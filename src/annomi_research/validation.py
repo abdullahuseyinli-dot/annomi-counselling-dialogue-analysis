@@ -70,6 +70,14 @@ def validate_research(
     if baseline_dir.exists():
         validate_baseline_evidence(baseline_dir)
         checks.append("baseline metrics reconstruct from row-level predictions")
+
+    neural_root = RESEARCH_RESULTS / "neural_v1"
+    if neural_root.exists():
+        from .neural import validate_neural_evidence
+
+        for result_dir in sorted(path.parent for path in neural_root.glob("*/summary.json")):
+            validate_neural_evidence(result_dir)
+            checks.append(f"neural metrics reconstruct for {result_dir.name}")
     return checks
 
 

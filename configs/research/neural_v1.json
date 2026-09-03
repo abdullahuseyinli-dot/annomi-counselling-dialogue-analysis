@@ -1,0 +1,73 @@
+{
+  "config_id": "annomi-neural-v1",
+  "status": "registered_before_neural_model_evaluation",
+  "registered_date": "2026-09-03",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false
+  },
+  "models": {
+    "roberta_utterance": {
+      "text_column": "utterance_text",
+      "train_batch_size": 16,
+      "eval_batch_size": 32,
+      "recipes": [
+        {"recipe_id": "u_lr1e-5_len128", "learning_rate": 0.00001, "max_length": 128},
+        {"recipe_id": "u_lr2e-5_len128", "learning_rate": 0.00002, "max_length": 128},
+        {"recipe_id": "u_lr1e-5_len256", "learning_rate": 0.00001, "max_length": 256},
+        {"recipe_id": "u_lr2e-5_len256", "learning_rate": 0.00002, "max_length": 256}
+      ]
+    },
+    "roberta_flat_causal10": {
+      "text_column": "target_first_context_text",
+      "train_batch_size": 8,
+      "eval_batch_size": 16,
+      "recipes": [
+        {"recipe_id": "c_lr1e-5_len256", "learning_rate": 0.00001, "max_length": 256},
+        {"recipe_id": "c_lr2e-5_len256", "learning_rate": 0.00002, "max_length": 256},
+        {"recipe_id": "c_lr1e-5_len384", "learning_rate": 0.00001, "max_length": 384},
+        {"recipe_id": "c_lr2e-5_len384", "learning_rate": 0.00002, "max_length": 384}
+      ]
+    }
+  },
+  "selection": {
+    "seed": 17,
+    "inner_folds": 3,
+    "metric": "source_balanced_macro_f1",
+    "tie_break": "lexicographically_smallest_recipe_id",
+    "final_epoch_rule": "rounded_median_inner_best_epoch"
+  },
+  "final_seeds": [17, 42, 101, 314, 2718],
+  "training": {
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "maximum_epochs": 8,
+    "minimum_epochs": 2,
+    "early_stopping_patience": 2,
+    "gradient_accumulation_steps": 2,
+    "maximum_gradient_norm": 1.0,
+    "warmup_fraction": 0.1,
+    "label_smoothing": 0.0,
+    "loss_weighting": "outer-training-only source-balanced times class-balanced",
+    "mixed_precision": "bfloat16",
+    "deterministic_algorithms": "warn_only",
+    "test_partition_used_for_selection": false
+  },
+  "input_contract": {
+    "causal_only": true,
+    "context_turns": 10,
+    "flat_context_order": "target first, then preceding turns in reverse chronological order",
+    "truncation": "right side only, preserving target and most recent history",
+    "forbidden_features": [
+      "future utterances",
+      "eventual transcript length",
+      "future-normalized turn position",
+      "video title",
+      "mi_quality",
+      "topic",
+      "gold prior behaviour labels"
+    ]
+  }
+}
