@@ -1,0 +1,36 @@
+{
+  "bf16_matrix_multiply_finite": true,
+  "bf16_matrix_multiply_shape": [
+    1024,
+    1024
+  ],
+  "code_commit": "0141eb4306aa13643864eb81bbf25aa0ff9b4a55",
+  "config_sha256": "98b7f4119ff8dbe449351e7753ae7656def140cafe927b7193458184498bb5cd",
+  "gate_id": "annomi-neural-gpu-environment-v1",
+  "nvidia_smi_name_driver_memory_mib": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU, 596.72, 12227",
+  "peak_memory_bytes": 45088768,
+  "performance_result_produced": false,
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false
+  },
+  "protocol_id": "dash-mi-source-cv-v1",
+  "runtime_environment": {
+    "bf16_supported": true,
+    "compute_capability": [
+      12,
+      0
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "cudnn": 92400,
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "status": "pass",
+  "uv_lock_sha256": "72be88a94a4ae84d0c1852f50833610ce137c6d6ea993da68f35042e17cd8c72"
+}
