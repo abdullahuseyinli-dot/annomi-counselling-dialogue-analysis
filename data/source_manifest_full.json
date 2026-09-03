@@ -1,0 +1,32 @@
+{
+  "dataset": "AnnoMI-full",
+  "upstream_repository": "https://github.com/uccollab/AnnoMI",
+  "upstream_commit": "42936645ec3857a9c84ab296a36a3c34b779ef49",
+  "download_url": "https://raw.githubusercontent.com/uccollab/AnnoMI/42936645ec3857a9c84ab296a36a3c34b779ef49/AnnoMI-full.csv",
+  "sha256": "3b60fec5e9d83cbb18ade0e412fb9afaef3b81724748a5d715f844bdd7432c9f",
+  "bytes": 3795371,
+  "rows": 13551,
+  "transcripts": 133,
+  "annotators": 10,
+  "expected_columns": [
+    "mi_quality",
+    "transcript_id",
+    "video_title",
+    "video_url",
+    "topic",
+    "utterance_id",
+    "interlocutor",
+    "timestamp",
+    "utterance_text",
+    "annotator_id",
+    "therapist_input_exists",
+    "therapist_input_subtype",
+    "reflection_exists",
+    "reflection_subtype",
+    "question_exists",
+    "question_subtype",
+    "main_therapist_behaviour",
+    "client_talk_type"
+  ],
+  "data_handling": "Raw dialogue text is fetched from the official commit and excluded from Git."
+}

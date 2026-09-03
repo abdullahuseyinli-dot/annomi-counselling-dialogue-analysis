@@ -1,4 +1,9 @@
-# Experiment protocol
+# Portfolio experiment protocol (development-consumed)
+
+This document describes the preserved v0.1.0 portfolio experiment. Its `official split`
+wording is historical and does not designate an upstream AnnoMI split. New source-disjoint
+work is governed by `configs/research/protocol_v1.json` and
+`docs/research/LOCKED_PROTOCOL.md`.
 
 ## Primary question
 

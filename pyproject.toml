@@ -4,13 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "annomi-counselling-dialogue-analysis"
-version = "0.1.0"
-description = "Reproducible evidence package for context-aware AnnoMI dialogue analysis"
+version = "0.2.0"
+description = "Source-disjoint and disagreement-aware AnnoMI research benchmark"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
 authors = [{ name = "Abdulla Huseyinli" }]
-dependencies = []
+dependencies = [
+  "joblib>=1.5,<2",
+  "numpy>=2.2,<3",
+  "pandas>=2.2,<3",
+  "scikit-learn>=1.7,<2",
+  "scipy>=1.15,<2",
+]
+
+[project.scripts]
+annomi-research = "annomi_research.cli:main"
 
 [project.optional-dependencies]
 analysis = [
@@ -25,6 +34,14 @@ dev = [
   "pytest>=8,<10",
   "ruff>=0.15,<1",
 ]
+neural = [
+  "accelerate>=1.10,<2",
+  "datasets>=3.6,<5",
+  "peft>=0.17,<1",
+  "sentencepiece>=0.2,<0.3",
+  "torch>=2.8,<3",
+  "transformers>=4.55,<6",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -32,6 +49,14 @@ where = ["src"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["annomi_research"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 70
 
 [tool.ruff]
 line-length = 100

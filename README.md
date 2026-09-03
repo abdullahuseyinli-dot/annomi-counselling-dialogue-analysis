@@ -1,11 +1,17 @@
 # AnnoMI Counselling Dialogue Analysis
 
-A reproducible NLP benchmark for therapist-behaviour classification on the
+A source-disjoint and disagreement-aware research benchmark for therapist-behaviour
+classification on the
 [AnnoMI](https://github.com/uccollab/AnnoMI) counselling-dialogue corpus. The
 central comparison uses transcript-grouped evaluation to prevent dialogue leakage and
 contrasts a sparse elastic-net baseline with a context-aware RoBERTa classifier.
 
-## Headline result
+> **Research status:** the portfolio result below is preserved as development-consumed
+> evidence. New claims use all five `video_url`-grouped folds, causal inputs, row-level
+> predictions, and the locked protocol in
+> [`configs/research/protocol_v1.json`](configs/research/protocol_v1.json).
+
+## Portfolio result (development-consumed)
 
 The RoBERTa system improves held-out macro-F1 by **3.86 percentage points** and
 accuracy by **4.11 points** across 973 therapist utterances from 31 unseen transcripts.
@@ -78,13 +84,19 @@ jupyter lab annomi_counselling_dialogue_analysis.ipynb
 Download the pinned dataset only when rerunning data-dependent stages:
 
 ```bash
-python tools/download_dataset.py
+python tools/download_dataset.py --variant simple
+python tools/download_dataset.py --variant full
+python -m annomi_research audit-data
+python -m annomi_research make-splits
+python -m annomi_research validate
+python -m annomi_research run-baselines
 ```
 
-The downloader verifies the upstream commit, byte count, SHA-256 digest, schema, row
-count, and transcript count before moving the file into `data/raw/AnnoMI/dataset.csv`.
-Install `requirements-experiment.txt` before running the full pipeline. Model checkpoints
-and local training outputs are intentionally excluded from version control.
+The downloader verifies each upstream commit, byte count, SHA-256 digest, schema, row
+count, transcript count, and—where applicable—annotator count. See the
+[validity audit](docs/research/VALIDITY_AUDIT.md) and
+[source-disjoint protocol](docs/research/LOCKED_PROTOCOL.md) for the scientific boundary.
+Model checkpoints and local training outputs are intentionally excluded from version control.
 
 ## Reproducibility and scope
 

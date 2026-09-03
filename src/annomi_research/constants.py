@@ -1,0 +1,25 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+SIMPLE_DATA = ROOT / "data" / "raw" / "AnnoMI" / "dataset.csv"
+FULL_DATA = ROOT / "data" / "raw" / "AnnoMI" / "AnnoMI-full.csv"
+SIMPLE_MANIFEST = ROOT / "data" / "source_manifest.json"
+FULL_MANIFEST = ROOT / "data" / "source_manifest_full.json"
+PROTOCOL = ROOT / "configs" / "research" / "protocol_v1.json"
+LEGACY_SPLIT = ROOT / "results" / "protocol" / "official_split.json"
+RESEARCH_RESULTS = ROOT / "results" / "research"
+
+LABELS = ("reflection", "question", "therapist_input", "other")
+LABEL_COLUMNS = (
+    "therapist_input_exists",
+    "therapist_input_subtype",
+    "reflection_exists",
+    "reflection_subtype",
+    "question_exists",
+    "question_subtype",
+    "main_therapist_behaviour",
+    "client_talk_type",
+)
+KEY_COLUMNS = ("transcript_id", "utterance_id")

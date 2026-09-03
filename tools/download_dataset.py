@@ -9,8 +9,14 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = ROOT / "data" / "source_manifest.json"
-DEFAULT_DESTINATION = ROOT / "data" / "raw" / "AnnoMI" / "dataset.csv"
+MANIFEST_PATHS = {
+    "simple": ROOT / "data" / "source_manifest.json",
+    "full": ROOT / "data" / "source_manifest_full.json",
+}
+DEFAULT_DESTINATIONS = {
+    "simple": ROOT / "data" / "raw" / "AnnoMI" / "dataset.csv",
+    "full": ROOT / "data" / "raw" / "AnnoMI" / "AnnoMI-full.csv",
+}
 
 
 def file_sha256(path: Path) -> str:
@@ -41,9 +47,22 @@ def validate(path: Path, manifest: dict) -> None:
     if len(transcript_ids) != manifest["transcripts"]:
         raise ValueError(f"Unexpected transcript count: {len(transcript_ids)}")
 
+    expected_annotators = manifest.get("annotators")
+    if expected_annotators is not None:
+        with path.open(encoding="utf-8-sig", newline="") as handle:
+            annotators = {
+                row["annotator_id"]
+                for row in csv.DictReader(handle)
+                if row["annotator_id"].strip()
+            }
+        if len(annotators) != expected_annotators:
+            raise ValueError(
+                f"Unexpected annotator count: {len(annotators)} != {expected_annotators}"
+            )
 
-def download(destination: Path, force: bool = False) -> None:
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+
+def download(variant: str, destination: Path, force: bool = False) -> None:
+    manifest = json.loads(MANIFEST_PATHS[variant].read_text(encoding="utf-8"))
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() and not force:
         validate(destination, manifest)
@@ -67,12 +86,14 @@ def download(destination: Path, force: bool = False) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Download and verify AnnoMI-simple")
-    parser.add_argument("--destination", type=Path, default=DEFAULT_DESTINATION)
+    parser = argparse.ArgumentParser(description="Download and verify a pinned AnnoMI release")
+    parser.add_argument("--variant", choices=sorted(MANIFEST_PATHS), default="simple")
+    parser.add_argument("--destination", type=Path)
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    download(args.destination.resolve(), args.force)
+    destination = args.destination or DEFAULT_DESTINATIONS[args.variant]
+    download(args.variant, destination.resolve(), args.force)

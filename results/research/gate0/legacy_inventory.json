@@ -1,0 +1,29 @@
+{
+  "classification": "development_consumed",
+  "files": {
+    "results/README.md": "825d4d20acd8df840dbf00b53d07d114d2cf4b268f7c489667afa81c73aa5710",
+    "results/extensions/context_ablation.csv": "ad612fe415251e349e002fbec90c35f694fe3277ae34a4ef40746dd30667c035",
+    "results/extensions/next_behaviour_forecasting.csv": "ddafd85b72d047a39433f207bb64ddff3d7b93e2b35c67c4d4ddf721e96d0cc5",
+    "results/extensions/next_behaviour_forecasting_topk.csv": "e02e09b8a7cbd4690d32bd0f0c81e01e1bf8c5b94998a62a8c2bb4316070ffa4",
+    "results/extensions/topic_shift.csv": "76446462d277cd20b2dc00a6dd57921f4b157a0a877d46e8a077b8502ffe31e3",
+    "results/extensions/transcript_classification.json": "6bc9e4a2d95f74f655746f9c75acd0915edc012046d3cecc83a962558afce449",
+    "results/extensions/transcript_classification_intervals.csv": "1e5566f8a4905ae243433fe6c585f053d418d9e31355abfbaadcba5b57ca9adc",
+    "results/extensions/transcript_classification_nested_cv.csv": "03c283c39e6c43974618f1ed4adfbd82dfcc09f95f7c7a9962be8b8e5b07c4fa",
+    "results/main/calibration.csv": "c203742174a393c7e4a766c1b0af1c6f5b674093e303b8cc5832796063f0d93d",
+    "results/main/calibration_summary.json": "7f4961415e4b572e7ba334f9f9b217b24b03e17e27f3639104514ec4350b37b3",
+    "results/main/error_slices.csv": "fee54f3a1ae28de7bb7f399acef04005e2ec8e90d417a16e8b9ef9a27605c59f",
+    "results/main/grouped_significance.csv": "ae13e25bd513d53f6478df2e58d028279c5a3c3f386fd0806ca6f020fdb11123",
+    "results/main/mcnemar_summary.csv": "d9f4fe639eac3bb959336e4740311607c9f75228775953ae504680470f96f584",
+    "results/main/metric_deltas.csv": "ab7217df02abdd5232c89e7fcc63017b688bbef75368e2e4fdbcca9d45db9a46",
+    "results/main/model_comparison.csv": "21d2e6a2c293a75285adf96aadb1d41e1f9796a07b59eb8021acfece6dd9652b",
+    "results/main/per_class_metrics.csv": "c853f31d4ddfd8b8518db9b4387b331f095058462e62a90dce228e82ea405ca9",
+    "results/protocol/official_split.json": "38443bdf8171f8f07a78afe1270880239efc99629233288facefb86f081b2592",
+    "results/protocol/roberta_config.json": "ec7ea967eb74a1d24b84a1610425b7fa2fe68763f0b48206e000e8826004fa3d",
+    "results/provenance.json": "fc8a2e1ff7157ddacee5ba36cb03e977ef9cc1f00de8f7b4bd407a8010d1c091",
+    "results/summarisation/method_by_class.csv": "e1bc2eeea3b781e9968bf68f34aea9a0632d80b4b8e117c11001afb114f93210",
+    "results/summarisation/method_means.csv": "5a5bac85dcd10eb6a0997bacd78c3258a3ae84ede25625e75c9185ae74cf9683",
+    "results/summarisation/support_rubric.csv": "14f695b26bc06b95006d707725daf3b65c6e858d0d920400d5c37b62735fb7a7"
+  },
+  "inventory_id": "portfolio-v0.1.0-development-consumed",
+  "preserved_commit": "e3ff100b3866a283146e4af41596f5a837153818"
+}

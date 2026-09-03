@@ -1,0 +1,58 @@
+{
+  "audit_id": "annomi-source-and-annotation-audit-v1",
+  "data": {
+    "class_counts": {
+      "other": 1586,
+      "question": 1386,
+      "reflection": 1296,
+      "therapist_input": 614
+    },
+    "expected_full_sha256": "3b60fec5e9d83cbb18ade0e412fb9afaef3b81724748a5d715f844bdd7432c9f",
+    "expected_simple_sha256": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61",
+    "full_sha256": "3b60fec5e9d83cbb18ade0e412fb9afaef3b81724748a5d715f844bdd7432c9f",
+    "simple_sha256": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61",
+    "source_video_urls": 119,
+    "therapist_utterances": 4882,
+    "transcripts": 133,
+    "utterances": 9699
+  },
+  "legacy_project_split": {
+    "affected_test_therapist_rate": 0.20554984583761562,
+    "affected_test_therapist_utterances": 200,
+    "affected_test_transcripts": 8,
+    "affected_transcripts": 17,
+    "source_ids_crossing_boundary": 6,
+    "status": "development_consumed",
+    "test_therapist_utterances": 973,
+    "test_transcripts": 31,
+    "train_transcripts": 102
+  },
+  "multi_annotator": {
+    "annotations_per_item": [
+      10
+    ],
+    "claim_boundary": "Only seven transcripts independently identify disagreement effects.",
+    "client_talk_type": {
+      "items": 212,
+      "items_with_any_disagreement": 154,
+      "rate": 0.7264150943396226
+    },
+    "therapist_main_behaviour": {
+      "items": 216,
+      "items_with_any_disagreement": 104,
+      "rate": 0.48148148148148145
+    },
+    "transcripts": 7,
+    "transcripts_in_legacy_test": 0,
+    "unique_items": 428
+  },
+  "repeated_text": {
+    "cross_transcript_groups_with_conflicting_labels": 10,
+    "cross_transcript_text_groups": 51,
+    "interpretation": "Repeated short phrases are not automatically leakage; report seen/unseen and conflicting-label slices and keep source grouping primary.",
+    "test_rows_with_text_seen_in_train": 241,
+    "test_seen_text_rate": 0.24768756423432683,
+    "train_test_crossing_text_groups": 24,
+    "unique_normalized_therapist_texts": 3780
+  }
+}

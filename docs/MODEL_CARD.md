@@ -1,4 +1,7 @@
-# Model card: therapist-behaviour classifier
+# Model card: portfolio therapist-behaviour classifier
+
+The evidence in this card is preserved as development-consumed. It predates the
+source-video-grouped research protocol and is not a confirmatory source-disjoint result.
 
 ## Model
 
