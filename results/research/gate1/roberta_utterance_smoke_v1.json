@@ -1,0 +1,33 @@
+{
+  "code_commit": "28e64956f90cc716a8acea98cfdd885566c17731",
+  "config_sha256": "98b7f4119ff8dbe449351e7753ae7656def140cafe927b7193458184498bb5cd",
+  "elapsed_seconds": 46.1273807999969,
+  "engineering_gate_not_performance_result": true,
+  "gate_id": "roberta_utterance-cuda-smoke-v1",
+  "maximum_probability_sum_error": 1.1920928955078125e-07,
+  "model": "roberta_utterance",
+  "optimizer_steps": 8,
+  "outer_test_partition_touched": false,
+  "peak_memory_bytes": 3987470848,
+  "probabilities_finite": true,
+  "recipe": "u_lr1e-5_len256",
+  "runtime_environment": {
+    "bf16_supported": true,
+    "compute_capability": [
+      12,
+      0
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "cudnn": 92400,
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "split_manifest_sha256": "f19693581bc9a85703c903e9d7f9fff4d9119b0381bcd06c34cc0a715c8af1b3",
+  "status": "pass",
+  "train_rows": 256,
+  "validation_rows": 128
+}
