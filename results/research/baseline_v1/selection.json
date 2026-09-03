@@ -1,0 +1,234 @@
+{
+  "selections": [
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.701267449674522,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6827221739387427,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6784755948433628,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6677888596861296,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 0,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4642500449581846,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4491691119777937,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4284959456383051,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.415685513375178,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 0,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.690929785139564,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6837081288901125,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.674042624572207,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6763896500478239,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 1,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.46420136681631025,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4504751414776078,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43989836594959936,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.40601544612660484,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 1,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.7044489810096061,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6947685970362807,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6774872318089246,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.667440801160955,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 2,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.46133356930798275,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4476484662680631,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.42501637466243364,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.41440172930490443,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 2,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6933517700179402,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.678912943176215,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6732961679009178,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6612314766627265,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 3,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4382332686346424,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43336539637598454,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4179674408226503,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.3831439225364379,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 3,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.7122575723773581,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.700511457881691,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6946100058149965,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6809262531602392,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 4,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.47562507158494244,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4783427825681678,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.463514860586308,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43478182806318105,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 4,
+      "selected_recipe": "alpha3e-5_l2"
+    }
+  ]
+}

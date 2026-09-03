@@ -1,0 +1,470 @@
+{
+  "code_commit": "9fdc69dc4a98e16f4a19dd3426f304025b6a4299",
+  "dataset_sha256": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61",
+  "metrics": {
+    "class_prior": {
+      "confusion_matrix": {
+        "labels": [
+          "reflection",
+          "question",
+          "therapist_input",
+          "other"
+        ],
+        "rows_true_columns_predicted": [
+          [
+            0,
+            0,
+            0,
+            1296
+          ],
+          [
+            0,
+            0,
+            0,
+            1386
+          ],
+          [
+            0,
+            0,
+            0,
+            614
+          ],
+          [
+            0,
+            0,
+            0,
+            1586
+          ]
+        ]
+      },
+      "equal_frequency_ece_10": 0.065354098402043,
+      "n_predictions": 4882,
+      "n_sources": 119,
+      "per_class": {
+        "other": {
+          "f1": 0.4904143475572047,
+          "precision": 0.3248668578451454,
+          "recall": 1.0,
+          "support": 1586
+        },
+        "question": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1386
+        },
+        "reflection": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 1296
+        },
+        "therapist_input": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 614
+        }
+      },
+      "seen_text_macro_f1": 0.24636363636363637,
+      "seen_text_rows": 1116,
+      "source_balanced_brier": 0.7548100978764651,
+      "source_balanced_log_loss": 1.401188398230226,
+      "source_balanced_macro_f1": 0.10376990858644332,
+      "unseen_text_macro_f1": 0.05880974695407685,
+      "unseen_text_rows": 3766,
+      "utterance_macro_f1": 0.12260358688930117,
+      "worst_20pct_source_log_loss_cvar": 1.667160739113144
+    },
+    "tfidf_elasticnet_causal10": {
+      "confusion_matrix": {
+        "labels": [
+          "reflection",
+          "question",
+          "therapist_input",
+          "other"
+        ],
+        "rows_true_columns_predicted": [
+          [
+            556,
+            260,
+            157,
+            323
+          ],
+          [
+            326,
+            617,
+            192,
+            251
+          ],
+          [
+            109,
+            117,
+            257,
+            131
+          ],
+          [
+            322,
+            252,
+            183,
+            829
+          ]
+        ]
+      },
+      "equal_frequency_ece_10": 0.07207678435775872,
+      "n_predictions": 4882,
+      "n_sources": 119,
+      "per_class": {
+        "other": {
+          "f1": 0.5314102564102564,
+          "precision": 0.5404172099087353,
+          "recall": 0.5226986128625473,
+          "support": 1586
+        },
+        "question": {
+          "f1": 0.4688449848024316,
+          "precision": 0.49518459069020865,
+          "recall": 0.44516594516594515,
+          "support": 1386
+        },
+        "reflection": {
+          "f1": 0.4262169413568417,
+          "precision": 0.42345773038842344,
+          "recall": 0.42901234567901236,
+          "support": 1296
+        },
+        "therapist_input": {
+          "f1": 0.36635780470420526,
+          "precision": 0.3257287705956908,
+          "recall": 0.4185667752442997,
+          "support": 614
+        }
+      },
+      "seen_text_macro_f1": 0.2107713584479452,
+      "seen_text_rows": 1116,
+      "source_balanced_brier": 0.6629371485092419,
+      "source_balanced_log_loss": 1.2374583719147978,
+      "source_balanced_macro_f1": 0.46816190537807745,
+      "unseen_text_macro_f1": 0.4176639663258588,
+      "unseen_text_rows": 3766,
+      "utterance_macro_f1": 0.44820749681843375,
+      "worst_20pct_source_log_loss_cvar": 1.6940445402178093
+    },
+    "tfidf_elasticnet_utterance": {
+      "confusion_matrix": {
+        "labels": [
+          "reflection",
+          "question",
+          "therapist_input",
+          "other"
+        ],
+        "rows_true_columns_predicted": [
+          [
+            826,
+            141,
+            232,
+            97
+          ],
+          [
+            195,
+            977,
+            181,
+            33
+          ],
+          [
+            121,
+            75,
+            387,
+            31
+          ],
+          [
+            122,
+            43,
+            107,
+            1314
+          ]
+        ]
+      },
+      "equal_frequency_ece_10": 0.02365267039640488,
+      "n_predictions": 4882,
+      "n_sources": 119,
+      "per_class": {
+        "other": {
+          "f1": 0.8585429598170532,
+          "precision": 0.8908474576271187,
+          "recall": 0.8284993694829761,
+          "support": 1586
+        },
+        "question": {
+          "f1": 0.7452326468344775,
+          "precision": 0.790453074433657,
+          "recall": 0.7049062049062049,
+          "support": 1386
+        },
+        "reflection": {
+          "f1": 0.6453125,
+          "precision": 0.6534810126582279,
+          "recall": 0.6373456790123457,
+          "support": 1296
+        },
+        "therapist_input": {
+          "f1": 0.5088757396449705,
+          "precision": 0.42668136714443217,
+          "recall": 0.6302931596091205,
+          "support": 614
+        }
+      },
+      "seen_text_macro_f1": 0.40350274725274726,
+      "seen_text_rows": 1116,
+      "source_balanced_brier": 0.3905805517260912,
+      "source_balanced_log_loss": 0.7669746469028393,
+      "source_balanced_macro_f1": 0.717243583547292,
+      "unseen_text_macro_f1": 0.6097517324280151,
+      "unseen_text_rows": 3766,
+      "utterance_macro_f1": 0.6894909615741253,
+      "worst_20pct_source_log_loss_cvar": 1.2391000048240668
+    }
+  },
+  "models": [
+    "class_prior",
+    "tfidf_elasticnet_causal10",
+    "tfidf_elasticnet_utterance"
+  ],
+  "prediction_ledger_sha256": "3a3bd0b61d0932fc6e05257cee89bce8420a21bdb3127dda78d589448a4f069c",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "result_id": "annomi-source-grouped-baselines-v1",
+  "seed": 17,
+  "selections": [
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.701267449674522,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6827221739387427,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6784755948433628,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6677888596861296,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 0,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4642500449581846,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4491691119777937,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4284959456383051,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.415685513375178,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 0,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.690929785139564,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6837081288901125,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.674042624572207,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6763896500478239,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 1,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.46420136681631025,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4504751414776078,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43989836594959936,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.40601544612660484,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 1,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.7044489810096061,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6947685970362807,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6774872318089246,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.667440801160955,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 2,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.46133356930798275,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4476484662680631,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.42501637466243364,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.41440172930490443,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 2,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6933517700179402,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.678912943176215,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6732961679009178,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6612314766627265,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 3,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4382332686346424,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43336539637598454,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4179674408226503,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.3831439225364379,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 3,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.7122575723773581,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.700511457881691,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6946100058149965,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.6809262531602392,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_utterance",
+      "outer_fold": 4,
+      "selected_recipe": "alpha1e-4_l2"
+    },
+    {
+      "candidate_scores": [
+        {
+          "mean_inner_source_balanced_macro_f1": 0.47562507158494244,
+          "recipe_id": "alpha1e-4_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.4783427825681678,
+          "recipe_id": "alpha3e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.463514860586308,
+          "recipe_id": "alpha1e-5_l2"
+        },
+        {
+          "mean_inner_source_balanced_macro_f1": 0.43478182806318105,
+          "recipe_id": "alpha3e-5_elastic15"
+        }
+      ],
+      "model": "tfidf_elasticnet_causal10",
+      "outer_fold": 4,
+      "selected_recipe": "alpha3e-5_l2"
+    }
+  ],
+  "split_manifest_sha256": "f19693581bc9a85703c903e9d7f9fff4d9119b0381bcd06c34cc0a715c8af1b3"
+}
