@@ -16,7 +16,8 @@ DEFAULT_OUTPUT = RESEARCH_RESULTS / "comparisons" / "roberta_utterance_vs_tfidf_
 KEYS = ["transcript_id", "utterance_id", "source_id", "label"]
 
 
-def _read_model_ledger(path: Path, model: str) -> pd.DataFrame:
+def _read_model_ledger(path: Path, spec: dict[str, Any]) -> pd.DataFrame:
+    model = str(spec["model"])
     frame = pd.read_csv(path, dtype={"source_id": str})
     if "model" in frame and frame["model"].nunique() > 1:
         frame = frame[frame["model"].eq(model)].reset_index(drop=True)
@@ -26,6 +27,21 @@ def _read_model_ledger(path: Path, model: str) -> pd.DataFrame:
         raise ValueError(f"No rows for model {model} in {path}")
     if frame.duplicated(KEYS[:-1]).any():
         raise ValueError(f"Duplicate prediction keys in {path}")
+
+    prediction_column = str(spec.get("prediction_column", "prediction"))
+    probability_prefix = str(spec.get("probability_prefix", "prob_"))
+    selected_columns = {
+        prediction_column,
+        *{f"{probability_prefix}{label}" for label in LABELS},
+    }
+    missing = selected_columns - set(frame.columns)
+    if missing:
+        raise ValueError(
+            f"Configured prediction view is missing columns in {path}: {sorted(missing)}"
+        )
+    frame["prediction"] = frame[prediction_column]
+    for label in LABELS:
+        frame[f"prob_{label}"] = frame[f"{probability_prefix}{label}"]
     return frame
 
 
@@ -65,9 +81,7 @@ def _source_components(frame: pd.DataFrame) -> dict[str, Any]:
     for source_index, source in enumerate(source_values):
         group = frame[frame["source_id"].eq(source)]
         true_indices = np.asarray([label_to_index[value] for value in group["label"]])
-        predicted_indices = np.asarray(
-            [label_to_index[value] for value in group["prediction"]]
-        )
+        predicted_indices = np.asarray([label_to_index[value] for value in group["prediction"]])
         probabilities = group[probability_columns].to_numpy(dtype=float)
         one_hot = np.eye(len(LABELS), dtype=float)[true_indices]
         count = len(group)
@@ -77,9 +91,7 @@ def _source_components(frame: pd.DataFrame) -> dict[str, Any]:
         row_brier = np.square(probabilities - one_hot).sum(axis=1)
         clipped = np.clip(probabilities, 1e-12, 1.0)
         brier[source_index] = float(row_brier.mean())
-        log_loss[source_index] = float(
-            (-np.log(clipped[np.arange(count), true_indices])).mean()
-        )
+        log_loss[source_index] = float((-np.log(clipped[np.arange(count), true_indices])).mean())
         accuracy[source_index] = float((true_indices == predicted_indices).mean())
     return {
         "sources": source_values,
@@ -112,8 +124,7 @@ def _bootstrap_draws(
                 - _macro_f1_from_confusions(baseline_confusions)
             ),
             "delta_source_balanced_brier": (
-                candidate["brier"][sampled].mean(axis=1)
-                - baseline["brier"][sampled].mean(axis=1)
+                candidate["brier"][sampled].mean(axis=1) - baseline["brier"][sampled].mean(axis=1)
             ),
             "delta_source_balanced_log_loss": (
                 candidate["log_loss"][sampled].mean(axis=1)
@@ -132,9 +143,7 @@ def _interval(values: pd.Series, confidence: float) -> dict[str, float]:
     }
 
 
-def _per_source_table(
-    baseline: dict[str, Any], candidate: dict[str, Any]
-) -> pd.DataFrame:
+def _per_source_table(baseline: dict[str, Any], candidate: dict[str, Any]) -> pd.DataFrame:
     baseline_f1 = _macro_f1_from_confusions(baseline["confusions"])
     candidate_f1 = _macro_f1_from_confusions(candidate["confusions"])
     return pd.DataFrame(
@@ -159,7 +168,8 @@ def _per_seed_f1_deltas(
     baseline_f1: float,
 ) -> tuple[dict[str, float], str]:
     candidate_summary = read_json(ROOT / config["candidate"]["per_seed_summary"])
-    candidate_seeds = candidate_summary["metrics"]["per_seed"]
+    candidate_metrics_key = config["candidate"].get("per_seed_metrics_key", "per_seed")
+    candidate_seeds = candidate_summary["metrics"][candidate_metrics_key]
     baseline_summary_path = config["baseline"].get("per_seed_summary")
     if baseline_summary_path is None:
         return (
@@ -171,7 +181,8 @@ def _per_seed_f1_deltas(
         )
 
     baseline_summary = read_json(ROOT / baseline_summary_path)
-    baseline_seeds = baseline_summary["metrics"]["per_seed"]
+    baseline_metrics_key = config["baseline"].get("per_seed_metrics_key", "per_seed")
+    baseline_seeds = baseline_summary["metrics"][baseline_metrics_key]
     if set(candidate_seeds) != set(baseline_seeds):
         raise ValueError("Candidate and baseline summaries do not contain matching seeds")
     return (
@@ -202,8 +213,8 @@ def run_comparison(
     baseline_path = ROOT / config["baseline"]["ledger"]
     candidate_path = ROOT / config["candidate"]["ledger"]
     baseline, candidate = _align_ledgers(
-        _read_model_ledger(baseline_path, config["baseline"]["model"]),
-        _read_model_ledger(candidate_path, config["candidate"]["model"]),
+        _read_model_ledger(baseline_path, config["baseline"]),
+        _read_model_ledger(candidate_path, config["candidate"]),
     )
     baseline_metrics = evaluate_predictions(baseline)
     candidate_metrics = evaluate_predictions(candidate)
@@ -224,9 +235,7 @@ def run_comparison(
     }
     baseline_f1 = baseline_metrics["source_balanced_macro_f1"]
     per_seed_deltas, per_seed_contrast = _per_seed_f1_deltas(config, baseline_f1)
-    class_collapse = any(
-        candidate_metrics["per_class"][label]["f1"] == 0.0 for label in LABELS
-    )
+    class_collapse = any(candidate_metrics["per_class"][label]["f1"] == 0.0 for label in LABELS)
     point_deltas = {
         metric: candidate_metrics[metric] - baseline_metrics[metric]
         for metric in (
@@ -252,6 +261,7 @@ def run_comparison(
         ),
         "no_class_collapse": not class_collapse,
     }
+    gate_applies = bool(config.get("apply_candidate_success_gate", True))
 
     draw_buffer = io.StringIO()
     draws.to_csv(draw_buffer, index=False, lineterminator="\n", float_format="%.12g")
@@ -264,9 +274,8 @@ def run_comparison(
         output_dir / "per_source.csv", source_buffer.getvalue().encode("utf-8")
     )
     summary = {
-        "result_id": config.get(
-            "result_id", "annomi-roberta-utterance-vs-tfidf-paired-source-v1"
-        ),
+        "result_id": config.get("result_id", "annomi-roberta-utterance-vs-tfidf-paired-source-v1"),
+        "comparison_role": config.get("comparison_role", "primary_success_gate"),
         "protocol_id": protocol["protocol_id"],
         "code_commit": git_commit(ROOT),
         "config_sha256": sha256_file(config_path),
@@ -297,8 +306,9 @@ def run_comparison(
             "source_ledger_sha256": source_hash,
         },
         "candidate_success_gate": {
+            "applies": gate_applies,
             "checks": success_checks,
-            "pass": all(success_checks.values()),
+            "pass": all(success_checks.values()) if gate_applies else None,
         },
     }
     write_create_only(output_dir / "summary.json", canonical_json_bytes(summary))
@@ -312,9 +322,7 @@ def validate_comparison_evidence(output_dir: Path = DEFAULT_OUTPUT) -> None:
     sources_path = output_dir / "per_source.csv"
     if sha256_file(draws_path) != summary["bootstrap"]["draw_ledger_sha256"]:
         raise ValueError("Bootstrap draw-ledger hash mismatch")
-    if sha256_file(sources_path) != summary["per_source_descriptive"][
-        "source_ledger_sha256"
-    ]:
+    if sha256_file(sources_path) != summary["per_source_descriptive"]["source_ledger_sha256"]:
         raise ValueError("Per-source comparison-ledger hash mismatch")
     draws = pd.read_csv(draws_path)
     confidence = float(summary["bootstrap"]["confidence_level"])

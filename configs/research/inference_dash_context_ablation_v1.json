@@ -1,0 +1,35 @@
+{
+  "config_id": "annomi-dash-mi-context-ablation-paired-source-inference-v1",
+  "result_id": "annomi-dash-mi-context-residual-ablation-paired-source-v1",
+  "status": "registered_before_bootstrap_computation",
+  "registered_date": "2026-09-04",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "comparison_role": "secondary_mechanism_ablation",
+  "apply_candidate_success_gate": false,
+  "baseline": {
+    "model": "dash_mi_seed_ensemble",
+    "ledger": "results/research/neural_v1/dash_mi/predictions_seed_ensemble.csv",
+    "prediction_column": "target_only_prediction",
+    "probability_prefix": "prob_target_only_",
+    "per_seed_summary": "results/research/neural_v1/dash_mi/summary.json",
+    "per_seed_metrics_key": "target_only_ablation_per_seed"
+  },
+  "candidate": {
+    "model": "dash_mi_seed_ensemble",
+    "ledger": "results/research/neural_v1/dash_mi/predictions_seed_ensemble.csv",
+    "per_seed_summary": "results/research/neural_v1/dash_mi/summary.json"
+  },
+  "sampling_unit": "source_id",
+  "paired": true,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 20260904,
+  "confidence_level": 0.95,
+  "interval": "equal-tailed percentile",
+  "primary_delta": "full DASH-MI minus matched target-only ablation source-balanced macro-F1",
+  "secondary_deltas": [
+    "full DASH-MI minus matched target-only ablation source-balanced Brier",
+    "full DASH-MI minus matched target-only ablation source-balanced log loss"
+  ],
+  "seed_contrast": "full DASH-MI seed minus its matching target-only ablation seed",
+  "seeds_are_sampling_units": false
+}
