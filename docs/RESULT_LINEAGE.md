@@ -41,6 +41,15 @@ The `results/research/` tree is a second, independent evidence lineage governed 
    sets, and 5,000 paired source-bootstrap draws.
 8. `publication_ac_v1/` derives exact Task A/C tables and figures from the immutable summaries. Its
    independent manifest binds the inputs, tables, figures, and builder.
+9. `safe_mi_v2/` retains the registered exploratory staged screen, 110 neural fits, five-seed final
+   ledgers, source-safe prototype selections, calibrated prediction sets, and 5,000-draw
+   paired-source inference. Failed final gates are immutable outputs.
+10. `safe_mi_v2_1/` retains the separately registered post-hoc Task A/C audit, including 20 missing
+    one-way-model fits and outer-cross-fitted prediction sets. Its stopping rule forbids further
+    AnnoMI architecture selection.
+11. `mi_tags_external_v1/` retains the protocol-bound public-sample overlap audit. The raw official
+    samples remain ignored local evidence; the tracked audit records their hashes and quarantines.
+    `publication_safe_mi_v2/` derives compact tables and figures from these immutable summaries.
 
 Research validators recompute metrics from row-level ledgers rather than trusting aggregate JSON.
 The prediction ledgers deliberately exclude utterance text and anonymous annotator identity. Raw
@@ -59,7 +68,12 @@ Three distinctions are intentionally preserved:
   Q-TRACE-MI does not pass its joint Task A/C gate: the Task A point gain is uncertain and the
   Task C effect is reliably negative relative to C-only.
 - **Task-specific Task A/C leaders:** Q-TRACE-MI is the numerical non-oracle Task A leader at
-  0.7000 t10 balanced accuracy; C-only neural is the Task C leader at 0.4251 source-balanced
-  macro-F1.
+  0.7000 t10 balanced accuracy in the registered Q-TRACE study; the post-hoc one-way SAFE-MI model
+  later reaches 0.7389 but fails its calibration constraint and has an interval crossing zero
+  against A-only. The updated frozen-GRU Task C baseline reaches 0.4359; no SAFE-MI candidate beats
+  it on macro-F1.
+- **External boundary:** 9 of 12 official MI-TAGS public-sample records trigger the locked possible
+  AnnoMI-overlap quarantine. The sample is insufficient for performance evaluation, so external
+  confirmation remains explicitly incomplete pending authorized full-corpus access.
 
 No aggregate ranking may erase these inference and calibration qualifications.

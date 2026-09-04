@@ -1,0 +1,5 @@
+model,display_name,study_role,checkpoint,n_transcripts,n_sources,low_transcripts,source_balanced_balanced_accuracy,source_balanced_low_auprc,source_balanced_macro_f1,source_balanced_brier,source_balanced_log_loss,equal_frequency_ece_10
+a_only,A-only neural,registered baseline,t10,115,108,18,0.65,0.4920958923,0.6602086438,0.1335357951,0.4166560127,0.1342667237
+joint_no_transition,"Joint, no transition",registered ablation,t10,115,108,18,0.6611111111,0.5362252533,0.6575569983,0.1304245927,0.4275445071,0.1396615656
+qtrace_mi,Q-TRACE-MI,registered candidate,t10,115,108,18,0.7,0.627649004,0.6748768473,0.1452811965,0.4675871529,0.1822933725
+m2_oneway,One-way multitask,posthoc exploratory candidate,t10,115,108,18,0.7388888889,0.5990238298,0.6872718117,0.1526487271,0.480926694,0.2083186454

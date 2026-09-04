@@ -1,0 +1,2 @@
+audit_id,upstream_commit,sample_records,quarantined_records,clear_records,locked_test_records_before_quarantine,minimum_test_groups_required,sample_sufficient_for_external_evaluation,performance_claim_permitted,status
+annomi-safe-mi-mi-tags-public-sample-overlap-v1,a4c3fca2686a7e6a2ac9b19f35e43b45d08b56a6,12,9,3,2,20,False,False,sample_audit_complete_full_external_evaluation_blocked

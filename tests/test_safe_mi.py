@@ -5,8 +5,8 @@ import pandas as pd
 import torch
 
 from annomi_research.constants import CLIENT_LABELS, LABELS
-from annomi_research.safe_mi_model import SafeMIMode, SafeMIModel, safe_mi_loss
 from annomi_research.safe_mi_extension import crossfit_prediction_sets
+from annomi_research.safe_mi_model import SafeMIMode, SafeMIModel, safe_mi_loss
 
 
 def _architecture() -> dict[str, float | int]:

@@ -1,0 +1,12 @@
+model,display_name,source_balanced_task_c_macro_f1,source_balanced_task_c_brier,source_balanced_task_c_log_loss,source_balanced_task_a_t10_balanced_accuracy,source_balanced_task_a_t10_brier
+c0_frozen_gru,Frozen-GRU baseline,0.4016234068,0.6998480603,1.286979801,,
+c1_adapted_gru,Adapted-GRU,0.41077227,0.6945970938,1.272724968,,
+c2_frozen_attention,Frozen attention,0.353255225,0.7256063722,1.335586778,,
+c3_adapted_attention,Adapted attention,0.3940879121,0.7077089133,1.297239072,,
+c4_adapted_attention_logit,Adapted attention + logit,0.3895974262,0.7074889016,1.297316079,,
+m1_shared,Shared multitask,0.3916162691,0.7032195132,1.290988876,0.7138888889,0.1383567274
+m2_oneway,One-way multitask,0.3845003479,0.7074965784,1.298222689,0.8,0.1498111532
+m3_discounted,Discounted one-way,0.4066815501,0.6999367782,1.283607221,0.5,0.1328865335
+r1_prototype,Safe prototype retrieval,0.4187171581,0.6917001898,1.268377545,,
+t1_loss_only,Transition loss only,0.3897946734,0.7098503047,1.303600606,,
+t2_safe_residual,Zero-start safe residual,0.3941619329,0.7078508092,1.297453965,,

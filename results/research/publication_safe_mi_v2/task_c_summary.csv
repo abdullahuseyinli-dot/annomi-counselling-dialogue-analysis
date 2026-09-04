@@ -1,0 +1,7 @@
+model,display_name,study_role,n_predictions,n_sources,source_balanced_macro_f1,utterance_macro_f1,source_balanced_brier,source_balanced_log_loss,equal_frequency_ece_10,seen_text_macro_f1,unseen_text_macro_f1
+c_only,Earlier C-only,earlier registered baseline,4743,119,0.4251201312,0.4059676138,0.6904135124,1.267854914,0.04377834993,0.3855665973,0.3894122571
+c0_frozen_gru,Frozen-GRU baseline,matched exploratory baseline,4743,119,0.4359466803,0.42401961,0.685114512,1.255822535,0.04900545718,0.3837131354,0.4133385153
+c1_adapted_gru,Adapted-GRU,posthoc exploratory baseline,4743,119,0.4338663482,0.4202245276,0.6842550547,1.252253967,0.04215805003,0.3587591997,0.4184122844
+r1_prototype,Safe prototype retrieval,exploratory candidate,4743,119,0.4327541083,0.4199753675,0.6798320575,1.245857718,0.03454243543,0.3762583096,0.4102777955
+m2_oneway,One-way multitask,posthoc exploratory candidate,4743,119,0.4229140087,0.4183045027,0.6854832378,1.253772902,0.03019877555,0.366302016,0.4080209919
+m3_discounted,Discounted one-way,exploratory candidate,4743,119,0.4218097655,0.4174698636,0.6843312311,1.253609294,0.03072249913,0.3726820569,0.4063150087

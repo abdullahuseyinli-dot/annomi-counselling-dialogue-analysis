@@ -6,9 +6,10 @@ into a registered research pipeline with source-disjoint nested validation, five
 evaluation, row-level probability ledgers, paired cluster inference, negative-result retention, and
 a separate multi-annotator label-distribution study.
 
-> **Status:** all results below are complete and reconstruct from tracked evidence. The locked
-> protocol is [`configs/research/protocol_v1.json`](configs/research/protocol_v1.json); raw
-> counselling text and model weights are not distributed.
+> **Status:** all executable AnnoMI results below are complete and reconstruct from tracked
+> evidence. External MI-TAGS confirmation awaits researcher-authorized access to the full corpus.
+> The protocols are under [`configs/research/`](configs/research/); raw counselling text and model
+> weights are not distributed.
 
 ![Overview of leakage-controlled classification and vote-distribution results](assets/research/research_overview.png)
 
@@ -43,28 +44,30 @@ supported and best probabilistic system. See the
 
 ## Early quality and next-action forecasting
 
-The registered Task A/C track adds causal early-session quality classification and strict
-client-to-therapist next-action forecasting. It evaluates four neural modes across five
-source-disjoint folds and five seeds, with separate inner fit, selection, and calibration sources.
+The Task A/C track adds causal early-session quality classification and strict client-to-therapist
+next-action forecasting. The later SAFE-MI campaign screened frozen and fold-adapted encoders,
+GRU and attention contexts, asymmetric multitask transfer, bounded transition residuals, and
+source-safe prototype retrieval before five-seed evaluation.
 
-| Task | Best non-oracle model | Primary score | Q-TRACE-MI result |
-|---|---|---:|---|
-| A: quality after 10 therapist turns | **Q-TRACE-MI** | **0.7000 balanced accuracy** | +0.0500 vs A-only; 95% interval [-0.0734, 0.1731] |
-| C: next therapist action | **C-only neural** | **0.4251 macro-F1** | -0.0509 vs C-only; 95% interval [-0.0768, -0.0258] |
+| Task | Earlier registered result | Updated exploratory point result | Interpretation |
+|---|---:|---:|---|
+| A: quality after 10 therapist turns | Q-TRACE-MI: 0.7000 balanced accuracy | **One-way multitask: 0.7389** | +0.0389 numerical; interval vs A-only crosses zero and Brier is worse |
+| C: next therapist action | C-only: 0.4251 macro-F1 | **Frozen-GRU: 0.4359** | +0.0108 cross-run pipeline update; no SAFE-MI candidate beats its matched baseline |
 
-Q-TRACE-MI improves the Task A point estimate in four of five seeds, but its interval includes zero.
-For Task C, its joint quality conditioning and transition regularization are reliably harmful; the
-task-specific C-only model also has the best Brier score (0.6904). The registered joint gate
-therefore **fails** and remains visible as a negative result. Prediction sets reach 0.8844
-source-balanced coverage at the 0.80 target, but average 3.12 of four actions and are never
-singletons, quantifying substantial unresolved ambiguity for these models.
+The one-way Task A model improves over A-only in four of five seeds (+0.0889), but its paired-source
+95% interval is [-0.0521, 0.2256] and its Brier degradation exceeds the frozen limit. For Task C,
+safe prototype retrieval reaches 0.4328 macro-F1 versus 0.4359 for frozen-GRU while improving Brier
+by 0.0053; the F1 interval [-0.0285, 0.0241] includes zero. Adapted-GRU passes a post-hoc descriptive
+non-inferiority and prediction-set gate, with 0.8072 cross-fitted coverage and mean set size 2.4845.
+No superiority claim is supported.
 
-![Task A and Task C model results](assets/research/qtrace_ac_results.png)
+![SAFE-MI Task A and Task C results](assets/research/safe_mi_results.png)
 
 These tasks use no new manual labels. The quality target comes from source metadata and is not an
-independent measure of clinical fidelity. See the
-[registration](docs/research/QTRACE_MI_REGISTRATION_V1.md) and
-[complete result](docs/research/QTRACE_MI_V1_RESULT.md).
+independent measure of clinical fidelity. The pre-access MI-TAGS audit quarantines 9 of 12 public
+sample records as possible AnnoMI overlaps; the sample cannot support external performance. See the
+[earlier Q-TRACE-MI result](docs/research/QTRACE_MI_V1_RESULT.md) and
+[complete SAFE-MI result](docs/research/SAFE_MI_V2_RESULT.md).
 
 ## Multi-annotator result
 
@@ -142,9 +145,14 @@ python -m annomi_research run-panel
 python -m annomi_research run-ac-baselines
 python -m annomi_research smoke-qtrace
 python -m annomi_research run-qtrace
+python -m annomi_research smoke-safe-mi
+python -m annomi_research run-safe-mi
+python -m annomi_research run-safe-mi-extension
+python -m annomi_research audit-mi-tags
 
 python tools/build_research_assets.py
 python tools/build_ac_assets.py
+python tools/build_safe_mi_assets.py
 python tools/validate_repository.py
 ```
 
@@ -162,6 +170,7 @@ src/annomi_research/              Audits, splits, models, inference, and validat
 results/research/                 Reconstructable out-of-fold evidence and summaries
 results/research/publication_v1/  Derived exact tables plus a hash manifest
 results/research/publication_ac_v1/  Derived Task A/C tables plus a hash manifest
+results/research/publication_safe_mi_v2/  SAFE-MI tables, intervals, and audit manifest
 docs/research/                    Registrations, execution logs, and result reports
 assets/research/                  Script-generated publication figures
 tests/                            Fast contracts for data, models, metrics, and evidence

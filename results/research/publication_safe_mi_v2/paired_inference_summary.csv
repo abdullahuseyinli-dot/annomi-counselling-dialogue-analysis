@@ -1,0 +1,13 @@
+stage,task,comparison,metric,favorable_direction,point_delta,bootstrap_mean_delta,ci95_low,ci95_high,interval_favorable
+SAFE-MI v2 exploratory,C,r1_prototype - c0_frozen_gru,source_balanced_macro_f1,positive,-0.003192571975,-0.003094219244,-0.02853452199,0.02407729416,False
+SAFE-MI v2 exploratory,C,r1_prototype - c0_frozen_gru,source_balanced_brier,negative,-0.005282454556,-0.005235558717,-0.01237149953,0.002043595518,False
+SAFE-MI v2 exploratory,C,m3_discounted - c0_frozen_gru,source_balanced_macro_f1,positive,-0.01413691485,-0.01427889293,-0.04225326375,0.01509903776,False
+SAFE-MI v2 exploratory,C,m3_discounted - c0_frozen_gru,source_balanced_brier,negative,-0.0007832808704,-0.0007517749328,-0.00950500025,0.008047217378,False
+SAFE-MI v2 exploratory,A,m3_discounted - a_only,t10_source_balanced_balanced_accuracy,positive,-0.15,-0.150548412,-0.2692939245,-0.03479775205,False
+SAFE-MI v2 exploratory,A,m3_discounted - a_only,t10_source_balanced_brier,negative,-0.001865867657,-0.001814820252,-0.03143665453,0.02813414427,False
+SAFE-MI v2.1 posthoc,C,c1_adapted_gru - c0_frozen_gru,source_balanced_macro_f1,positive,-0.002080332067,-0.00186946768,-0.02609859479,0.02432112744,False
+SAFE-MI v2.1 posthoc,C,c1_adapted_gru - c0_frozen_gru,source_balanced_brier,negative,-0.0008594573289,-0.0008089533414,-0.007957119377,0.006266857823,False
+SAFE-MI v2.1 posthoc,C,m2_oneway - c0_frozen_gru,source_balanced_macro_f1,positive,-0.01303267164,-0.0131812759,-0.03941987138,0.01389456945,False
+SAFE-MI v2.1 posthoc,C,m2_oneway - c0_frozen_gru,source_balanced_brier,negative,0.0003687257693,0.0004207529202,-0.007390179125,0.008017366142,False
+SAFE-MI v2.1 posthoc,A,m2_oneway - a_only,t10_source_balanced_balanced_accuracy,positive,0.08888888889,0.08738857824,-0.0520896474,0.22559217,False
+SAFE-MI v2.1 posthoc,A,m2_oneway - a_only,t10_source_balanced_brier,negative,0.01911293204,0.01932455377,-0.01797132938,0.05569049627,False

@@ -49,6 +49,26 @@ REQUIRED = {
     "results/research/publication_ac_v1/task_c_summary.csv",
     "results/research/publication_ac_v1/registered_inference_summary.csv",
     "results/research/publication_ac_v1/prediction_set_summary.csv",
+    "configs/research/protocol_safe_mi_v2.json",
+    "configs/research/safe_mi_v2.json",
+    "configs/research/protocol_safe_mi_v2_1.json",
+    "configs/research/protocol_mi_tags_external_v1.json",
+    "docs/research/SAFE_MI_V2_RESULT.md",
+    "results/research/gate1/safe_mi_smoke_v2.json",
+    "results/research/safe_mi_v2/summary.json",
+    "results/research/safe_mi_v2/bootstrap_draws.csv",
+    "results/research/safe_mi_v2/selection.json",
+    "results/research/safe_mi_v2_1/summary.json",
+    "results/research/safe_mi_v2_1/bootstrap_draws.csv",
+    "results/research/safe_mi_v2_1/task_c_crossfit_prediction_sets.csv",
+    "results/research/mi_tags_external_v1/sample_overlap_audit.json",
+    "results/research/publication_safe_mi_v2/manifest.json",
+    "results/research/publication_safe_mi_v2/task_a_t10_summary.csv",
+    "results/research/publication_safe_mi_v2/task_c_summary.csv",
+    "results/research/publication_safe_mi_v2/screen_summary.csv",
+    "results/research/publication_safe_mi_v2/paired_inference_summary.csv",
+    "results/research/publication_safe_mi_v2/prediction_set_summary.csv",
+    "results/research/publication_safe_mi_v2/external_overlap_summary.csv",
     "assets/research/research_overview.png",
     "assets/research/research_overview.svg",
     "assets/research/registered_effect_intervals.png",
@@ -57,7 +77,12 @@ REQUIRED = {
     "assets/research/qtrace_ac_results.svg",
     "assets/research/qtrace_ac_intervals.png",
     "assets/research/qtrace_ac_intervals.svg",
+    "assets/research/safe_mi_results.png",
+    "assets/research/safe_mi_results.svg",
+    "assets/research/safe_mi_effect_intervals.png",
+    "assets/research/safe_mi_effect_intervals.svg",
     "tools/build_ac_assets.py",
+    "tools/build_safe_mi_assets.py",
 }
 TEXT_SUFFIXES = {".md", ".py", ".toml", ".yml", ".yaml", ".json", ".csv", ".txt", ".ipynb"}
 release_hygiene_terms = [
@@ -94,6 +119,18 @@ LARGE_EVIDENCE_SHA256 = {
     ),
     "results/research/ac_v1/qtrace_mi/task_c_predictions_by_seed.csv": (
         "815dbc04ba88f3cd8702eaae8718fae3372e44df6fd0b5df65198957575b5709"
+    ),
+    "results/research/safe_mi_v2/final_task_c_predictions_by_seed.csv": (
+        "4586ccc631dec2eb419753b680365c10f7c662e875096c72337453a4e629c602"
+    ),
+    "results/research/safe_mi_v2/screen_task_c_predictions_by_seed.csv": (
+        "58ba4bf6a82a9331ed3f8ba0b94c6b4cde4112aa2d14924bd6363f651040c374"
+    ),
+    "results/research/safe_mi_v2/screen_task_c_predictions_seed_ensemble.csv": (
+        "0adc5787ad0028eb86ea428a42215bb382dd6e57185e2180d2c2bd41626a174f"
+    ),
+    "results/research/safe_mi_v2_1/task_c_predictions_by_seed.csv": (
+        "1ce27bef109a42853a30f1e51d835899f427b07e6bb55451194e03e591b51801"
     ),
 }
 
@@ -218,6 +255,33 @@ def validate_ac_publication_assets() -> list[str]:
     ]
 
 
+def validate_safe_mi_publication_assets() -> list[str]:
+    publication_root = ROOT / "results" / "research" / "publication_safe_mi_v2"
+    manifest = json.loads((publication_root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("manifest_id") != "annomi-safe-mi-publication-assets-v2":
+        raise ValueError("Unexpected SAFE-MI publication manifest ID")
+    for relative, expected in manifest["source_sha256"].items():
+        path = ROOT / relative
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"SAFE-MI publication source hash mismatch: {relative}")
+    for filename, expected in manifest["table_sha256"].items():
+        path = publication_root / filename
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"SAFE-MI publication table hash mismatch: {filename}")
+    for stem, formats in manifest["figure_sha256"].items():
+        for extension, expected in formats.items():
+            path = ROOT / "assets" / "research" / f"{stem}.{extension}"
+            if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                raise ValueError(f"SAFE-MI publication figure hash mismatch: {path.name}")
+    builder = ROOT / "tools" / "build_safe_mi_assets.py"
+    if hashlib.sha256(builder.read_bytes()).hexdigest() != manifest["builder_sha256"]:
+        raise ValueError("SAFE-MI publication builder hash mismatch")
+    return [
+        "SAFE-MI publication inputs and tables match manifest",
+        "SAFE-MI publication figures and builder match manifest",
+    ]
+
+
 def main() -> None:
     from annomi_portfolio.evidence import validate_evidence
 
@@ -251,6 +315,7 @@ def main() -> None:
     checks.append(validate_links())
     checks.extend(validate_research_publication_assets())
     checks.extend(validate_ac_publication_assets())
+    checks.extend(validate_safe_mi_publication_assets())
     checks.append(f"{len(files)} repository files passed hygiene checks")
     for check in checks:
         print(f"PASS  {check}")
