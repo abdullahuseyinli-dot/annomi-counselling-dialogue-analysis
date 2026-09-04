@@ -227,7 +227,7 @@ def build_overview_figure(
         height=0.62,
     )
     axis.invert_yaxis()
-    axis.set_xlim(0.68, 0.83)
+    axis.set_xlim(0, 0.86)
     axis.set_xlabel("Source-balanced macro-F1 ↑")
     axis.set_title("A  Therapist coding")
     axis.bar_label(bars, fmt="%.3f", padding=3, fontsize=9)
@@ -258,7 +258,7 @@ def build_overview_figure(
         axis.bar_label(bars, fmt="%.3f", padding=3, fontsize=9)
         axis.set_xlim(0, max(values) * 1.14)
         _style_axis(axis)
-    fig.suptitle("Leakage-controlled AnnoMI results", fontsize=14, fontweight="semibold")
+    fig.suptitle("Leakage-controlled AnnoMI results", fontsize=14, fontweight="bold")
     return fig
 
 
@@ -317,7 +317,7 @@ def main() -> None:
         {
             "font.family": "DejaVu Sans",
             "font.size": 10,
-            "axes.titleweight": "semibold",
+            "axes.titleweight": "bold",
             "svg.hashsalt": "annomi-research-publication-v1",
         }
     )
