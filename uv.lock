@@ -3,12 +3,12 @@ revision = 3
 requires-python = ">=3.11, <3.13"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version < '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
 ]
 conflicts = [[
@@ -22,8 +22,7 @@ version = "1.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "huggingface-hub" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "psutil" },
     { name = "pyyaml" },
@@ -119,8 +118,7 @@ version = "0.3.0.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "joblib" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
@@ -484,8 +482,7 @@ name = "contourpy"
 version = "1.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/58/01/1253e6698a07380cd31a736d248a3f2a50a7c88779a1813da27503cadc2a/contourpy-1.3.3.tar.gz", hash = "sha256:083e12155b210502d0bca491432bb04d56dc3432f95a979b429f2848c3dbe880", size = 13466174, upload-time = "2025-07-26T12:03:12.549Z" }
 wheels = [
@@ -655,8 +652,7 @@ dependencies = [
     { name = "httpx" },
     { name = "huggingface-hub" },
     { name = "multiprocess" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "pandas" },
     { name = "pyarrow" },
@@ -1389,8 +1385,7 @@ dependencies = [
     { name = "cycler" },
     { name = "fonttools" },
     { name = "kiwisolver" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "pillow" },
     { name = "pyparsing" },
@@ -1655,12 +1650,6 @@ wheels = [
 name = "numpy"
 version = "2.4.6"
 source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-]
 sdist = { url = "https://files.pythonhosted.org/packages/d0/ad/fed0499ce6a338d2a03ebae59cd15093910c8875328855781952abf6c2fe/numpy-2.4.6.tar.gz", hash = "sha256:f3a3570c4a2a16746ac2c31a7c7c7b0c186b95ce902e33db6f28094ed7387dda", size = 20735807, upload-time = "2026-05-18T23:37:14.07Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/49/ec46835a70be8fa6446c495126ac84fdb28cb2558e1620ffb87a10c8b64c/numpy-2.4.6-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:0280e0356c0829a18d9de1cb7eee50ec22ca639878d7240307ca0943d73cd2c4", size = 16969194, upload-time = "2026-05-18T23:33:13.503Z" },
@@ -1692,31 +1681,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1a/9c/c531f2293b91265d8b48e9b329f54fdd7ffae73cb4134ea10cca4237e9cc/numpy-2.4.6-pp311-pypy311_pp73-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:5dbbdb29840ca3d91ee0fece42fc29278886d908280bfec0a5846c6f901a3eb0", size = 15798374, upload-time = "2026-05-18T23:37:02.674Z" },
     { url = "https://files.pythonhosted.org/packages/1a/b0/413077f6b1153ed3cba361401c6783bbad6114804a000cc22eb71c13e190/numpy-2.4.6-pp311-pypy311_pp73-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8ad03c0965fb3c692200e74d458ca28c1dbb4ce96f9a479a8aa041ad5fabca02", size = 16747286, upload-time = "2026-05-18T23:37:06.327Z" },
     { url = "https://files.pythonhosted.org/packages/15/ce/e5ec180bc41812edcd8daeb8639d205622c0e8c02259d8ab25a0201b3c2a/numpy-2.4.6-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:2803abfebfc990042cd494d8ce2d5f82e9d847af6d35ec486923aa19dbad5e73", size = 12504263, upload-time = "2026-05-18T23:37:09.715Z" },
-]
-
-[[package]]
-name = "numpy"
-version = "2.5.2"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version >= '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version >= '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-]
-sdist = { url = "https://files.pythonhosted.org/packages/9a/80/db0b4559e57ec36362bedbb05530a87fafbcb6067708c946967a41d449e7/numpy-2.5.2.tar.gz", hash = "sha256:d482d171c406ae88c5b19cad3b6a1c4c5209f886ab74bc44c2c865c23f52d860", size = 20773161, upload-time = "2026-08-09T13:48:27.962Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/69/72/dccb0aaf40972777283303919f613964227266d0c13adebb79ac124f1c3e/numpy-2.5.2-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:14e373cfc6387177e8409dac3c7159be8eb05cd77096cd7c950268b86f62831c", size = 16891693, upload-time = "2026-08-09T13:44:51.702Z" },
-    { url = "https://files.pythonhosted.org/packages/60/2e/b5aee50a1f74ac815cf8331812cb8251e29024025de462e0c047641c614c/numpy-2.5.2-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:4bbd96c833ecc8cc069ce518078fc8c60cb9cbfb0fea5b7a803ad65035596d03", size = 11903109, upload-time = "2026-08-09T13:44:55.501Z" },
-    { url = "https://files.pythonhosted.org/packages/f3/f4/29e78102a80601cf034d4e9767022cffeca2c3b4c926e1754572ca95593d/numpy-2.5.2-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:6e8172ddfcf5cf74b811d372b570b83c60bd2de87a6fbfbebdadb4a9bd9c6cbb", size = 5350202, upload-time = "2026-08-09T13:44:58.401Z" },
-    { url = "https://files.pythonhosted.org/packages/11/4b/dcd3b7eadaf4035d2c7a4289d232523a6964f602598ef7674e4bd7291f93/numpy-2.5.2-cp312-cp312-macosx_14_0_x86_64.whl", hash = "sha256:65f188481f1669e26f62b701e8205d19e460fa4a9b52a1414ba382330e4a3414", size = 6687736, upload-time = "2026-08-09T13:45:00.813Z" },
-    { url = "https://files.pythonhosted.org/packages/e5/21/4947e0e9d6c9fc2e2ff15b8949049ee44f63adb9cacc729ab8793f97e712/numpy-2.5.2-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:8ee9c4eeb8454b3660a8b53493563c3e121c2fc94fbd72b848ef814ed7b676a9", size = 15612696, upload-time = "2026-08-09T13:45:04.151Z" },
-    { url = "https://files.pythonhosted.org/packages/3a/5f/62d28cf019460c7f1394105b4d49d9911a9c444cb77ab0bd95a204c5a6de/numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:3cdec01fa790a186d430433fdd4d4ffb70eed6f0eeb4bf05c8dbe2dce0a9bcb8", size = 16722264, upload-time = "2026-08-09T13:45:07.714Z" },
-    { url = "https://files.pythonhosted.org/packages/14/25/3f0be4c1b9fdf5dd5e708a6806978564d7c46a055c000496309ff2a2f8af/numpy-2.5.2-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:7999d4ddb0c4025018373fd787510d46e04c769467af22869707b3c1cfd459ab", size = 16974396, upload-time = "2026-08-09T13:45:11.316Z" },
-    { url = "https://files.pythonhosted.org/packages/22/72/6262cbdeeb45da9d971e40715f579d791603ba8ec0b5e2db1ac55454421d/numpy-2.5.2-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:c1f017dc0875c9209d219f97feceb7d54c2661bb243deb4114478e1295808af7", size = 18476044, upload-time = "2026-08-09T13:45:14.869Z" },
-    { url = "https://files.pythonhosted.org/packages/36/33/29208b8b075bde62d26a81d14b358c42b0f69b6cabd98d4ff97f37f22b05/numpy-2.5.2-cp312-cp312-win32.whl", hash = "sha256:d6a48072864e3324e194a8fbb3c657bcc5b5c869dbc64c9537b1d5c862572c0a", size = 6072817, upload-time = "2026-08-09T13:45:17.867Z" },
-    { url = "https://files.pythonhosted.org/packages/7f/b9/87fea2769fe1c47c1b5b01d8310772c9d1a85d485de7cf386ef7a3332b02/numpy-2.5.2-cp312-cp312-win_amd64.whl", hash = "sha256:28ac63476ec7651484215ee7fa15a1f78b57c14621f01e392afe17b9a1390ce4", size = 12464674, upload-time = "2026-08-09T13:45:20.734Z" },
-    { url = "https://files.pythonhosted.org/packages/14/52/032b97e00461ab0809bbe4c588b035620e5a14b8cdee47ecddefc7b17d33/numpy-2.5.2-cp312-cp312-win_arm64.whl", hash = "sha256:27650bb0e7140fa3d37b9923b4803645e0b125d190f326eecfd3f4dad8e8ade1", size = 10397131, upload-time = "2026-08-09T13:45:23.73Z" },
 ]
 
 [[package]]
@@ -1906,8 +1870,7 @@ name = "pandas"
 version = "2.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "python-dateutil" },
     { name = "pytz" },
     { name = "tzdata" },
@@ -1964,8 +1927,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "accelerate" },
     { name = "huggingface-hub" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "psutil" },
     { name = "pyyaml" },
@@ -2547,8 +2509,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "joblib" },
     { name = "narwhals" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
     { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
     { name = "threadpoolctl" },
@@ -2580,7 +2541,7 @@ resolution-markers = [
     "python_full_version < '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy", marker = "python_full_version < '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7a/97/5a3609c4f8d58b039179648e62dd220f89864f56f7357f5d4f45c29eb2cc/scipy-1.17.1.tar.gz", hash = "sha256:95d8e012d8cb8816c226aef832200b1d45109ed4464303e997c5b13122b297c0", size = 30573822, upload-time = "2026-02-23T00:26:24.851Z" }
 wheels = [
@@ -2617,7 +2578,7 @@ resolution-markers = [
     "python_full_version >= '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
 ]
 dependencies = [
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy", marker = "python_full_version >= '3.12' or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7e/74/66de6258867beb2ef08f35f9f2ac017a52cacd5081714d239ff1a442d458/scipy-1.18.1.tar.gz", hash = "sha256:52c4b7422442aba924d03ad4019852b08a92e64ea187b933135687bfe2747307", size = 30781235, upload-time = "2026-08-21T23:28:50.599Z" }
 wheels = [
@@ -2944,8 +2905,7 @@ version = "5.16.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "huggingface-hub" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "numpy", version = "2.5.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural') or (python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "pyyaml" },
     { name = "regex" },
