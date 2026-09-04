@@ -1,0 +1,734 @@
+{
+  "selection": [
+    {
+      "candidate_records": [
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7954138298805932
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8191655105846358
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7755366758053355
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.7967053387568548,
+          "recipe_id": "c_lr1e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 2,
+              "epochs_completed": 4,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7945121034503666
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8106864371644179
+            },
+            {
+              "best_epoch": 7,
+              "epochs_completed": 8,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7744569033937135
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.793218481336166,
+          "recipe_id": "c_lr2e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8054388627644102
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8202324700982432
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7834942744634317
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8030552024420284,
+          "recipe_id": "c_lr1e-5_len384"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7980162571783165
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8214973949726302
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7806242172189731
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8000459564566399,
+          "recipe_id": "c_lr2e-5_len384"
+        }
+      ],
+      "final_seed_records": [
+        {
+          "optimizer_steps": 732,
+          "peak_memory_bytes": 3557039104,
+          "seed": 17
+        },
+        {
+          "optimizer_steps": 732,
+          "peak_memory_bytes": 3557039104,
+          "seed": 42
+        },
+        {
+          "optimizer_steps": 732,
+          "peak_memory_bytes": 3557039104,
+          "seed": 101
+        },
+        {
+          "optimizer_steps": 732,
+          "peak_memory_bytes": 3557039104,
+          "seed": 314
+        },
+        {
+          "optimizer_steps": 732,
+          "peak_memory_bytes": 3557039104,
+          "seed": 2718
+        }
+      ],
+      "n_outer_test": 979,
+      "n_outer_train": 3903,
+      "outer_fold": 0,
+      "outer_test_used_for_selection": false,
+      "protocol_id": "dash-mi-source-cv-v1",
+      "selected_epochs": 3,
+      "selected_recipe": "c_lr1e-5_len384"
+    },
+    {
+      "candidate_records": [
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7947580647952889
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.800172295443185
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8277301003531472
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8075534868638737,
+          "recipe_id": "c_lr1e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7985355419073923
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8189482388589858
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8183120670643338
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.811931949276904,
+          "recipe_id": "c_lr2e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7691532756532194
+            },
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.823213203764654
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8160842752314996
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8028169182164578,
+          "recipe_id": "c_lr1e-5_len384"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7880544289645748
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8256237499120698
+            },
+            {
+              "best_epoch": 8,
+              "epochs_completed": 8,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8124614833809086
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8087132207525177,
+          "recipe_id": "c_lr2e-5_len384"
+        }
+      ],
+      "final_seed_records": [
+        {
+          "optimizer_steps": 735,
+          "peak_memory_bytes": 3172973568,
+          "seed": 17
+        },
+        {
+          "optimizer_steps": 735,
+          "peak_memory_bytes": 3172973568,
+          "seed": 42
+        },
+        {
+          "optimizer_steps": 735,
+          "peak_memory_bytes": 3170221056,
+          "seed": 101
+        },
+        {
+          "optimizer_steps": 735,
+          "peak_memory_bytes": 3172973568,
+          "seed": 314
+        },
+        {
+          "optimizer_steps": 735,
+          "peak_memory_bytes": 3172973568,
+          "seed": 2718
+        }
+      ],
+      "n_outer_test": 974,
+      "n_outer_train": 3908,
+      "outer_fold": 1,
+      "outer_test_used_for_selection": false,
+      "protocol_id": "dash-mi-source-cv-v1",
+      "selected_epochs": 3,
+      "selected_recipe": "c_lr2e-5_len256"
+    },
+    {
+      "candidate_records": [
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7829111346365358
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8095237907509676
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8127547852093379
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8017299035322805,
+          "recipe_id": "c_lr1e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7784578345312102
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7999871383053629
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8065445472926531
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.7949965067097421,
+          "recipe_id": "c_lr2e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7925451166209071
+            },
+            {
+              "best_epoch": 7,
+              "epochs_completed": 8,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8124152751102028
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7982897432182473
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8010833783164525,
+          "recipe_id": "c_lr1e-5_len384"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7786202902071334
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8086877280369968
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8044080148772594
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.79723867770713,
+          "recipe_id": "c_lr2e-5_len384"
+        }
+      ],
+      "final_seed_records": [
+        {
+          "optimizer_steps": 1225,
+          "peak_memory_bytes": 3172973568,
+          "seed": 17
+        },
+        {
+          "optimizer_steps": 1225,
+          "peak_memory_bytes": 3172973568,
+          "seed": 42
+        },
+        {
+          "optimizer_steps": 1225,
+          "peak_memory_bytes": 3172973568,
+          "seed": 101
+        },
+        {
+          "optimizer_steps": 1225,
+          "peak_memory_bytes": 3172973568,
+          "seed": 314
+        },
+        {
+          "optimizer_steps": 1225,
+          "peak_memory_bytes": 3172973568,
+          "seed": 2718
+        }
+      ],
+      "n_outer_test": 975,
+      "n_outer_train": 3907,
+      "outer_fold": 2,
+      "outer_test_used_for_selection": false,
+      "protocol_id": "dash-mi-source-cv-v1",
+      "selected_epochs": 5,
+      "selected_recipe": "c_lr1e-5_len256"
+    },
+    {
+      "candidate_records": [
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7917394414205238
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7927044709623076
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8186004528643955
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8010147884157423,
+          "recipe_id": "c_lr1e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7805440919068312
+            },
+            {
+              "best_epoch": 7,
+              "epochs_completed": 8,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7975613962399362
+            },
+            {
+              "best_epoch": 2,
+              "epochs_completed": 4,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8153653334035244
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.7978236071834305,
+          "recipe_id": "c_lr2e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7935128798018845
+            },
+            {
+              "best_epoch": 5,
+              "epochs_completed": 7,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8135876707982679
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.816262922175164
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8077878242584388,
+          "recipe_id": "c_lr1e-5_len384"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7791745041529908
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8173670904369938
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8358654920159617
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8108023622019821,
+          "recipe_id": "c_lr2e-5_len384"
+        }
+      ],
+      "final_seed_records": [
+        {
+          "optimizer_steps": 980,
+          "peak_memory_bytes": 3557039104,
+          "seed": 17
+        },
+        {
+          "optimizer_steps": 980,
+          "peak_memory_bytes": 3557039104,
+          "seed": 42
+        },
+        {
+          "optimizer_steps": 980,
+          "peak_memory_bytes": 3557039104,
+          "seed": 101
+        },
+        {
+          "optimizer_steps": 980,
+          "peak_memory_bytes": 3557039104,
+          "seed": 314
+        },
+        {
+          "optimizer_steps": 980,
+          "peak_memory_bytes": 3557039104,
+          "seed": 2718
+        }
+      ],
+      "n_outer_test": 970,
+      "n_outer_train": 3912,
+      "outer_fold": 3,
+      "outer_test_used_for_selection": false,
+      "protocol_id": "dash-mi-source-cv-v1",
+      "selected_epochs": 4,
+      "selected_recipe": "c_lr2e-5_len384"
+    },
+    {
+      "candidate_records": [
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8083739712724387
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8448100527905018
+            },
+            {
+              "best_epoch": 7,
+              "epochs_completed": 8,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7864756042697959
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8132198761109121,
+          "recipe_id": "c_lr1e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8036768459222107
+            },
+            {
+              "best_epoch": 3,
+              "epochs_completed": 5,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.8284916079079192
+            },
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3172973568,
+              "source_balanced_macro_f1": 0.7845032199059043
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8055572245786781,
+          "recipe_id": "c_lr2e-5_len256"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8060124099357466
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.8410527884566779
+            },
+            {
+              "best_epoch": 6,
+              "epochs_completed": 8,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7867513091080738
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8112721691668328,
+          "recipe_id": "c_lr1e-5_len384"
+        },
+        {
+          "inner_folds": [
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 0,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.79587870555263
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 1,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.843177124945604
+            },
+            {
+              "best_epoch": 4,
+              "epochs_completed": 6,
+              "inner_fold": 2,
+              "peak_memory_bytes": 3557039104,
+              "source_balanced_macro_f1": 0.7789932937996507
+            }
+          ],
+          "mean_inner_source_balanced_macro_f1": 0.8060163747659616,
+          "recipe_id": "c_lr2e-5_len384"
+        }
+      ],
+      "final_seed_records": [
+        {
+          "optimizer_steps": 976,
+          "peak_memory_bytes": 3172973568,
+          "seed": 17
+        },
+        {
+          "optimizer_steps": 976,
+          "peak_memory_bytes": 3172973568,
+          "seed": 42
+        },
+        {
+          "optimizer_steps": 976,
+          "peak_memory_bytes": 3172973568,
+          "seed": 101
+        },
+        {
+          "optimizer_steps": 976,
+          "peak_memory_bytes": 3172973568,
+          "seed": 314
+        },
+        {
+          "optimizer_steps": 976,
+          "peak_memory_bytes": 3172973568,
+          "seed": 2718
+        }
+      ],
+      "n_outer_test": 984,
+      "n_outer_train": 3898,
+      "outer_fold": 4,
+      "outer_test_used_for_selection": false,
+      "protocol_id": "dash-mi-source-cv-v1",
+      "selected_epochs": 4,
+      "selected_recipe": "c_lr1e-5_len256"
+    }
+  ]
+}
