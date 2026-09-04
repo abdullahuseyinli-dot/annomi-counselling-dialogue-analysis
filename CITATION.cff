@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this research software, please cite it and the upstream AnnoMI dataset."
+title: "AnnoMI Counselling Dialogue Analysis"
+type: software
+version: 0.2.0
+date-released: 2026-09-04
+authors:
+  - family-names: "Huseyinli"
+    given-names: "Abdulla"
+license: MIT
+preferred-citation:
+  type: generic
+  title: "Leakage-controlled behaviour and disagreement modeling in AnnoMI"
+  authors:
+    - family-names: "Huseyinli"
+      given-names: "Abdulla"
+  year: 2026

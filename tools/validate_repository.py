@@ -15,6 +15,7 @@ REQUIRED = {
     "README.md",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
+    "CITATION.cff",
     "pyproject.toml",
     "annomi_counselling_dialogue_analysis.ipynb",
     "experiments/pipeline_source.ipynb",
@@ -22,6 +23,14 @@ REQUIRED = {
     "results/provenance.json",
     "results/main/model_comparison.csv",
     "results/protocol/official_split.json",
+    "results/research/publication_v1/manifest.json",
+    "results/research/publication_v1/classification_summary.csv",
+    "results/research/publication_v1/multiannotator_summary.csv",
+    "results/research/publication_v1/registered_inference_summary.csv",
+    "assets/research/research_overview.png",
+    "assets/research/research_overview.svg",
+    "assets/research/registered_effect_intervals.png",
+    "assets/research/registered_effect_intervals.svg",
 }
 TEXT_SUFFIXES = {".md", ".py", ".toml", ".yml", ".yaml", ".json", ".csv", ".txt", ".ipynb"}
 release_hygiene_terms = [
@@ -125,6 +134,33 @@ def validate_links() -> str:
     return "README local links resolve"
 
 
+def validate_research_publication_assets() -> list[str]:
+    publication_root = ROOT / "results" / "research" / "publication_v1"
+    manifest = json.loads((publication_root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("manifest_id") != "annomi-research-publication-assets-v1":
+        raise ValueError("Unexpected research-publication manifest ID")
+    for relative, expected in manifest["source_sha256"].items():
+        path = ROOT / relative
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Research-publication source hash mismatch: {relative}")
+    for filename, expected in manifest["table_sha256"].items():
+        path = publication_root / filename
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Research-publication table hash mismatch: {filename}")
+    for stem, formats in manifest["figure_sha256"].items():
+        for extension, expected in formats.items():
+            path = ROOT / "assets" / "research" / f"{stem}.{extension}"
+            if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                raise ValueError(f"Research-publication figure hash mismatch: {path.name}")
+    builder = ROOT / "tools" / "build_research_assets.py"
+    if hashlib.sha256(builder.read_bytes()).hexdigest() != manifest["builder_sha256"]:
+        raise ValueError("Research-publication builder hash mismatch")
+    return [
+        "research publication inputs and tables match manifest",
+        "research publication figures and builder match manifest",
+    ]
+
+
 def main() -> None:
     from annomi_portfolio.evidence import validate_evidence
 
@@ -156,6 +192,7 @@ def main() -> None:
     checks = validate_evidence(ROOT)
     checks.extend(validate_notebooks())
     checks.append(validate_links())
+    checks.extend(validate_research_publication_assets())
     checks.append(f"{len(files)} repository files passed hygiene checks")
     for check in checks:
         print(f"PASS  {check}")

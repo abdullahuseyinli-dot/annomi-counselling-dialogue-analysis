@@ -1,125 +1,147 @@
 # AnnoMI Counselling Dialogue Analysis
 
-A source-disjoint and disagreement-aware research benchmark for therapist-behaviour
-classification on the
-[AnnoMI](https://github.com/uccollab/AnnoMI) counselling-dialogue corpus. The
-central comparison uses transcript-grouped evaluation to prevent dialogue leakage and
-contrasts a sparse elastic-net baseline with a context-aware RoBERTa classifier.
+A leakage-controlled, disagreement-aware benchmark for motivational-interviewing behaviour coding
+on [AnnoMI](https://github.com/uccollab/AnnoMI). The project upgrades an earlier portfolio analysis
+into a registered research pipeline with source-disjoint nested validation, five-seed neural
+evaluation, row-level probability ledgers, paired cluster inference, negative-result retention, and
+a separate multi-annotator label-distribution study.
 
-> **Research status:** the portfolio result below is preserved as development-consumed
-> evidence. New claims use all five `video_url`-grouped folds, causal inputs, row-level
-> predictions, and the locked protocol in
-> [`configs/research/protocol_v1.json`](configs/research/protocol_v1.json).
+> **Status:** all results below are complete and reconstruct from tracked evidence. The locked
+> protocol is [`configs/research/protocol_v1.json`](configs/research/protocol_v1.json); raw
+> counselling text and model weights are not distributed.
 
-## Portfolio result (development-consumed)
+![Overview of leakage-controlled classification and vote-distribution results](assets/research/research_overview.png)
 
-The RoBERTa system improves held-out macro-F1 by **3.86 percentage points** and
-accuracy by **4.11 points** across 973 therapist utterances from 31 unseen transcripts.
+## Main source-disjoint result
 
-| Model | Accuracy | Macro-F1 | Weighted F1 | Multiclass Brier |
+The primary task predicts four therapist-behaviour codes on 4,882 utterances from 119 normalized
+video sources. Every reported prediction is out of source: model and recipe selection occur inside
+each of five outer folds, and neural probabilities are averaged across five fixed seeds.
+
+| Model | Source-balanced macro-F1 ↑ | Brier ↓ | Log loss ↓ | ECE ↓ |
 |---|---:|---:|---:|---:|
-| Elastic-net logistic regression | 77.70% | 73.58% | 77.44% | 0.3192 |
-| RoBERTa-base, grouped search + three seeds | **81.81%** | **77.44%** | **81.47%** | **0.2938** |
+| TF-IDF elastic net | 0.7172 | 0.3906 | 0.7670 | **0.0237** |
+| RoBERTa, target only | 0.8108 | **0.2796** | **0.5587** | 0.0658 |
+| RoBERTa, causal history | **0.8163** | 0.2838 | 0.5880 | 0.0800 |
+| DASH-MI | 0.8116 | 0.2828 | 0.5883 | 0.0810 |
 
-![Held-out model comparison](assets/model_comparison.png)
+The defensible headline is nuanced:
 
-Transcript-level resampling keeps the dependence structure intact. The 95% interval
-for the accuracy gain is **[1.77, 6.26] points**; for macro-F1 it is
-**[1.51, 6.43] points**. Exact McNemar testing gives **p = 0.0006**, with 85
-RoBERTa-only correct cases versus 45 baseline-only correct cases.
+- Target-only RoBERTa improves source-balanced macro-F1 over TF-IDF by **0.0935**, with a paired
+  source-bootstrap 95% interval of **[0.0778, 0.1097]**. It passes the registered candidate gate.
+- Causal-history RoBERTa is the **numerical F1 leader at 0.8163**, but its +0.0056 gain over
+  target-only has interval **[-0.0040, 0.0154]** and its log loss is worse. It is not a supported
+  replacement for the better-calibrated target-only model.
+- DASH-MI reaches 0.8116. Its context residual changes only 0.53% of decisions, and neither its
+  +0.0011 context-ablation delta nor its -0.0047 delta versus causal RoBERTa is supported.
 
-## Evaluation design
+Thus, **0.8163 is the best observed classification score**, while target-only RoBERTa is the best
+supported and best probabilistic system. See the
+[neural result](docs/research/ROBERTA_FLAT_CAUSAL_V1_RESULT.md),
+[DASH-MI result](docs/research/DASH_MI_V1_RESULT.md), and
+[paired inference](docs/research/DASH_MI_INFERENCE_V1.md).
 
-- **Data:** 9,699 utterances from 133 transcripts; raw counselling text is not tracked.
-- **Target:** reflection, question, therapist input, or other on therapist turns.
-- **Split:** 102 training transcripts and 31 held-out transcripts.
-- **Baseline:** elastic-net logistic regression over sparse text/context features.
-- **Encoder:** `FacebookAI/roberta-base`, ten-turn context, maximum length 384,
-  grouped hyperparameter search, and confirmation across seeds 17, 42, and 101.
-- **Uncertainty:** transcript-grouped bootstrap and permutation inference, plus paired
-  McNemar testing on the fixed held-out items.
-- **Calibration:** temperature scaling lowers RoBERTa Brier score from 0.2938 to 0.2860
-  and ECE from 0.1073 to 0.0877 without changing top-1 predictions.
+## Multi-annotator result
 
-![Per-class F1](assets/per_class_f1.png)
+No additional labeling is needed. AnnoMI already contains 428 utterances with ten annotations each
+across seven transcripts. The registered leave-one-transcript-out study predicts the complete vote
+distribution, models therapist and client codes separately, and treats seven transcripts—not 4,280
+annotation rows—as the inferential units.
 
-## Supporting experiments
+| Task | Model | Vote log score ↓ | Brier ↓ | JSD ↓ | Plurality macro-F1 ↑ |
+|---|---|---:|---:|---:|---:|
+| Therapist | Transcript prior | 1.4441 | 0.5953 | 0.3099 | 0.0818 |
+| Therapist | Hard linear | **0.8099** | 0.2351 | 0.1381 | 0.7401 |
+| Therapist | Soft linear | 0.8132 | **0.2245** | 0.1260 | **0.7430** |
+| Therapist | PANEL-MI | 0.8567 | 0.2272 | **0.1169** | 0.7326 |
+| Client | Transcript prior | 1.0566 | 0.3781 | 0.1822 | 0.2417 |
+| Client | Hard linear | 0.9798 | 0.3235 | 0.1582 | 0.3399 |
+| Client | Soft linear | **0.9453** | **0.3011** | **0.1453** | 0.4405 |
+| Client | PANEL-MI | 1.0253 | 0.3380 | 0.1518 | **0.4724** |
 
-The tracked evidence also covers three secondary questions:
+Soft label-distribution learning beats the transcript prior on therapist log score by **-0.6309**
+(95% interval **[-0.7257, -0.5055]**, exact sign-flip p = **0.0078**, 7/7 transcripts) and on
+client log score by **-0.1113** (interval **[-0.1773, -0.0402]**, p = **0.0156**, 6/7).
 
-- **Extractive summarisation:** KMeans + MMR is the aggregate winner on the recorded
-  rubric, with 2.790 overall usefulness versus 2.445 for BERTopic + MMR. BERTopic has
-  higher average faithfulness/support and coverage, but substantially lower specificity.
-- **Transcript-quality classification:** elastic-net and XGBoost both reach 90.32%
-  accuracy and 0.727 F1 on the fixed test partition; intervals are wide because the test
-  set is small.
-- **Next-behaviour forecasting:** CatBoost and a hybrid GRU both reach 44.60% top-1
-  accuracy. CatBoost leads top-2 accuracy, 76.16% versus 72.56%.
+The creative annotator-conditioned PANEL-MI model is an informative negative primary result. It
+fails its registered log-score gate, although it gives the best therapist JSD and entropy error.
+That Pareto trade-off is retained rather than relabeled as a win. The full method, failure log,
+selection trace, and results are in the
+[PANEL-MI report](docs/research/PANEL_MI_V1_RESULT.md).
 
-![Summarisation method comparison](assets/summarisation_comparison.png)
+![Registered paired effects with cluster-level intervals](assets/research/registered_effect_intervals.png)
 
-## Repository layout
+## Why the evaluation is stronger
 
-```text
-annomi_counselling_dialogue_analysis.ipynb  Executed portfolio analysis
-experiments/pipeline_source.ipynb          Code-only full experiment pipeline
-src/annomi_portfolio/                       Evidence loading and consistency checks
-results/                                    Curated aggregate result lineage
-tools/                                      Dataset, figure, notebook, and validation tools
-tests/                                      Fast evidence-contract tests
-docs/                                       Protocol and model documentation
-```
+- Normalized source video URL, not utterance or transcript alone, is the dependency group for the
+  main benchmark.
+- Every outer fold is retained; no favorable fold is selected.
+- Tokenization, PCA, scaling, class weights, early stopping, and recipe choice are training-only.
+- Inputs are causal: the target utterance and, where registered, preceding turns only.
+- Every metric reconstructs from out-of-fold probability ledgers whose hashes are recorded.
+- Bootstrap sampling respects source or transcript clusters. Seeds and annotation rows are never
+  treated as independent samples.
+- Smoke gates, numerical failures, convergence fallbacks, ablations, and failed success gates remain
+  visible.
 
-## Quick start
+The dataset creators describe AnnoMI as 133 professionally transcribed, expert-annotated
+demonstration dialogues and explicitly distinguish it from real therapy sessions
+([Wu et al., 2023](https://doi.org/10.3390/fi15030110)). Accordingly, this repository makes no
+clinical-validity, therapist-ranking, causal-effect, or state-of-the-art claim.
+
+## Reproduce
+
+Python 3.11 and a CUDA GPU with BF16 support reproduce the registered neural runs. The sparse and
+multi-annotator heads run on CPU after frozen embedding extraction.
 
 ```bash
-python -m venv .venv
-# Activate the environment, then:
-python -m pip install -e ".[analysis,dev]"
-python tools/validate_repository.py
-pytest -q
-jupyter lab annomi_counselling_dialogue_analysis.ipynb
-```
-
-Download the pinned dataset only when rerunning data-dependent stages:
-
-```bash
+uv sync --extra analysis --extra dev --extra neural
 python tools/download_dataset.py --variant simple
 python tools/download_dataset.py --variant full
+
 python -m annomi_research audit-data
 python -m annomi_research make-splits
 python -m annomi_research validate
-python -m annomi_research run-baselines
-# CUDA 13.0 PyTorch is selected by the uv lock on Windows/Linux:
-uv sync --extra dev --extra neural
+pytest -q
+
+python -m annomi_research check-neural-env
 python -m annomi_research smoke-neural --model roberta_utterance
 python -m annomi_research run-neural --model roberta_utterance
+python -m annomi_research smoke-neural --model roberta_flat_causal10
+python -m annomi_research run-neural --model roberta_flat_causal10
 python -m annomi_research smoke-dash
 python -m annomi_research run-dash
+python -m annomi_research smoke-panel
+python -m annomi_research run-panel
+
+python tools/build_research_assets.py
+python tools/validate_repository.py
 ```
 
-The downloader verifies each upstream commit, byte count, SHA-256 digest, schema, row
-count, transcript count, and—where applicable—annotator count. See the
-[validity audit](docs/research/VALIDITY_AUDIT.md) and
-[source-disjoint protocol](docs/research/LOCKED_PROTOCOL.md) for the scientific boundary.
-Model checkpoints and local training outputs are intentionally excluded from version control.
+Evidence writers are create-only: an identical rerun is a safe no-op, while a different payload
+must use a new output lineage. Dataset files are commit-pinned and checksum-verified before fitting.
+See the [locked protocol](docs/research/LOCKED_PROTOCOL.md),
+[validity audit](docs/research/VALIDITY_AUDIT.md), and
+[result lineage](docs/RESULT_LINEAGE.md).
 
-## Reproducibility and scope
+## Repository map
 
-Result tables are immutable evidence exports from the completed runs. Their hashes and
-source-notebook hash are recorded in `results/provenance.json`; tests check arithmetic,
-split integrity, statistical intervals, and the summarisation ranking. Full neural
-retraining remains hardware- and library-sensitive, so newly trained runs should be
-written to a fresh output directory and compared against, not silently substituted for,
-the tracked evidence.
+```text
+configs/research/                 Locked machine-readable protocols and comparisons
+src/annomi_research/              Audits, splits, models, inference, and validators
+results/research/                 Reconstructable out-of-fold evidence and summaries
+results/research/publication_v1/  Derived exact tables plus a hash manifest
+docs/research/                    Registrations, execution logs, and result reports
+assets/research/                  Script-generated publication figures
+tests/                            Fast contracts for data, models, metrics, and evidence
+tools/                            Pinned download, validation, and asset builders
+```
 
-Counselling language is sensitive and context dependent. These models are research
-benchmarks, not clinical decision systems, therapist-quality scores, or substitutes for
-professional review. See [the model card](docs/MODEL_CARD.md) and
-[experiment protocol](docs/EXPERIMENT_PROTOCOL.md) for limitations.
+The earlier single-holdout portfolio result remains in the notebook and legacy result directories as
+development-consumed evidence. It is not silently deleted and is not the source-disjoint headline.
 
 ## License and attribution
 
-Original code and documentation are MIT licensed. The dataset and pretrained models are
-separate third-party works and are not redistributed here. See
+Original code and documentation are MIT licensed. AnnoMI and pretrained encoders are separate
+third-party works and are not redistributed here. Review
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before reuse.

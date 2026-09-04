@@ -1,46 +1,115 @@
-# Model card: portfolio therapist-behaviour classifier
+# Model card: AnnoMI research model suite
 
-The evidence in this card is preserved as development-consumed. It predates the
-source-video-grouped research protocol and is not a confirmatory source-disjoint result.
+## Summary
 
-## Model
+This repository evaluates text models for automatic research coding of AnnoMI therapist utterances
+and, in a separate study, prediction of empirical therapist/client annotation distributions. The
+main benchmark uses five-fold nested cross-validation grouped by normalized source video URL. The
+multi-annotator benchmark uses exhaustive leave-one-transcript-out evaluation over seven dialogues.
 
-The headline model fine-tunes `FacebookAI/roberta-base` for four-way therapist-behaviour
-classification. Each example combines the current therapist utterance with up to ten
-preceding turns, truncated to 384 tokens. Selection uses transcript-grouped training folds
-and confirmation across three seeds.
+No checkpoint is designated for clinical deployment. The recommended *research baseline* is the
+target-only RoBERTa model because its improvement over TF-IDF is supported and it has the best Brier
+and log-loss values among the neural classifiers. Causal-history RoBERTa has the highest observed
+macro-F1, but the difference from target-only is small, uncertain, and accompanied by worse log
+loss.
 
-## Intended use
+## Systems
 
-This model is suitable for reproducible NLP research, method comparison, and aggregate
-exploratory analysis of the AnnoMI benchmark. It may help researchers study how context
-affects motivational-interviewing label prediction.
+| System | Input | Training target | Role |
+|---|---|---|---|
+| TF-IDF elastic net | Current therapist utterance | Four-class hard code | Sparse baseline |
+| RoBERTa target | Current therapist utterance | Four-class hard code | Supported neural baseline |
+| RoBERTa causal | Target plus up to ten preceding turns | Four-class hard code | Numerical F1 leader |
+| DASH-MI | Separate target/history encoders with gated residual context | Hard or vote-mixed code | Registered context candidate |
+| Soft linear | Frozen target-only RoBERTa embedding | Full ten-vote distribution | Distribution baseline |
+| PANEL-MI | Frozen embedding plus low-rank anonymous-annotator heads | Individual votes and aggregate distribution | Registered disagreement candidate |
 
-It is not designed for clinical diagnosis, patient triage, therapist ranking, live
-intervention, automated feedback to clients, or decisions affecting access to care.
+The neural encoder is `FacebookAI/roberta-base` at revision
+`e2da8e2f811d1448a5b465c236feacd80ffbac7b`. Model-specific configurations, seeds, optimization,
+selection, truncation, and ablations are machine-readable under `configs/research/`.
 
 ## Evaluation
 
-On 973 therapist utterances from 31 held-out transcripts, the model reaches 0.8181 accuracy
-and 0.7744 macro-F1. The elastic-net baseline reaches 0.7770 and 0.7358 respectively.
-Transcript-grouped 95% intervals for the gains exclude zero, and exact McNemar testing gives
-p = 0.0006. Temperature scaling improves probabilistic calibration but remains less
-calibrated by ECE than the sparse baseline.
+### Therapist code classification
 
-## Limitations
+The evaluation covers 4,882 therapist utterances from 119 source video groups. Aggregate neural
+probabilities average five fixed seeds after every item has received one out-of-source prediction.
 
-- AnnoMI contains demonstrations sourced from public videos; it is not a representative
-  sample of real-world clinical care.
-- Labels simplify nuanced dialogue acts into four classes.
-- The held-out partition covers 31 transcripts, so topic- and speaker-specific uncertainty
-  remains material.
-- Conversational context can encode sensitive information and source-specific artefacts.
-- Results do not establish clinical validity, fairness across demographic groups, or safe
-  performance under distribution shift.
+| Model | Source-balanced macro-F1 ↑ | Brier ↓ | Log loss ↓ | ECE ↓ |
+|---|---:|---:|---:|---:|
+| TF-IDF | 0.7172 | 0.3906 | 0.7670 | **0.0237** |
+| RoBERTa target | 0.8108 | **0.2796** | **0.5587** | 0.0658 |
+| RoBERTa causal | **0.8163** | 0.2838 | 0.5880 | 0.0800 |
+| DASH-MI | 0.8116 | 0.2828 | 0.5883 | 0.0810 |
 
-## Data and privacy
+Target-only RoBERTa improves macro-F1 over TF-IDF by 0.0935, 95% paired source-bootstrap interval
+[0.0778, 0.1097]. Causal context adds 0.0056 over target-only, interval [-0.0040, 0.0154], and
+worsens log loss. DASH-MI is not better than causal RoBERTa and its registered context ablation is
+null. Numerical rankings must not be restated as supported pairwise differences.
 
-Raw utterance text, source-video metadata, predictions, logits, and checkpoints are not
-distributed. The repository tracks only aggregate metrics and transcript identifiers needed
-to reconstruct the split. Users are responsible for reviewing the upstream data terms and
-applying appropriate governance to any derivative dataset or model.
+The weakest class remains `therapist_input`: causal RoBERTa F1 is 0.6683, compared with 0.8898 for
+`other`, 0.8516 for `question`, and 0.7826 for `reflection`. This class gap should remain visible in
+any downstream report.
+
+### Annotation-distribution prediction
+
+The subset contains 216 therapist and 212 client utterances, ten existing votes per utterance, and
+seven transcript clusters. The primary distribution metric is transcript-balanced vote log score.
+
+- Soft-linear strongly improves over the transcript prior on both tasks: therapist delta -0.6309
+  (exact p = 0.0078) and client delta -0.1113 (p = 0.0156).
+- PANEL-MI fails its registered therapist log-score gate: +0.0435 versus soft-linear, interval
+  [-0.0353, 0.1074]. It does achieve the best therapist JSD (0.1169) and entropy MAE (0.2910), an
+  exploratory Pareto trade-off rather than a primary win.
+- With seven clusters, intervals and transcript-specific effects are more informative than small
+  numerical rank changes.
+
+## Intended use
+
+Appropriate uses are reproducible NLP benchmarking, method comparison, annotation-disagreement
+research, and aggregate exploratory analysis of public AnnoMI demonstrations. The outputs may help
+researchers understand which inputs or objectives predict the corpus's coding scheme.
+
+The systems are not intended for:
+
+- clinical diagnosis, risk scoring, treatment selection, or patient triage;
+- live feedback to clients or direct control of a conversational agent;
+- therapist ranking, employment evaluation, reimbursement, or access-to-care decisions;
+- claims about treatment effectiveness, causal therapist effects, or real-world clinical quality;
+- replacement of trained human coders.
+
+## Limitations and risks
+
+- AnnoMI consists of public demonstration videos, not a representative sample of clinical care.
+- Source-disjoint validation reduces direct production/speaker leakage but does not establish
+  transportability to private sessions, other languages, new coding manuals, or demographic groups.
+- The labels compress nuanced dialogue behavior. Disagreement can reflect ambiguity, coding
+  conventions, or annotator tendencies rather than removable noise.
+- The multi-annotator result describes one anonymous ten-person panel across only seven dialogues.
+- Context can expose sensitive conversational details and modestly harms probabilistic quality in
+  the present study.
+- No demographic attributes support a fairness audit. Absence of measured disparity is not evidence
+  of fairness.
+- Model confidence is not clinical certainty. Calibration is evaluated only within this corpus and
+  split design.
+
+## Data, privacy, and artifacts
+
+Raw utterance text, source metadata, model weights, checkpoints, and embedding caches are ignored by
+Git. The repository does retain privacy-reduced out-of-fold ledgers containing transcript/utterance
+IDs, hashed source IDs, labels or vote distributions, predictions, probabilities, folds, and seeds;
+these are necessary to reconstruct every result. Anonymous annotator IDs are not present in released
+prediction ledgers.
+
+Users must review the upstream dataset terms, model licenses, and local governance requirements.
+The code does not make AnnoMI or RoBERTa part of this repository's MIT license.
+
+## Reproducibility and provenance
+
+The protocol, data digests, exact encoder revision, code commit, seed list, selected recipes,
+runtime environment, prediction hashes, failed attempts, and paired inference are retained. Evidence
+files are create-only. Run `python -m annomi_research validate`, `pytest -q`, and
+`python tools/validate_repository.py` to verify the current package.
+
+The older 31-transcript portfolio holdout remains preserved as development-consumed evidence. It is
+not the source-disjoint result described in this card.

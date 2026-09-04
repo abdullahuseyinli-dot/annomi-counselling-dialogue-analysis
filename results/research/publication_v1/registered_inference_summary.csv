@@ -1,0 +1,8 @@
+study,task,comparison,metric,favorable_direction,delta,ci_low,ci_high,interval_excludes_zero_in_favorable_direction,exact_one_sided_sign_flip_p,improved_clusters,n_clusters
+classification,therapist,target RoBERTa - TF-IDF,source_balanced_macro_f1,positive,0.0935458424,0.07782759057,0.1097231677,True,,,119
+classification,therapist,causal RoBERTa - target RoBERTa,source_balanced_macro_f1,positive,0.005552280686,-0.003981325238,0.01539380358,False,,,119
+classification,therapist,DASH-MI - causal RoBERTa,source_balanced_macro_f1,positive,-0.004699174959,-0.01455050657,0.004717737821,False,,,119
+multiannotator,therapist,soft_linear - transcript_balanced_prior,transcript_balanced_vote_log_score,negative,-0.6308766889,-0.7257481791,-0.505459974,True,0.0078125,7,7
+multiannotator,therapist,panel_mi - soft_linear,transcript_balanced_vote_log_score,negative,0.04346914474,-0.0352584223,0.1074081384,False,0.8671875,2,7
+multiannotator,client,soft_linear - transcript_balanced_prior,transcript_balanced_vote_log_score,negative,-0.1113420664,-0.1772514479,-0.0401817967,True,0.015625,6,7
+multiannotator,client,panel_mi - soft_linear,transcript_balanced_vote_log_score,negative,0.08004155637,0.03410019081,0.1210877798,False,0.984375,1,7

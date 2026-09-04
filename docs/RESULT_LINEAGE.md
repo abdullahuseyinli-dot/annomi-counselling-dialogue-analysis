@@ -18,3 +18,38 @@ A stale narrative sentence had described BERTopic + MMR as the overall summarisa
 The exported aggregate table shows the opposite: KMeans + MMR scores 2.790 overall
 usefulness versus 2.445. The repository text follows the recorded table and retains both
 methods' component scores so the trade-off remains auditable.
+
+## Source-disjoint research lineage
+
+The `results/research/` tree is a second, independent evidence lineage governed by
+`configs/research/protocol_v1.json`. Its headline chain is:
+
+1. `gate0/data_audit.json` and `gate0/source_folds_v1.json` bind the pinned data to 119 source
+   groups and five exhaustive outer folds.
+2. `baseline_v1/predictions.csv` reconstructs all nested sparse baselines.
+3. `neural_v1/{roberta_utterance,roberta_flat_causal10,dash_mi}/` retains per-seed and seed-ensemble
+   out-of-source probabilities, selection traces, code commits, configurations, and metrics.
+4. `comparisons/*/` retains 10,000 paired source-bootstrap draws and per-source effects for every
+   registered comparison.
+5. `multiannotator_v1/panel_mi/` retains the seven-transcript PANEL-MI selection trace, all final
+   seed predictions, ensemble predictions, distribution metrics, paired cluster intervals, and all
+   128 sign-flip assignments summarized exactly.
+6. `publication_v1/` contains compact tables derived from those immutable summaries. Its manifest
+   binds every table and figure to its input hashes and builder hash.
+
+Research validators recompute metrics from row-level ledgers rather than trusting aggregate JSON.
+The prediction ledgers deliberately exclude utterance text and anonymous annotator identity. Raw
+data, embeddings, and checkpoints remain ignored local artifacts.
+
+## Interpretation lineage
+
+Three distinctions are intentionally preserved:
+
+- **Supported improvement:** target-only RoBERTa over TF-IDF; soft-linear label-distribution
+  prediction over a transcript-balanced prior on both multi-annotator tasks.
+- **Numerical-only leader:** causal-history RoBERTa has the highest observed classification
+  macro-F1, but its interval versus target-only includes zero and its log loss is worse.
+- **Negative registered candidates:** DASH-MI does not add supported contextual value, and PANEL-MI
+  does not improve its primary therapist vote log score despite better JSD/entropy diagnostics.
+
+No aggregate ranking may erase these inference and calibration qualifications.

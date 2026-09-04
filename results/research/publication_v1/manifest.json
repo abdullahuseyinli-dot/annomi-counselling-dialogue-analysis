@@ -1,0 +1,26 @@
+{
+  "builder_sha256": "0a1b2909a784806200edc5806dde4ffd1f9bf60666635822bdc332226f193d2b",
+  "figure_sha256": {
+    "registered_effect_intervals": {
+      "png": "724ef1ab9264c982c116e0155ba9134ecec94ffe5446251ba244683076706a45",
+      "svg": "d51555fd6aa344fe13b793ca5cba70aab778b183b83b6a6780b7f283a7493339"
+    },
+    "research_overview": {
+      "png": "03ef21baa9adb18f81748b14a39489f39e5dae4b45b7fb1faff9d7953ddb1428",
+      "svg": "a679676af621b98b5f58a72bc8442e4276e8758a514b070b864b4a71dab0c85e"
+    }
+  },
+  "manifest_id": "annomi-research-publication-assets-v1",
+  "source_sha256": {
+    "results/research/baseline_v1/summary.json": "0b44a2c66819e7f05a243051e535e61b0a8a927f65263c9ba4d630d290d5769d",
+    "results/research/multiannotator_v1/panel_mi/summary.json": "66ee027e8a2b769269cee7b711610076afbbf96cf80376ea11b806748fd36789",
+    "results/research/neural_v1/dash_mi/summary.json": "8b12e45196166b4d3b0d418f51554a813fee0f02670db9b0d96dd7cf5e8783a0",
+    "results/research/neural_v1/roberta_flat_causal10/summary.json": "1be8022639d0cbb6113ec33ec9526be4be44080181168351bfd22213e9c57176",
+    "results/research/neural_v1/roberta_utterance/summary.json": "a4a8ecf0f1f4e04f6e90251eff8bf312f645267db9f276a053c49371c01c64e1"
+  },
+  "table_sha256": {
+    "classification_summary.csv": "360c3ae8b4b9d8650f7b6116639b0b1185333c88b4f200b8778099f0288f16ec",
+    "multiannotator_summary.csv": "1dfeae01664d87a20ad5fb23962c127ec98e459ed800b6cda39732571bd667b6",
+    "registered_inference_summary.csv": "39736e9b402ef2df56ad9e29e63fb22c38bd10552d7ea15961c66078bc06aeb3"
+  }
+}

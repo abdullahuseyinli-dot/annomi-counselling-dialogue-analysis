@@ -1,0 +1,5 @@
+model,display_name,source_balanced_macro_f1,utterance_macro_f1,source_balanced_brier,source_balanced_log_loss,equal_frequency_ece_10,worst_20pct_source_log_loss_cvar
+tfidf_elasticnet_utterance,TF-IDF,0.7172435835,0.6894909616,0.3905805517,0.7669746469,0.0236526704,1.239100005
+roberta_utterance,RoBERTa target,0.8107894259,0.7912362289,0.2796495503,0.5586505182,0.06584948831,1.10063566
+roberta_flat_causal10,RoBERTa causal,0.8163417066,0.7980510068,0.2837583973,0.5880124327,0.07995654832,1.203905769
+dash_mi,DASH-MI,0.8116425317,0.7926470751,0.2828457909,0.588296554,0.08099794163,1.207641114

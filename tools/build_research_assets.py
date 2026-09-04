@@ -198,7 +198,11 @@ def _save_figure(fig: plt.Figure, stem: str) -> dict[str, str]:
             facecolor="white",
             metadata=metadata,
         )
-        hashes[extension] = write_create_only(ASSET_DIR / f"{stem}.{extension}", buffer.getvalue())
+        payload = buffer.getvalue()
+        if extension == "svg":
+            text = payload.decode("utf-8")
+            payload = ("\n".join(line.rstrip() for line in text.splitlines()) + "\n").encode()
+        hashes[extension] = write_create_only(ASSET_DIR / f"{stem}.{extension}", payload)
     plt.close(fig)
     return hashes
 
