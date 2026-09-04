@@ -1,0 +1,66 @@
+{
+  "protocol_id": "annomi-safe-mi-exploratory-source-cv-v2",
+  "status": "registered_exploratory_after_qtrace_v1",
+  "registered_date": "2026-09-04",
+  "evidence_boundary": {
+    "annomi_status": "development_consumed_by_qtrace_v1_and_safe_mi_hypothesis_generation",
+    "confirmatory_claim_permitted": false,
+    "external_confirmation_required": true,
+    "reason": "All five AnnoMI outer-fold outcomes were inspected before SAFE-MI was designed."
+  },
+  "objectives": [
+    "improve strict source-disjoint Task C forecasting from the unconditional C-only baseline",
+    "test whether one-way detached C-to-A transfer avoids the registered negative transfer",
+    "improve Task A evidence stability without treating uploader metadata as clinical fidelity",
+    "reduce prediction-set inefficiency without weakening source-level coverage reporting"
+  ],
+  "task_a": {
+    "target": "uploader-designated demonstration-quality metadata",
+    "primary_checkpoint": "t10",
+    "checkpoints": ["t3", "t5", "t10", "t20", "full"],
+    "primary_metric": "source_balanced_balanced_accuracy",
+    "proper_metrics": ["source_balanced_brier", "source_balanced_log_loss"],
+    "claim_boundary": "Not an independent MITI fidelity rating or patient outcome."
+  },
+  "task_c": {
+    "target": "recorded next therapist behaviour after an observed client turn",
+    "primary_metric": "source_balanced_macro_f1",
+    "proper_metrics": ["source_balanced_brier", "source_balanced_log_loss"],
+    "claim_boundary": "Not an optimal, safe, or causally effective intervention."
+  },
+  "splitting": {
+    "outer_manifest": "results/research/gate0/source_folds_v1.json",
+    "group_key": "normalized_video_url source_id",
+    "screen_seed_count": 1,
+    "final_seed_count": 5,
+    "selection": "inner source-disjoint validation followed by fit-plus-validation refit",
+    "calibration": "independent inner source fold"
+  },
+  "screen_stopping_gate": {
+    "maximum_task_c_macro_f1_degradation": 0.02,
+    "maximum_task_c_brier_degradation": 0.01,
+    "bad_fold_count_for_rejection": 4,
+    "maximum_stage_finalists": 2
+  },
+  "final_exploratory_gate": {
+    "task_c_minimum_macro_f1_gain": 0.02,
+    "task_c_interval_must_be_positive": true,
+    "maximum_task_c_brier_degradation": 0.01,
+    "minimum_positive_seed_count": 4,
+    "all_classes_must_be_predicted": true,
+    "joint_maximum_task_c_macro_f1_degradation": 0.02,
+    "joint_minimum_task_a_balanced_accuracy_gain": 0.03,
+    "joint_maximum_task_a_brier_degradation": 0.01,
+    "prediction_set_minimum_coverage": 0.8,
+    "prediction_set_maximum_mean_size": 2.5
+  },
+  "external_stage": {
+    "dataset_candidate": "MI-TAGS",
+    "required_before_access": [
+      "URL and transcript-hash overlap audit against AnnoMI",
+      "locked unique-source test split",
+      "prespecified MITI-to-AnnoMI action mapping",
+      "ordinal Task A metrics"
+    ]
+  }
+}

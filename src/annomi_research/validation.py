@@ -15,6 +15,8 @@ from .constants import (
     QTRACE_CONFIG,
     RESEARCH_RESULTS,
     ROOT,
+    SAFE_MI_CONFIG,
+    SAFE_MI_PROTOCOL,
     SIMPLE_DATA,
     SIMPLE_MANIFEST,
 )
@@ -81,6 +83,16 @@ def validate_research(
         raise ValueError("Task C handoff count differs from registration")
     checks.append("Task A absolute prefixes and Task C strict handoffs")
 
+    safe_protocol = read_json(SAFE_MI_PROTOCOL)
+    safe_config = read_json(SAFE_MI_CONFIG)
+    if safe_protocol["status"] != "registered_exploratory_after_qtrace_v1":
+        raise ValueError("SAFE-MI protocol lost its exploratory designation")
+    if safe_config["status"] != "registered_exploratory_before_safe_mi_execution":
+        raise ValueError("SAFE-MI configuration is not registered")
+    if safe_config["protocol_id"] != safe_protocol["protocol_id"]:
+        raise ValueError("SAFE-MI protocol and configuration disagree")
+    checks.append("SAFE-MI v2 is explicitly registered as post-Q-TRACE exploratory work")
+
     split_manifest = read_json(split_manifest_path)
     validate_source_folds(corpus, split_manifest)
     checks.append("source-disjoint exhaustive outer folds")
@@ -106,6 +118,13 @@ def validate_research(
 
         validate_qtrace_evidence(qtrace_dir)
         checks.append("Q-TRACE Task A/C metrics reconstruct from prediction ledgers")
+
+    safe_dir = RESEARCH_RESULTS / "safe_mi_v2"
+    if safe_dir.exists():
+        from .safe_mi import validate_safe_mi_evidence
+
+        validate_safe_mi_evidence(safe_dir)
+        checks.append("SAFE-MI exploratory metrics reconstruct from prediction ledgers")
 
     neural_root = RESEARCH_RESULTS / "neural_v1"
     if neural_root.exists():

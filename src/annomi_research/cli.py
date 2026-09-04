@@ -14,6 +14,7 @@ from .io import read_json, write_json_create_only
 from .neural import run_environment_gate, run_neural, run_neural_smoke
 from .panel import run_panel_mi, run_panel_smoke
 from .qtrace import run_qtrace, run_qtrace_smoke
+from .safe_mi import run_safe_mi, run_safe_mi_smoke
 from .splits import build_source_folds
 from .validation import legacy_inventory, validate_research
 
@@ -71,6 +72,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     qtrace.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     qtrace.add_argument("--output-dir", type=Path)
+    safe_smoke = subparsers.add_parser(
+        "smoke-safe-mi", help="Run the SAFE-MI v2 CUDA engineering gate"
+    )
+    safe_smoke.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    safe = subparsers.add_parser(
+        "run-safe-mi", help="Run the exploratory SAFE-MI staged Task A/C campaign"
+    )
+    safe.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    safe.add_argument("--output-dir", type=Path)
     comparison = subparsers.add_parser(
         "compare-models", help="Run the registered paired source bootstrap"
     )
@@ -212,6 +222,28 @@ def main(argv: list[str] | None = None) -> int:
             f"{task_c['source_balanced_macro_f1']:.4f}; "
             f"joint_gate_pass={result['candidate_success_gate']['pass']}"
         )
+        return 0
+    if args.command == "smoke-safe-mi":
+        result = run_safe_mi_smoke(corpus, read_json(args.splits))
+        print(
+            "PASS SAFE-MI CUDA smoke: "
+            f"loss={result['loss']:.4f}; "
+            f"peak={result['peak_memory_bytes'] / (1024**3):.2f} GiB"
+        )
+        return 0
+    if args.command == "run-safe-mi":
+        result = run_safe_mi(
+            corpus,
+            read_json(args.splits),
+            output_dir=args.output_dir,
+        )
+        finalists = result["finalists"]
+        metrics = result["final"]["task_c_metrics"]
+        rendered = ", ".join(
+            f"{model}={metrics[model]['source_balanced_macro_f1']:.4f}"
+            for model in finalists
+        )
+        print(f"SAFE-MI final Task C macro-F1: {rendered}")
         return 0
     if args.command == "compare-models":
         result = run_comparison(args.config, args.output_dir)

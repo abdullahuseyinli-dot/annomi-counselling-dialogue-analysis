@@ -1,0 +1,186 @@
+{
+  "config_id": "annomi-safe-mi-v2",
+  "status": "registered_exploratory_before_safe_mi_execution",
+  "registered_date": "2026-09-04",
+  "protocol_id": "annomi-safe-mi-exploratory-source-cv-v2",
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false,
+    "max_length": 128,
+    "batch_size": 64,
+    "pooling": "attention-mask mean"
+  },
+  "turn_adapter": {
+    "method": "LoRA",
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": ["query", "value"],
+    "layers_to_transform": [8, 9, 10, 11],
+    "layers_pattern": "layer",
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.01,
+    "maximum_gradient_norm": 1.0,
+    "batch_size": 32,
+    "extraction_batch_size": 64,
+    "supervision": "fit-source current-turn therapist/client behaviour codes only"
+  },
+  "architecture": {
+    "hidden_size": 192,
+    "role_embedding_size": 16,
+    "dropout": 0.2,
+    "local_attention_window": 8,
+    "attention_heads": 4,
+    "attention_feedforward_size": 384,
+    "attention_layers": 2,
+    "quality_text_evidence_bound": 0.25,
+    "quality_evidence_decay": 0.9,
+    "maximum_transition_residual": 0.3,
+    "transition_dirichlet_strength": 8.0
+  },
+  "models": [
+    {
+      "model": "c0_frozen_gru",
+      "stage": "c_screen",
+      "encoder_variant": "frozen",
+      "context_model": "gru",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "c1_adapted_gru",
+      "stage": "c_screen",
+      "encoder_variant": "adapted",
+      "context_model": "gru",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "c2_frozen_attention",
+      "stage": "c_screen",
+      "encoder_variant": "frozen",
+      "context_model": "client_attention",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "c3_adapted_attention",
+      "stage": "c_screen",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "c4_adapted_attention_logit",
+      "stage": "c_screen",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "logit_adjusted"
+    },
+    {
+      "model": "m1_shared",
+      "stage": "asymmetric",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": true,
+      "task_c_loss": true,
+      "detach_task_a": false,
+      "discounted_task_a": false,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "m2_oneway",
+      "stage": "asymmetric",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": true,
+      "task_c_loss": true,
+      "detach_task_a": true,
+      "discounted_task_a": false,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "m3_discounted",
+      "stage": "asymmetric",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": true,
+      "task_c_loss": true,
+      "detach_task_a": true,
+      "discounted_task_a": true,
+      "action_loss": "weighted_ce"
+    },
+    {
+      "model": "t1_loss_only",
+      "stage": "residual",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce",
+      "transition_loss_weight": 0.2,
+      "transition_residual": false
+    },
+    {
+      "model": "t2_safe_residual",
+      "stage": "residual",
+      "encoder_variant": "adapted",
+      "context_model": "client_attention",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_loss": "weighted_ce",
+      "transition_loss_weight": 0.0,
+      "transition_residual": true
+    }
+  ],
+  "training": {
+    "screen_seeds": [17],
+    "final_seeds": [17, 42, 101, 314, 2718],
+    "inner_source_folds": 5,
+    "inner_split_seed": 20260904,
+    "validation_fold": 0,
+    "calibration_fold": 1,
+    "batch_size_sessions": 12,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "maximum_epochs": 40,
+    "minimum_epochs": 8,
+    "early_stopping_patience": 6,
+    "maximum_gradient_norm": 1.0,
+    "quality_loss_weight": 0.5,
+    "action_loss_weight": 1.0,
+    "auxiliary_behaviour_loss_weight": 0.2,
+    "transition_residual_l1_weight": 0.02,
+    "logit_adjustment_tau": 1.0,
+    "selection_brier_weight": 0.1,
+    "selection_task_a_log_loss_weight": 0.05,
+    "refit_fit_plus_validation": true,
+    "mixed_precision": "bfloat16"
+  },
+  "prototype_retrieval": {
+    "enabled": true,
+    "neighbours": [3, 5, 9],
+    "mixture_weights": [0.0, 0.1, 0.2, 0.3, 0.5],
+    "exclude_same_source": true,
+    "exclude_normalized_text_match": true
+  },
+  "calibration": {
+    "temperature_bounds": [0.25, 4.0],
+    "prediction_set_alpha": 0.2,
+    "prediction_set_method": "split source-level CRC; cross-fit extension reported separately"
+  },
+  "inference": {
+    "bootstrap_resamples": 5000,
+    "bootstrap_seed": 20260904,
+    "cluster_unit": "source_id"
+  }
+}
