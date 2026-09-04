@@ -17,3 +17,12 @@ identical multinomial logistic objective with scikit-learn's `newton-cholesky` o
 L-BFGS emits a convergence warning. Every selected and final fit records which optimizer completed.
 This is a numerical engineering fallback, not a change to the model, folds, targets, hyperparameter
 grid, endpoint, or success gate.
+
+## Successful full attempt: 2026-09-04
+
+The restarted invocation used commit `937cd4f4ebd150e8e3d8e23c0ea70f8ea28d41a7` and
+configuration hash `aaa9a31df44094a0e7cecae2d3f908c7ea38ee7035abf05d8b35e7b86115076b`.
+It completed all 14 task-by-outer-transcript folds and all five final PANEL-MI seeds in 105.53
+seconds of selection and head fitting, after frozen-embedding extraction. The evidence validator
+reconstructed every metric, seed ensemble, paired cluster interval, and exact sign-flip result from
+the saved ledgers. The registered PANEL-MI candidate gate failed; no conditional pass was applied.
