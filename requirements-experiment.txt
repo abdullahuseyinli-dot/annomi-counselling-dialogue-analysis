@@ -37,4 +37,4 @@ bert-score>=0.3.13,<0.4
 
 # Optional / research extras
 bertopic>=0.16,<0.18
-hdbscan>=0.8.39,<0.9
+hdbscan>=0.8.44,<0.9
