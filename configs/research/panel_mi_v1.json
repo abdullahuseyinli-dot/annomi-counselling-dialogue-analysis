@@ -1,0 +1,150 @@
+{
+  "config_id": "annomi-panel-mi-v1",
+  "status": "registered_before_any_multiannotator_model_evaluation",
+  "registered_date": "2026-09-04",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "study": {
+    "name": "seven-transcript multi-annotator label-distribution study",
+    "unit": "utterance",
+    "dependency_cluster": "transcript_id",
+    "outer_design": "exhaustive leave-one-transcript-out",
+    "outer_transcripts": [7, 27, 55, 56, 66, 109, 130],
+    "expected_items": 428,
+    "expected_annotations_per_item": 10,
+    "expected_anonymous_annotators": 10,
+    "claims_bounded_to_observed_panel_and_seven_source_dialogues": true,
+    "annotations_are_not_independent_evaluation_units": true
+  },
+  "tasks": {
+    "therapist": {
+      "label_column": "main_therapist_behaviour",
+      "labels": ["reflection", "question", "therapist_input", "other"],
+      "expected_items": 216,
+      "analysis_role": "primary"
+    },
+    "client": {
+      "label_column": "client_talk_type",
+      "labels": ["change", "neutral", "sustain"],
+      "expected_items": 212,
+      "analysis_role": "preregistered_secondary_replication"
+    }
+  },
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false,
+    "frozen": true,
+    "maximum_length": 128,
+    "input": "role-prefixed current utterance only",
+    "pooling": "attention-mask-weighted mean of final hidden states",
+    "outer_test_text_used_for_encoder_training": false
+  },
+  "preprocessing": {
+    "pca_components": 32,
+    "pca_whiten": false,
+    "post_pca_standardization": true,
+    "fit_on_active_training_partition_only": true
+  },
+  "models": {
+    "transcript_balanced_prior": {
+      "description": "average of per-training-transcript empirical vote distributions",
+      "hyperparameters": "none"
+    },
+    "hard_linear": {
+      "description": "multinomial linear head trained on deterministic vote plurality",
+      "recipes": [
+        {"recipe_id": "hard_c0.01", "inverse_l2": 0.01},
+        {"recipe_id": "hard_c0.1", "inverse_l2": 0.1},
+        {"recipe_id": "hard_c1", "inverse_l2": 1.0},
+        {"recipe_id": "hard_c10", "inverse_l2": 10.0}
+      ]
+    },
+    "soft_linear": {
+      "description": "multinomial linear label-distribution head trained on all vote mass",
+      "recipes": [
+        {"recipe_id": "soft_c0.01", "inverse_l2": 0.01},
+        {"recipe_id": "soft_c0.1", "inverse_l2": 0.1},
+        {"recipe_id": "soft_c1", "inverse_l2": 1.0},
+        {"recipe_id": "soft_c10", "inverse_l2": 10.0}
+      ]
+    },
+    "panel_mi": {
+      "description": "shared distribution head plus centered low-rank item-by-annotator deviations, averaged across the observed panel at inference",
+      "base_initialization": "soft_linear with inverse_l2=1.0 fitted on the active training partition",
+      "individual_vote_loss_weight": 1.0,
+      "aggregate_distribution_loss_weight": 1.0,
+      "recipes": [
+        {"recipe_id": "panel_rank2_shrink0.01", "rank": 2, "annotator_shrinkage": 0.01},
+        {"recipe_id": "panel_rank2_shrink0.1", "rank": 2, "annotator_shrinkage": 0.1},
+        {"recipe_id": "panel_rank4_shrink0.01", "rank": 4, "annotator_shrinkage": 0.01},
+        {"recipe_id": "panel_rank4_shrink0.1", "rank": 4, "annotator_shrinkage": 0.1}
+      ]
+    }
+  },
+  "selection": {
+    "design": "leave-one-transcript-out within the six outer-training transcripts",
+    "seed": 17,
+    "metric": "transcript_balanced_vote_log_score",
+    "direction": "minimize",
+    "tie_break": "lexicographically_smallest_recipe_id",
+    "final_epoch_rule_for_panel_mi": "rounded_median_inner_best_epoch",
+    "model_families_selected_separately": true
+  },
+  "training": {
+    "transcript_balanced_item_weights": true,
+    "linear_solver": "scikit-learn lbfgs multinomial logistic regression",
+    "linear_max_iterations": 2000,
+    "panel_optimizer": "AdamW",
+    "panel_learning_rate": 0.01,
+    "panel_base_weight_decay": 0.001,
+    "panel_maximum_epochs": 400,
+    "panel_minimum_epochs": 40,
+    "panel_early_stopping_patience": 40,
+    "panel_gradient_norm": 5.0,
+    "panel_numeric_precision": "float32",
+    "test_votes_used_for_training_or_selection": false
+  },
+  "final_seeds": [17, 42, 101, 314, 2718],
+  "metrics": {
+    "primary": "transcript_balanced_vote_log_score",
+    "secondary": [
+      "transcript_balanced_vote_brier",
+      "transcript_balanced_jensen_shannon_divergence",
+      "transcript_balanced_plurality_macro_f1",
+      "vote_entropy_prediction_spearman",
+      "vote_entropy_mean_absolute_error"
+    ],
+    "panel_diagnostic": "annotator_head_disagreement_to_vote_entropy_spearman",
+    "logarithm_base": "natural",
+    "entropy_normalization": "divide by natural log of task class count"
+  },
+  "inference": {
+    "primary_comparison": "panel_mi minus soft_linear on therapist vote log score",
+    "secondary_comparisons": [
+      "soft_linear minus transcript_balanced_prior",
+      "soft_linear minus hard_linear",
+      "client-task analogues"
+    ],
+    "cluster_unit": "held-out transcript",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260904,
+    "confidence_level": 0.95,
+    "exact_sign_flip_test": true,
+    "seed_averaged_probabilities_before_inference": true,
+    "no_item_or_annotation_level_iid_inference": true
+  },
+  "candidate_success_gate": {
+    "comparison": "panel_mi versus soft_linear on therapist task",
+    "vote_log_score_delta_must_be_negative": true,
+    "cluster_bootstrap_upper_bound_must_be_below_zero": true,
+    "exact_one_sided_sign_flip_p_at_most": 0.05,
+    "minimum_improved_transcripts": 5,
+    "jensen_shannon_divergence_must_not_increase": true
+  },
+  "claim_limits": [
+    "Observed ten-person anonymous panel, not a universal annotator population",
+    "Seven public demonstration transcripts, not a representative clinical cohort",
+    "Prediction of coding distributions, not diagnosis or treatment guidance",
+    "No state-of-the-art or algorithmic-novelty claim without external benchmarks and replication"
+  ]
+}

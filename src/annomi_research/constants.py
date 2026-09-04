@@ -10,11 +10,13 @@ FULL_MANIFEST = ROOT / "data" / "source_manifest_full.json"
 PROTOCOL = ROOT / "configs" / "research" / "protocol_v1.json"
 NEURAL_CONFIG = ROOT / "configs" / "research" / "neural_v1.json"
 DASH_CONFIG = ROOT / "configs" / "research" / "dash_mi_v1.json"
+PANEL_CONFIG = ROOT / "configs" / "research" / "panel_mi_v1.json"
 LEGACY_SPLIT = ROOT / "results" / "protocol" / "official_split.json"
 RESEARCH_RESULTS = ROOT / "results" / "research"
 ARTIFACTS = ROOT / "artifacts"
 
 LABELS = ("reflection", "question", "therapist_input", "other")
+CLIENT_LABELS = ("change", "neutral", "sustain")
 LABEL_COLUMNS = (
     "therapist_input_exists",
     "therapist_input_subtype",
