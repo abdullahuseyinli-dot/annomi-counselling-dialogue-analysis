@@ -7,6 +7,7 @@ from .audit import build_data_audit
 from .baselines import run_baselines
 from .constants import FULL_DATA, RESEARCH_RESULTS, SIMPLE_DATA
 from .data import load_corpus
+from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
 from .neural import run_environment_gate, run_neural, run_neural_smoke
 from .splits import build_source_folds
@@ -42,6 +43,11 @@ def _parser() -> argparse.ArgumentParser:
     )
     neural.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     neural.add_argument("--output-dir", type=Path)
+    comparison = subparsers.add_parser(
+        "compare-models", help="Run the registered paired source bootstrap"
+    )
+    comparison.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
+    comparison.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     return parser
 
 
@@ -100,6 +106,18 @@ def main(argv: list[str] | None = None) -> int:
             f"{args.model}: source-balanced macro-F1="
             f"{metrics['source_balanced_macro_f1']:.4f}; "
             f"ordinary macro-F1={metrics['utterance_macro_f1']:.4f}"
+        )
+        return 0
+    if args.command == "compare-models":
+        result = run_comparison(args.config, args.output_dir)
+        delta = result["point_deltas_candidate_minus_baseline"][
+            "source_balanced_macro_f1"
+        ]
+        interval = result["bootstrap"]["intervals"]["source_balanced_macro_f1"]
+        print(
+            f"paired source macro-F1 delta={delta:.4f}; "
+            f"95% CI=[{interval['low']:.4f}, {interval['high']:.4f}]; "
+            f"gate_pass={result['candidate_success_gate']['pass']}"
         )
         return 0
     raise AssertionError(f"Unhandled command: {args.command}")

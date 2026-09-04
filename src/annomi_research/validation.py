@@ -78,6 +78,14 @@ def validate_research(
         for result_dir in sorted(path.parent for path in neural_root.glob("*/summary.json")):
             validate_neural_evidence(result_dir)
             checks.append(f"neural metrics reconstruct for {result_dir.name}")
+
+    comparison_root = RESEARCH_RESULTS / "comparisons"
+    if comparison_root.exists():
+        from .inference import validate_comparison_evidence
+
+        for result_dir in sorted(path.parent for path in comparison_root.glob("*/summary.json")):
+            validate_comparison_evidence(result_dir)
+            checks.append(f"paired-source inference reconstructs for {result_dir.name}")
     return checks
 
 
