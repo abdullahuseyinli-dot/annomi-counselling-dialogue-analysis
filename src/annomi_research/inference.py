@@ -154,6 +154,36 @@ def _per_source_table(
     )
 
 
+def _per_seed_f1_deltas(
+    config: dict[str, Any],
+    baseline_f1: float,
+) -> tuple[dict[str, float], str]:
+    candidate_summary = read_json(ROOT / config["candidate"]["per_seed_summary"])
+    candidate_seeds = candidate_summary["metrics"]["per_seed"]
+    baseline_summary_path = config["baseline"].get("per_seed_summary")
+    if baseline_summary_path is None:
+        return (
+            {
+                seed: metrics["source_balanced_macro_f1"] - baseline_f1
+                for seed, metrics in candidate_seeds.items()
+            },
+            "candidate seed minus baseline ensemble",
+        )
+
+    baseline_summary = read_json(ROOT / baseline_summary_path)
+    baseline_seeds = baseline_summary["metrics"]["per_seed"]
+    if set(candidate_seeds) != set(baseline_seeds):
+        raise ValueError("Candidate and baseline summaries do not contain matching seeds")
+    return (
+        {
+            seed: candidate_seeds[seed]["source_balanced_macro_f1"]
+            - baseline_seeds[seed]["source_balanced_macro_f1"]
+            for seed in sorted(candidate_seeds, key=int)
+        },
+        "candidate seed minus matching baseline seed",
+    )
+
+
 def run_comparison(
     config_path: Path = DEFAULT_CONFIG,
     output_dir: Path = DEFAULT_OUTPUT,
@@ -192,12 +222,8 @@ def run_comparison(
         for column in draws.columns
         if column.startswith("delta_")
     }
-    candidate_summary = read_json(ROOT / config["candidate"]["per_seed_summary"])
     baseline_f1 = baseline_metrics["source_balanced_macro_f1"]
-    per_seed_deltas = {
-        seed: metrics["source_balanced_macro_f1"] - baseline_f1
-        for seed, metrics in candidate_summary["metrics"]["per_seed"].items()
-    }
+    per_seed_deltas, per_seed_contrast = _per_seed_f1_deltas(config, baseline_f1)
     class_collapse = any(
         candidate_metrics["per_class"][label]["f1"] == 0.0 for label in LABELS
     )
@@ -238,7 +264,9 @@ def run_comparison(
         output_dir / "per_source.csv", source_buffer.getvalue().encode("utf-8")
     )
     summary = {
-        "result_id": "annomi-roberta-utterance-vs-tfidf-paired-source-v1",
+        "result_id": config.get(
+            "result_id", "annomi-roberta-utterance-vs-tfidf-paired-source-v1"
+        ),
         "protocol_id": protocol["protocol_id"],
         "code_commit": git_commit(ROOT),
         "config_sha256": sha256_file(config_path),
@@ -259,6 +287,7 @@ def run_comparison(
             "draw_ledger_sha256": draw_hash,
         },
         "per_seed_f1_deltas": per_seed_deltas,
+        "per_seed_contrast": per_seed_contrast,
         "positive_seed_count": sum(delta > 0.0 for delta in per_seed_deltas.values()),
         "per_source_descriptive": {
             "positive_macro_f1_sources": int((per_source["delta_macro_f1"] > 0).sum()),
