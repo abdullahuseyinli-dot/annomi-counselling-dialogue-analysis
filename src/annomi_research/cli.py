@@ -11,6 +11,7 @@ from .dash import run_dash_mi, run_dash_smoke
 from .data import load_corpus
 from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
+from .mi_tags_external import run_mi_tags_sample_audit
 from .neural import run_environment_gate, run_neural, run_neural_smoke
 from .panel import run_panel_mi, run_panel_smoke
 from .qtrace import run_qtrace, run_qtrace_smoke
@@ -30,6 +31,9 @@ def _parser() -> argparse.ArgumentParser:
     subparsers.add_parser("audit-data", help="Build the privacy-safe Gate 0 audit")
     subparsers.add_parser("make-splits", help="Freeze five source-disjoint outer folds")
     subparsers.add_parser("validate", help="Validate the research evidence contract")
+    subparsers.add_parser(
+        "audit-mi-tags", help="Audit the pinned official MI-TAGS public samples for overlap"
+    )
     baseline = subparsers.add_parser("run-baselines", help="Run nested source-grouped baselines")
     baseline.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     subparsers.add_parser("check-neural-env", help="Verify and record the CUDA/BF16 gate")
@@ -105,6 +109,16 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate":
         for check in validate_research(corpus):
             print(f"PASS  {check}")
+        return 0
+    if args.command == "audit-mi-tags":
+        result = run_mi_tags_sample_audit(corpus)
+        summary = result["summary"]
+        print(
+            "MI-TAGS sample audit: "
+            f"records={summary['sample_records']}; "
+            f"quarantined={summary['quarantined_records']}; "
+            "full_external_evaluation=blocked"
+        )
         return 0
     if args.command == "run-baselines":
         result = run_baselines(corpus, read_json(args.splits))

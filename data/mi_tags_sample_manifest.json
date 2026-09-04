@@ -1,0 +1,20 @@
+{
+  "dataset": "MI-TAGS public samples",
+  "upstream_repository": "https://github.com/Advanced-Reality-Lab/MI-TAGS",
+  "upstream_commit": "a4c3fca2686a7e6a2ac9b19f35e43b45d08b56a6",
+  "retrieved_date": "2026-09-04",
+  "protocol_commit_before_retrieval": "eb75ddcab3d65e31e0b76366baa62add9ebc1991",
+  "data_handling": "Raw sample dialogue text is retained under data/raw and excluded from Git.",
+  "files": {
+    "sample_utterances.csv": {
+      "sha256": "2cf1a8cddc459962a3f5fbf0c839a966d271172b3ae3aed782bade01c2e4ec9f",
+      "bytes": 1783,
+      "rows": 10
+    },
+    "sample_global_mitis.csv": {
+      "sha256": "a917bd3f6cff0400c5d44499f12cd8e65a60f5ad0fc57277d4d2cb245e5efda1",
+      "bytes": 36841,
+      "rows": 2
+    }
+  }
+}

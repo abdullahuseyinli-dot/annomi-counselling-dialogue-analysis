@@ -136,6 +136,12 @@ def validate_research(
         validate_safe_mi_evidence(safe_dir)
         checks.append("SAFE-MI exploratory metrics reconstruct from prediction ledgers")
 
+    from .mi_tags_external import validate_mi_tags_sample_audit
+
+    validate_mi_tags_sample_audit(corpus)
+    if (RESEARCH_RESULTS / "mi_tags_external_v1" / "sample_overlap_audit.json").exists():
+        checks.append("MI-TAGS public-sample overlap evidence and claim boundary")
+
     neural_root = RESEARCH_RESULTS / "neural_v1"
     if neural_root.exists():
         from .neural import validate_neural_evidence
