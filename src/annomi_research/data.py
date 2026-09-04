@@ -5,9 +5,10 @@ import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
-from .constants import FULL_DATA, KEY_COLUMNS, LABEL_COLUMNS, SIMPLE_DATA
+from .constants import FULL_DATA, KEY_COLUMNS, LABEL_COLUMNS, LABELS, SIMPLE_DATA
 from .io import sha256_text
 
 
@@ -109,6 +110,7 @@ def build_therapist_examples(corpus: Corpus, context_turns: int = 10) -> pd.Data
                         *reversed(prior),
                     ]
                 )
+                recent_history = "\n".join(reversed(prior))
                 examples.append(
                     {
                         "transcript_id": int(row.transcript_id),
@@ -118,6 +120,7 @@ def build_therapist_examples(corpus: Corpus, context_turns: int = 10) -> pd.Data
                         "utterance_text": str(row.utterance_text),
                         "context_text": context,
                         "target_first_context_text": target_first_context,
+                        "recent_history_text": recent_history,
                         "normalized_text": str(row.normalized_text),
                     }
                 )
@@ -125,4 +128,47 @@ def build_therapist_examples(corpus: Corpus, context_turns: int = 10) -> pd.Data
     result = pd.DataFrame(examples)
     if not result["label"].isin({"reflection", "question", "therapist_input", "other"}).all():
         raise ValueError("Unexpected therapist label")
+    return result
+
+
+def add_therapist_vote_distributions(
+    examples: pd.DataFrame,
+    annotations: pd.DataFrame,
+) -> pd.DataFrame:
+    """Attach empirical annotator distributions without exposing annotator identity."""
+    valid = annotations[annotations["main_therapist_behaviour"].isin(LABELS)].copy()
+    if valid.empty:
+        raise ValueError("No therapist-behaviour annotations are available")
+    counts = (
+        valid.groupby([*KEY_COLUMNS, "main_therapist_behaviour"], sort=True)
+        .size()
+        .unstack(fill_value=0)
+        .reindex(columns=LABELS, fill_value=0)
+    )
+    annotation_count = counts.sum(axis=1)
+    if (annotation_count <= 0).any():
+        raise ValueError("A therapist utterance has no valid annotations")
+    probabilities = counts.div(annotation_count, axis=0)
+    vote_frame = probabilities.rename(
+        columns={label: f"vote_prob_{label}" for label in LABELS}
+    ).reset_index()
+    vote_frame["annotation_count"] = annotation_count.to_numpy(dtype=int)
+    probability_values = probabilities.to_numpy(dtype=float)
+    log_probability = np.zeros_like(probability_values)
+    np.log(probability_values, out=log_probability, where=probability_values > 0)
+    vote_frame["vote_entropy"] = -(
+        probability_values * log_probability
+    ).sum(axis=1) / np.log(len(LABELS))
+
+    result = examples.merge(vote_frame, on=list(KEY_COLUMNS), how="left", validate="one_to_one")
+    vote_columns = [f"vote_prob_{label}" for label in LABELS]
+    if result[vote_columns].isna().any(axis=None):
+        raise ValueError("At least one therapist example lacks an annotation distribution")
+    if not np.allclose(result[vote_columns].sum(axis=1), 1.0, atol=1e-12):
+        raise ValueError("Therapist annotation distributions do not sum to one")
+    label_indices = np.asarray([LABELS.index(label) for label in result["label"]])
+    result["hard_label_vote_probability"] = result[vote_columns].to_numpy()[
+        np.arange(len(result)), label_indices
+    ]
+    result["annotator_disagreement"] = result[vote_columns].max(axis=1).lt(1.0)
     return result

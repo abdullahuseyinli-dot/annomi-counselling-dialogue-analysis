@@ -6,6 +6,7 @@ from pathlib import Path
 from .audit import build_data_audit
 from .baselines import run_baselines
 from .constants import FULL_DATA, RESEARCH_RESULTS, SIMPLE_DATA
+from .dash import run_dash_mi, run_dash_smoke
 from .data import load_corpus
 from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
@@ -43,6 +44,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     neural.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     neural.add_argument("--output-dir", type=Path)
+    dash_smoke = subparsers.add_parser(
+        "smoke-dash", help="Run the CUDA DASH-MI engineering gate"
+    )
+    dash_smoke.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    dash = subparsers.add_parser(
+        "run-dash", help="Run nested source-grouped DASH-MI"
+    )
+    dash.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    dash.add_argument("--output-dir", type=Path)
     comparison = subparsers.add_parser(
         "compare-models", help="Run the registered paired source bootstrap"
     )
@@ -104,6 +114,27 @@ def main(argv: list[str] | None = None) -> int:
         metrics = result["metrics"]["seed_ensemble"]
         print(
             f"{args.model}: source-balanced macro-F1="
+            f"{metrics['source_balanced_macro_f1']:.4f}; "
+            f"ordinary macro-F1={metrics['utterance_macro_f1']:.4f}"
+        )
+        return 0
+    if args.command == "smoke-dash":
+        result = run_dash_smoke(corpus, read_json(args.splits))
+        print(
+            f"PASS DASH-MI CUDA smoke: "
+            f"peak={result['peak_memory_bytes'] / (1024**3):.2f} GiB; "
+            f"steps={result['optimizer_steps']}"
+        )
+        return 0
+    if args.command == "run-dash":
+        result = run_dash_mi(
+            corpus,
+            read_json(args.splits),
+            output_dir=args.output_dir,
+        )
+        metrics = result["metrics"]["seed_ensemble"]
+        print(
+            f"dash_mi: source-balanced macro-F1="
             f"{metrics['source_balanced_macro_f1']:.4f}; "
             f"ordinary macro-F1={metrics['utterance_macro_f1']:.4f}"
         )

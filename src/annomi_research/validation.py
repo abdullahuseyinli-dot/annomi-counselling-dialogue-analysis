@@ -76,7 +76,12 @@ def validate_research(
         from .neural import validate_neural_evidence
 
         for result_dir in sorted(path.parent for path in neural_root.glob("*/summary.json")):
-            validate_neural_evidence(result_dir)
+            if result_dir.name == "dash_mi":
+                from .dash import validate_dash_evidence
+
+                validate_dash_evidence(result_dir)
+            else:
+                validate_neural_evidence(result_dir)
             checks.append(f"neural metrics reconstruct for {result_dir.name}")
 
     comparison_root = RESEARCH_RESULTS / "comparisons"

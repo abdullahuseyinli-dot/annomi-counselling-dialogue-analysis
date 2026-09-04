@@ -1,0 +1,106 @@
+{
+  "config_id": "annomi-dash-mi-v1",
+  "status": "registered_before_dash_mi_evaluation",
+  "registered_date": "2026-09-04",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "development_status": "adaptive_to_completed_roberta_controls_requires_external_replication",
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false
+  },
+  "architecture": {
+    "name": "disagreement-aware source-hardened target-conditioned residual context",
+    "short_name": "DASH-MI",
+    "target_max_length": 192,
+    "history_order": "preceding turns in reverse chronological order",
+    "attention_heads": 8,
+    "dropout": 0.1,
+    "initial_gate_bias": -2.0,
+    "zero_initialize_context_residual_output": true,
+    "target_auxiliary_loss_weight": 1.0,
+    "context_example_dropout": 0.15,
+    "target_path_receives_history": false,
+    "context_is_ablatable_at_inference": true
+  },
+  "recipes": [
+    {
+      "recipe_id": "dash_hist128_hard",
+      "encoder_learning_rate": 0.00001,
+      "head_learning_rate": 0.00005,
+      "history_max_length": 128,
+      "disagreement_mix": 0.0
+    },
+    {
+      "recipe_id": "dash_hist256_hard",
+      "encoder_learning_rate": 0.00001,
+      "head_learning_rate": 0.00005,
+      "history_max_length": 256,
+      "disagreement_mix": 0.0
+    },
+    {
+      "recipe_id": "dash_hist128_votes",
+      "encoder_learning_rate": 0.00001,
+      "head_learning_rate": 0.00005,
+      "history_max_length": 128,
+      "disagreement_mix": 1.0
+    },
+    {
+      "recipe_id": "dash_hist256_votes",
+      "encoder_learning_rate": 0.00001,
+      "head_learning_rate": 0.00005,
+      "history_max_length": 256,
+      "disagreement_mix": 1.0
+    }
+  ],
+  "selection": {
+    "seed": 17,
+    "inner_folds": 3,
+    "metric": "source_balanced_macro_f1",
+    "tie_break": "lexicographically_smallest_recipe_id",
+    "final_epoch_rule": "rounded_median_inner_best_epoch"
+  },
+  "final_seeds": [17, 42, 101, 314, 2718],
+  "training": {
+    "optimizer": "AdamW with discriminative encoder and head rates",
+    "weight_decay": 0.01,
+    "maximum_epochs": 8,
+    "minimum_epochs": 2,
+    "early_stopping_patience": 2,
+    "train_batch_size": 8,
+    "eval_batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "maximum_gradient_norm": 1.0,
+    "warmup_fraction": 0.1,
+    "loss_weighting": "active-training-only source-balanced times hard-class-balanced",
+    "mixed_precision": "bfloat16",
+    "deterministic_algorithms": "warn_only",
+    "test_partition_used_for_selection": false
+  },
+  "disagreement_supervision": {
+    "source": "AnnoMI-full main_therapist_behaviour votes",
+    "ten_vote_subset_therapist_utterances": 216,
+    "ten_vote_subset_transcripts": 7,
+    "hard_recipe_target": "one-hot AnnoMI-simple label",
+    "votes_recipe_target": "empirical vote distribution when available, otherwise one-hot",
+    "annotator_identity_is_a_feature": false,
+    "outer_test_votes_used_for_training_or_selection": false
+  },
+  "input_contract": {
+    "causal_only": true,
+    "context_turns": 10,
+    "target_input": "current therapist utterance only",
+    "history_input": "preceding role-marked turns only",
+    "history_truncation": "right side only after recent-first ordering",
+    "forbidden_features": [
+      "future utterances",
+      "eventual transcript length",
+      "future-normalized turn position",
+      "video title",
+      "mi_quality",
+      "topic",
+      "gold prior behaviour labels",
+      "annotator identity"
+    ]
+  }
+}

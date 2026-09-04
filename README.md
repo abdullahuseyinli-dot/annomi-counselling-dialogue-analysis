@@ -94,6 +94,8 @@ python -m annomi_research run-baselines
 uv sync --extra dev --extra neural
 python -m annomi_research smoke-neural --model roberta_utterance
 python -m annomi_research run-neural --model roberta_utterance
+python -m annomi_research smoke-dash
+python -m annomi_research run-dash
 ```
 
 The downloader verifies each upstream commit, byte count, SHA-256 digest, schema, row
