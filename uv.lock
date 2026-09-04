@@ -3,12 +3,12 @@ revision = 3
 requires-python = ">=3.11, <3.13"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version < '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
 ]
 conflicts = [[
@@ -28,9 +28,9 @@ dependencies = [
     { name = "psutil" },
     { name = "pyyaml" },
     { name = "safetensors" },
-    { name = "torch", version = "2.14.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "torch", version = "2.14.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "torch", version = "2.14.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/8d/75/94cd5d389649578aca399e5aa822637eec18319a1dadc400ffe2f9a7493f/accelerate-1.14.0.tar.gz", hash = "sha256:41b9c4377a54e0b460a959b0defa1b736e4ca0a2373252d9a539964c2afe3c8d", size = 412167, upload-time = "2026-06-11T13:45:52.326Z" }
 wheels = [
@@ -148,7 +148,7 @@ neural = [
     { name = "datasets" },
     { name = "peft" },
     { name = "sentencepiece" },
-    { name = "torch", version = "2.14.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" } },
+    { name = "torch", version = "2.13.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" } },
     { name = "transformers" },
 ]
 neural-cpu = [
@@ -156,8 +156,8 @@ neural-cpu = [
     { name = "datasets" },
     { name = "peft" },
     { name = "sentencepiece" },
-    { name = "torch", version = "2.14.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "torch", version = "2.14.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
     { name = "transformers" },
 ]
 
@@ -187,8 +187,8 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.15,<2" },
     { name = "sentencepiece", marker = "extra == 'neural'", specifier = ">=0.2,<0.3" },
     { name = "sentencepiece", marker = "extra == 'neural-cpu'", specifier = ">=0.2,<0.3" },
-    { name = "torch", marker = "extra == 'neural'", specifier = "==2.14.0", index = "https://download.pytorch.org/whl/cu130", conflict = { package = "annomi-counselling-dialogue-analysis", extra = "neural" } },
-    { name = "torch", marker = "extra == 'neural-cpu'", specifier = "==2.14.0", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "annomi-counselling-dialogue-analysis", extra = "neural-cpu" } },
+    { name = "torch", marker = "extra == 'neural'", specifier = "==2.13.0", index = "https://download.pytorch.org/whl/cu130", conflict = { package = "annomi-counselling-dialogue-analysis", extra = "neural" } },
+    { name = "torch", marker = "extra == 'neural-cpu'", specifier = "==2.13.0", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "annomi-counselling-dialogue-analysis", extra = "neural-cpu" } },
     { name = "transformers", marker = "extra == 'neural'", specifier = ">=4.55,<6" },
     { name = "transformers", marker = "extra == 'neural-cpu'", specifier = ">=4.55,<6" },
 ]
@@ -1764,15 +1764,15 @@ wheels = [
 
 [[package]]
 name = "nvidia-cudnn-cu13"
-version = "9.24.0.43"
+version = "9.20.0.48"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "nvidia-cublas", marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ca/30/7c257e3d5cb4fecb147b93895c66e29c93f8e76d74b45bb418ff0587c4ec/nvidia_cudnn_cu13-9.24.0.43-py3-none-manylinux_2_27_aarch64.whl", hash = "sha256:a6812a554a1ff0413e9c52b84c26c050380649ab9615f9c16bded368ce9f421f", size = 650976863, upload-time = "2026-07-02T16:23:39.248Z" },
-    { url = "https://files.pythonhosted.org/packages/5c/ba/791cffd048fe5b044e620df55267e3e95c0e6e07d50b41e377c03dfc910f/nvidia_cudnn_cu13-9.24.0.43-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:71f181cd810e90f9b6023b01186fe82d13d65f0ec098581ee201d39fad769e4b", size = 553099438, upload-time = "2026-07-02T16:27:42.58Z" },
-    { url = "https://files.pythonhosted.org/packages/31/23/1dd3aa15cc4ab62c8fc88f8049ef137bc44c17892f5577bc80d994941f77/nvidia_cudnn_cu13-9.24.0.43-py3-none-win_amd64.whl", hash = "sha256:67a7273b5cf062f9446fd76cf464351a1c0f66501e6cd78f6675c0d604d8ac87", size = 412314771, upload-time = "2026-07-02T16:31:07.973Z" },
+    { url = "https://files.pythonhosted.org/packages/56/c5/83384d846b2fd17c44bd499b36c75a45ed4f095fbbb2252294e89cea5c5c/nvidia_cudnn_cu13-9.20.0.48-py3-none-manylinux_2_27_aarch64.whl", hash = "sha256:e31454ae00094b0c55319d9d15b6fa2fc50a9e1c0f5c8c80fb75258234e731e1", size = 444574296, upload-time = "2026-03-09T19:28:27.751Z" },
+    { url = "https://files.pythonhosted.org/packages/6e/5e/edb9c0ae051602c3ccaffe424256463636d639e27d7f302dde9975ef9e7a/nvidia_cudnn_cu13-9.20.0.48-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:0c45dd8eeb50b603f07995b1b300c62ffe6a1980482b82b3bcf94a4ca9d49304", size = 366173588, upload-time = "2026-03-09T19:29:34.474Z" },
+    { url = "https://files.pythonhosted.org/packages/78/39/21507455b1bca8b5702a9e9fc6ce73735f216f558dac2c9ede58e4d456b8/nvidia_cudnn_cu13-9.20.0.48-py3-none-win_amd64.whl", hash = "sha256:af8139732b99c0118be65ea5aac97f0d46018f8c552889e49d2fb0c6261a4a24", size = 350712614, upload-time = "2026-03-09T19:31:11.398Z" },
 ]
 
 [[package]]
@@ -1847,11 +1847,11 @@ wheels = [
 
 [[package]]
 name = "nvidia-nccl-cu13"
-version = "2.30.7"
+version = "2.29.7"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d1/21/a73174c6157101bdf1ffc22b517f76ff0082613989dd9bc8f43e8034caac/nvidia_nccl_cu13-2.30.7-py3-none-manylinux_2_18_aarch64.whl", hash = "sha256:ca786ffa5a647c75d4d1f5cc72a6c4f537947e2ba8823d7c8aaf768e7a7b9f77", size = 215983881, upload-time = "2026-06-09T03:23:15.633Z" },
-    { url = "https://files.pythonhosted.org/packages/3f/34/c500f90c7ae641b8e0f98965b36b8a7ac79cc8b296e8d251fe3eb592ee54/nvidia_nccl_cu13-2.30.7-py3-none-manylinux_2_18_x86_64.whl", hash = "sha256:cefa7fdb9710efd0f39c5f1be1d61ff6fc9a996c451265bd7fbdcf9455ed4b50", size = 215965170, upload-time = "2026-06-09T03:23:39.73Z" },
+    { url = "https://files.pythonhosted.org/packages/72/0d/daf50d44177ee0cbc7ff0a0c91eb5ff676c82be42f9a970bc7597f440c3a/nvidia_nccl_cu13-2.29.7-py3-none-manylinux_2_18_aarch64.whl", hash = "sha256:674a12383e3c38a1bcccae7d4f3633b37852230b6047883cb2f4c2d1b36d9bf5", size = 206014712, upload-time = "2026-03-03T05:34:20.843Z" },
+    { url = "https://files.pythonhosted.org/packages/67/f4/58e4e91b6919367c7aafb8e36fce9aad1a3047e536bf7e2fd560927d3a4c/nvidia_nccl_cu13-2.29.7-py3-none-manylinux_2_18_x86_64.whl", hash = "sha256:edd81538446786ec3b73972543e53bb43bcaf0bfc8ef76cb679fcc390ffe136d", size = 205976000, upload-time = "2026-03-03T05:36:24.472Z" },
 ]
 
 [[package]]
@@ -1970,9 +1970,9 @@ dependencies = [
     { name = "psutil" },
     { name = "pyyaml" },
     { name = "safetensors" },
-    { name = "torch", version = "2.14.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "torch", version = "2.14.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
-    { name = "torch", version = "2.14.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
+    { name = "torch", version = "2.13.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
     { name = "tqdm" },
     { name = "transformers" },
 ]
@@ -2817,7 +2817,7 @@ wheels = [
 
 [[package]]
 name = "torch"
-version = "2.14.0"
+version = "2.13.0"
 source = { registry = "https://download.pytorch.org/whl/cpu" }
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'darwin'",
@@ -2833,13 +2833,13 @@ dependencies = [
     { name = "typing-extensions", marker = "(sys_platform == 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
 ]
 wheels = [
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:1040f689e560ba6e02a0a147dfb9ec8dfdd3e4486ebec4b24dc8fdaa258fa9ba", upload-time = "2026-09-02T00:26:07Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:ab7e226c18d3cbc134dfa952d18ab1df202055dd33446837c8fd050ad449e6f5", upload-time = "2026-09-02T00:26:12Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:e76f9bcecc52b8ff711239a2f7547d5353df95878ab232f0773c1d95928b92f8", upload-time = "2026-07-08T12:26:13Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:2fe228aba290d14b9f31b049be550dbd469c3fd3013d7a19705b30454da97027", upload-time = "2026-07-08T12:26:18Z" },
 ]
 
 [[package]]
 name = "torch"
-version = "2.14.0+cpu"
+version = "2.13.0+cpu"
 source = { registry = "https://download.pytorch.org/whl/cpu" }
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform != 'darwin'",
@@ -2855,21 +2855,21 @@ dependencies = [
     { name = "typing-extensions", marker = "(sys_platform != 'darwin' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu') or (extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu')" },
 ]
 wheels = [
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp311-cp311-linux_s390x.whl", hash = "sha256:3fa39713d13f23563ad11636bfff76b677ab4addbc240c54e6b7e47622e8973d", upload-time = "2026-09-02T18:31:08Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:08894195f84541edcbd09072e6c53b791d4cdd09f650b05473f35718a848fd7b", upload-time = "2026-09-02T18:31:13Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:673dbf5c9bbadfffab7a386b6dd7a0c219f1408a328b7b4e86d0ae551cdafa42", upload-time = "2026-09-02T18:31:19Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp311-cp311-win_amd64.whl", hash = "sha256:8e2c47c6556c7d5a85848634372bb2252907d411e9cad669c99406856d536eb5", upload-time = "2026-09-02T18:31:24Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp311-cp311-win_arm64.whl", hash = "sha256:38f0a0330267b36d76b988754878d94001c1519fe3743bd92f038ce5622bea5a", upload-time = "2026-09-02T18:31:28Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-linux_s390x.whl", hash = "sha256:07aefe1a437b6f1b41b0cba15e16583e2f43549ec9d062fcea8e7981a78e014a", upload-time = "2026-09-02T18:31:32Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:da8140c3d4a41500d29710e35bf8e66a4295ec31026487c69f54a3f583310f8d", upload-time = "2026-09-02T18:31:37Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:a09987c95ec4cffdb6df798d3d641558110a334cfccce22f2f046d83142bc260", upload-time = "2026-09-02T18:31:42Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:738cd9237bf63443a5e5f9652e5115f7b0510b089636a43d4011e9fccede714f", upload-time = "2026-09-02T18:31:48Z" },
-    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-win_arm64.whl", hash = "sha256:420e7dbed969bbd045b34105fa90d1ccf3e5c09c4e9b0d0a5f9df25df9d02d2e", upload-time = "2026-09-02T18:31:52Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp311-cp311-linux_s390x.whl", hash = "sha256:6e9817dbdf5ea76789babd46e457eac5bf14ff566cf85f8addbfdff2d56601ce", upload-time = "2026-07-08T19:27:52Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:84453b69508ec79902f899c5ed9495acb9e2bbe9fda5f1d5d6f19e3c3842e1a7", upload-time = "2026-07-08T19:28:03Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:6746dbcbeb526eb61330b76b41ff1b4eb848951103a892eeb080dfa2b264667b", upload-time = "2026-07-08T19:28:16Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp311-cp311-win_amd64.whl", hash = "sha256:10717d8b3b67c45a4788bf7ffc0bab1ea1e5ebbedd24466be6100102d141fac1", upload-time = "2026-07-08T19:28:27Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp311-cp311-win_arm64.whl", hash = "sha256:2b3d093abd919ad934c43d47e73ba63ceba7cbd7269fc2e9c1e4fc29e8fe45fa", upload-time = "2026-07-08T19:28:33Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-cp312-linux_s390x.whl", hash = "sha256:ffadde149901c8afa138daa38d898264003cfcf1a3336ca5cd964b5af227d867", upload-time = "2026-07-08T19:28:41Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:6f307c2c32d764ffc6ff6893b801fad6d4752f3e67966cb8abf1843427c02604", upload-time = "2026-07-08T19:28:51Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:4ca4a9394b0c771238a4f73590fdbbc4debad85ed0fa63d026ae1b085da7d6e2", upload-time = "2026-07-08T19:29:03Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:a8b450c1e58e5800e5b4691dac412f8d2d65a1dc3298166f91596603a3531e6f", upload-time = "2026-07-08T19:29:15Z" },
+    { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp312-cp312-win_arm64.whl", hash = "sha256:fa0762705b933624d59f6823db9ce7ec2e35b3e1e9c319c9db51fbeecfc3e319", upload-time = "2026-07-08T19:29:21Z" },
 ]
 
 [[package]]
 name = "torch"
-version = "2.14.0+cu130"
+version = "2.13.0+cu130"
 source = { registry = "https://download.pytorch.org/whl/cu130" }
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -2892,12 +2892,12 @@ dependencies = [
     { name = "typing-extensions", marker = "extra == 'extra-36-annomi-counselling-dialogue-analysis-neural'" },
 ]
 wheels = [
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:5fc2edbf7d38aa0491e517035ada66dfc5852e7fd10e8f50d062c4553d9cea16", upload-time = "2026-09-02T18:49:51Z" },
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:07686af6e00801b04fe0feb9e9aa22ff7a58112fb60e0b29a4146f5ac553bf6b", upload-time = "2026-09-02T18:50:04Z" },
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp311-cp311-win_amd64.whl", hash = "sha256:00fb5440e7560b3b21e5e24567c6096fec4ef65b50a7ef1a105ebed5755eef7e", upload-time = "2026-09-02T18:50:41Z" },
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:e729d57eb3e0c859fa7a9c27f9f274121c2c09ae70a376ac227a650807b0457c", upload-time = "2026-09-02T18:51:18Z" },
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:9c5693d3ca91743202034094ad3b3df20b5eb1373d5e0bc8a5d976be12c35302", upload-time = "2026-09-02T18:51:32Z" },
-    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp312-cp312-win_amd64.whl", hash = "sha256:6a20371bf5af2af933a6149e5ec13f7ea7ad506276137dae9386f98d236c02ff", upload-time = "2026-09-02T18:52:06Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:b8a6b58c0176dd532254f6622fb1dffef6b38ad7cb67fcd0beb673066c8c710c", upload-time = "2026-07-08T20:20:24Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:794664c05a3470a5e738447b54495cc6bbf1efca48bf2794270a897d9f4356c4", upload-time = "2026-07-08T20:21:04Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp311-cp311-win_amd64.whl", hash = "sha256:45e97bd9bc0416f4f4190b5098c55119a389fa5a7c8bbf2639f08f1d04e0a0dc", upload-time = "2026-07-08T20:22:42Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:5ebd552c887e707c8e64927aceb8377ca2e81588c4e7494bcd23cb8ac0aca14d", upload-time = "2026-07-08T20:24:19Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:8db7338e6895c3d4bd89a02ff4209507d1f0cf2ffeb3b898538b5a07d1ea8c1e", upload-time = "2026-07-08T20:24:52Z" },
+    { url = "https://download-r2.pytorch.org/whl/cu130/torch-2.13.0%2Bcu130-cp312-cp312-win_amd64.whl", hash = "sha256:2efab1e83604ca628c6d85b9e188c153690980498d1297081a9dad704919303c", upload-time = "2026-07-08T20:26:27Z" },
 ]
 
 [[package]]
@@ -2961,13 +2961,13 @@ wheels = [
 
 [[package]]
 name = "triton"
-version = "3.8.0"
+version = "3.7.1"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a3/cf/d21c9b1a4d1df9ba3aed218069f24f762a4b9565c5a362bef6f110c08e72/triton-3.8.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:372285307d4c44ee74cee32de0b4f04bd157e071427e38c6f4ee3e3beb2194f4", size = 226467015, upload-time = "2026-08-28T16:08:05.871Z" },
-    { url = "https://files.pythonhosted.org/packages/6f/9a/2c3d3823726d5ad5359f7065b02b984925158b74611c1e3987f6a37461fb/triton-3.8.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:68988ac85d5e7086baeda0ddc175af9667db7529b3c5e11a5c0601b8bef2200a", size = 247945226, upload-time = "2026-08-28T15:55:43.795Z" },
-    { url = "https://files.pythonhosted.org/packages/87/07/0f8cd8e8db0472334253efdaaab3d0819fea27aa99bf0e7f1aeea4ceb5ae/triton-3.8.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:a9c404c69ed4a39e8ec632eaf6b9fe058a060bf98979c177f6ef666f06bb8d50", size = 226474486, upload-time = "2026-08-28T16:08:18.29Z" },
-    { url = "https://files.pythonhosted.org/packages/c1/09/b7012e5bfae67640f268aa584caa80fe1674f6b0da949046b679972c33e3/triton-3.8.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e91ffa46d095b252248297292dd22bcbacd53a125a0c2eefbbbf74925a320bc3", size = 247972921, upload-time = "2026-08-28T15:55:53.157Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/f9/19d842d06a08559534fa1eaab6ca551b1bcf40f06620bddec1babaa2772d/triton-3.7.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:d4a0e1cd4c4a76370ed74a8432a53cea28716827d19e40ffc732233e35ceb3f6", size = 184664887, upload-time = "2026-06-17T20:03:42.913Z" },
+    { url = "https://files.pythonhosted.org/packages/cd/5e/fce69606f7f240297f163e25539906732b199530d486ce67ae319877e821/triton-3.7.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:6744957e9fd610a29680ec2346057d0c86948ed3812468670719f391e94b44a5", size = 197701306, upload-time = "2026-06-17T19:53:13.673Z" },
+    { url = "https://files.pythonhosted.org/packages/94/fa/f856e24deb462d5f18bd4b5a746957862ab9b6ee5834bda60605ec348366/triton-3.7.1-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:9497f2e696ee368862a181a90b2dcc03ca978cc4f602abd67c7d81022a6988e1", size = 184692359, upload-time = "2026-06-17T20:03:48.288Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/6f/fb96d15db6f36d6eae4cafb998c2e0353bf59d7c4ea1662d7497f269134a/triton-3.7.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:7e40869937a68206ec70d7f25bb7ec6433cb083f9135e1f36dbd318dc449a728", size = 197719725, upload-time = "2026-06-17T19:53:20.419Z" },
 ]
 
 [[package]]
