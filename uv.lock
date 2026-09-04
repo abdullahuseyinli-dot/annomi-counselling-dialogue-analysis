@@ -3,12 +3,12 @@ revision = 3
 requires-python = ">=3.11, <3.13"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
-    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version >= '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform != 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and sys_platform == 'darwin' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
+    "python_full_version < '3.12' and extra == 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
     "python_full_version < '3.12' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural' and extra != 'extra-36-annomi-counselling-dialogue-analysis-neural-cpu'",
 ]
 conflicts = [[

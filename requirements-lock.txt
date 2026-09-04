@@ -20,6 +20,6 @@ sentence-transformers==3.4.1
 sentencepiece==0.2.1
 torch==2.11.0+cu126
 tqdm==4.67.3
-transformers==4.57.6
+transformers==5.16.1
 umap-learn==0.5.12
 xgboost==3.2.0
