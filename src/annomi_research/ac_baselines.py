@@ -48,9 +48,11 @@ def _git_is_clean() -> bool:
 def _class_source_weights(frame: pd.DataFrame, labels: tuple[str, ...]) -> np.ndarray:
     source = source_balanced_weights(frame["source_id"])
     counts = frame["label"].value_counts()
-    class_weights = frame["label"].map(
-        lambda value: len(frame) / (len(labels) * float(counts[value]))
-    ).to_numpy(dtype=float)
+    class_weights = (
+        frame["label"]
+        .map(lambda value: len(frame) / (len(labels) * float(counts[value])))
+        .to_numpy(dtype=float)
+    )
     values = source * class_weights
     return values / values.mean()
 
@@ -203,7 +205,9 @@ def run_ac_baselines(
         raise RuntimeError("Commit tracked code and configuration before baseline evidence")
     lookup = fold_lookup(split_manifest)
     task_a = build_task_a_examples(corpus, tuple(protocol["task_a"]["therapist_turn_budgets"]))
-    task_c = build_task_c_examples(corpus, int(protocol["task_c"]["context_turns_for_flat_baseline"]))
+    task_c = build_task_c_examples(
+        corpus, int(protocol["task_c"]["context_turns_for_flat_baseline"])
+    )
     task_a["outer_fold"] = task_a["source_id"].map(lookup)
     task_c["outer_fold"] = task_c["source_id"].map(lookup)
     a_ledgers: list[pd.DataFrame] = []
@@ -244,9 +248,7 @@ def run_ac_baselines(
                 test["prefix_text"],
                 ("high", "low"),
             )
-            a_ledgers.append(
-                _quality_ledger(test, raw[:, 1], "tfidf_raw_prefix", int(fold))
-            )
+            a_ledgers.append(_quality_ledger(test, raw[:, 1], "tfidf_raw_prefix", int(fold)))
             a_ledgers.append(
                 _quality_ledger(
                     test,

@@ -1,0 +1,27 @@
+name: Research change
+description: Propose a protocol, metric, model, or reporting change.
+title: "[Research] "
+labels:
+  - research
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: State the question and why the current evidence does not answer it.
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Proposed protocol
+      description: Specify data access, grouping, selection, metrics, uncertainty, and stopping rules.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Evidence boundary
+      description: Identify development-consumed outcomes and the independent evaluation needed.
+    validations:
+      required: true

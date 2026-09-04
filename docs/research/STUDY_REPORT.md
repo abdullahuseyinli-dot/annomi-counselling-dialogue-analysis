@@ -1,4 +1,4 @@
-# Leakage-controlled behaviour and disagreement modeling in AnnoMI
+# Leakage-controlled behaviour and disagreement modelling in AnnoMI
 
 ## Abstract
 
@@ -132,7 +132,7 @@ plurality macro-F1, normalized-entropy association, and entropy error are second
 PANEL-MI probabilities are averaged before a 10,000-resample transcript bootstrap. With seven
 clusters, an exhaustive 128-assignment one-sided sign-flip test accompanies the interval.
 
-### 3.3 Joint early-quality and next-action modeling
+### 3.3 Joint early-quality and next-action modelling
 
 Q-TRACE-MI mean-pools frozen, commit-pinned RoBERTa embeddings for each utterance. Soft auxiliary
 therapist/client behaviour distributions enter a causal GRU. Two action-policy heads represent

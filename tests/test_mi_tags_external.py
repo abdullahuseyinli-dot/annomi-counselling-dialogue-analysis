@@ -10,7 +10,9 @@ from annomi_research.mi_tags_external import (
 
 def test_overlap_normalization_and_token_set_ratio() -> None:
     assert normalize_overlap_text("  MI—Role_Play!  ") == "mi role play"
-    assert token_set_ratio("Motivational Interview Role Play", "Role Play Motivational Interview") == 1
+    assert (
+        token_set_ratio("Motivational Interview Role Play", "Role Play Motivational Interview") == 1
+    )
     assert token_set_ratio("unrelated title", "motivational interview") < 0.8
 
 

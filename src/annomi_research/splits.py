@@ -75,9 +75,9 @@ def validate_source_folds(corpus: Corpus, manifest: dict[str, Any]) -> None:
             raise ValueError(f"Duplicates inside fold {fold['fold']}")
         observed_sources.extend(sources)
         observed_transcripts.extend(int(value) for value in transcripts)
-        actual = corpus.utterances[
-            corpus.utterances["transcript_id"].isin(transcripts)
-        ]["source_id"]
+        actual = corpus.utterances[corpus.utterances["transcript_id"].isin(transcripts)][
+            "source_id"
+        ]
         if set(actual) != set(sources):
             raise ValueError(f"Transcript/source mismatch in fold {fold['fold']}")
     if len(observed_sources) != len(set(observed_sources)):

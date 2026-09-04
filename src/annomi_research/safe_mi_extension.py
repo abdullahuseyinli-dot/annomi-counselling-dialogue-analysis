@@ -46,8 +46,11 @@ def _base_cache_directory(
     config_sha256: str,
     split_sha256: str,
 ) -> Path:
-    directory = ROOT / "artifacts" / "safe_mi_v2" / (
-        f"runs_{summary['code_commit'][:12]}_{config_sha256[:12]}_{split_sha256[:12]}"
+    directory = (
+        ROOT
+        / "artifacts"
+        / "safe_mi_v2"
+        / (f"runs_{summary['code_commit'][:12]}_{config_sha256[:12]}_{split_sha256[:12]}")
     )
     if not directory.exists():
         raise FileNotFoundError(f"Missing registered SAFE-MI v2 fit cache: {directory}")
@@ -55,8 +58,11 @@ def _base_cache_directory(
 
 
 def _extension_cache_directory(config_sha256: str, split_sha256: str) -> Path:
-    return ROOT / "artifacts" / "safe_mi_v2_1" / (
-        f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}"
+    return (
+        ROOT
+        / "artifacts"
+        / "safe_mi_v2_1"
+        / (f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}")
     )
 
 
@@ -106,15 +112,11 @@ def crossfit_prediction_sets(
         "set_covered",
         "prediction_set_threshold",
     ]
-    for (model, fold), test_fold in predictions.groupby(
-        ["model", "outer_fold"], sort=True
-    ):
+    for (model, fold), test_fold in predictions.groupby(["model", "outer_fold"], sort=True):
         calibration = predictions[
             predictions["model"].eq(model) & ~predictions["outer_fold"].eq(fold)
         ].copy()
-        if set(calibration["source_id"].astype(str)) & set(
-            test_fold["source_id"].astype(str)
-        ):
+        if set(calibration["source_id"].astype(str)) & set(test_fold["source_id"].astype(str)):
             raise ValueError("Cross-fitted prediction-set sources overlap")
         probabilities = calibration[probability_columns].to_numpy(dtype=float)
         scores = aps_scores(probabilities)
@@ -158,17 +160,14 @@ def _posthoc_gates(
     for model in ("c1_adapted_gru", "m2_oneway"):
         candidate_c = aggregate["task_c_metrics"][model]
         c_f1_delta = float(
-            candidate_c["source_balanced_macro_f1"]
-            - baseline_c["source_balanced_macro_f1"]
+            candidate_c["source_balanced_macro_f1"] - baseline_c["source_balanced_macro_f1"]
         )
         c_brier_delta = float(
             candidate_c["source_balanced_brier"] - baseline_c["source_balanced_brier"]
         )
         components: dict[str, bool] = {
-            "task_c_noninferiority": c_f1_delta
-            >= float(gates["task_c_noninferiority_margin"]),
-            "task_c_brier": c_brier_delta
-            <= float(gates["task_c_maximum_brier_degradation"]),
+            "task_c_noninferiority": c_f1_delta >= float(gates["task_c_noninferiority_margin"]),
+            "task_c_brier": c_brier_delta <= float(gates["task_c_maximum_brier_degradation"]),
             "crossfit_prediction_set_coverage": float(
                 crossfit_metrics[model]["source_balanced_coverage"]
             )
@@ -192,18 +191,14 @@ def _posthoc_gates(
                 - baseline_a["source_balanced_balanced_accuracy"]
             )
             a_brier = float(
-                candidate_a["source_balanced_brier"]
-                - baseline_a["source_balanced_brier"]
+                candidate_a["source_balanced_brier"] - baseline_a["source_balanced_brier"]
             )
             components.update(
                 {
                     "task_a_minimum_gain": a_gain
                     >= float(gates["task_a_minimum_t10_balanced_accuracy_gain"]),
-                    "task_a_brier": a_brier
-                    <= float(gates["task_a_maximum_t10_brier_degradation"]),
-                    "task_a_positive_seeds": int(
-                        seed_deltas[model]["task_a_positive_seed_count"]
-                    )
+                    "task_a_brier": a_brier <= float(gates["task_a_maximum_t10_brier_degradation"]),
+                    "task_a_positive_seeds": int(seed_deltas[model]["task_a_positive_seed_count"])
                     >= int(gates["task_a_minimum_positive_seed_count"]),
                 }
             )
@@ -236,10 +231,7 @@ def run_safe_mi_extension(
     config_sha256 = sha256_file(SAFE_MI_CONFIG)
     split_sha256 = split_manifest["manifest_sha256"]
     base_cache = _base_cache_directory(base_summary, config_sha256, split_sha256)
-    modes = {
-        value["model"]: mode_from_config(config, value["model"])
-        for value in config["models"]
-    }
+    modes = {value["model"]: mode_from_config(config, value["model"]) for value in config["models"]}
     sessions = build_session_turns(corpus, (3, 5, 10, 20))
     partitions, partition_records = _partitions_by_fold(
         sessions,

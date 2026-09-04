@@ -1,3 +1,6 @@
+# Historical portfolio dependency specification; retained for provenance.
+# Use `uv sync --locked` with the extras documented in docs/REPRODUCIBILITY.md for current work.
+
 numpy>=1.26,<3
 pandas>=2.2,<3
 scipy>=1.12,<2

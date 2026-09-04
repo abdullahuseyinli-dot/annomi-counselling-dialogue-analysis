@@ -14,9 +14,7 @@ from annomi_research.data import (
 
 def test_normalization_is_conservative_and_stable() -> None:
     assert normalize_text("  I\u00a0AGREE.  ") == "i agree."
-    assert source_id(" HTTPS://EXAMPLE.test/video/ ") == source_id(
-        "https://example.test/video"
-    )
+    assert source_id(" HTTPS://EXAMPLE.test/video/ ") == source_id("https://example.test/video")
 
 
 def test_context_is_causal_and_dialogue_local() -> None:
@@ -62,9 +60,7 @@ def test_context_is_causal_and_dialogue_local() -> None:
     )
     examples = build_therapist_examples(Corpus(utterances, pd.DataFrame()), context_turns=10)
     context = examples.loc[examples["transcript_id"].eq(1), "context_text"].item()
-    target_first = examples.loc[
-        examples["transcript_id"].eq(1), "target_first_context_text"
-    ].item()
+    target_first = examples.loc[examples["transcript_id"].eq(1), "target_first_context_text"].item()
     assert "past client" in context
     assert "current therapist" in context
     assert "future client" not in context
@@ -73,9 +69,7 @@ def test_context_is_causal_and_dialogue_local() -> None:
     assert "past client" in target_first
     assert "future client" not in target_first
     assert "other dialogue" not in target_first
-    recent_history = examples.loc[
-        examples["transcript_id"].eq(1), "recent_history_text"
-    ].item()
+    recent_history = examples.loc[examples["transcript_id"].eq(1), "recent_history_text"].item()
     assert recent_history == "[CLIENT] past client"
 
 

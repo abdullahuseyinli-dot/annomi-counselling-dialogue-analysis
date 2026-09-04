@@ -69,9 +69,11 @@ def _features() -> FeatureUnion:
 def _sample_weights(frame: pd.DataFrame) -> np.ndarray:
     group_weights = source_balanced_weights(frame["source_id"])
     class_counts = frame["label"].value_counts()
-    class_weights = frame["label"].map(
-        lambda label: len(frame) / (len(LABELS) * class_counts[label])
-    ).to_numpy(dtype=float)
+    class_weights = (
+        frame["label"]
+        .map(lambda label: len(frame) / (len(LABELS) * class_counts[label]))
+        .to_numpy(dtype=float)
+    )
     weights = group_weights * class_weights
     return weights / weights.mean()
 
@@ -194,7 +196,9 @@ def run_baselines(
     protocol = read_json(PROTOCOL)
     seed = int(protocol["development"]["seeds"][0])
     inner_folds = int(protocol["development"]["inner_folds"])
-    examples = build_therapist_examples(corpus, context_turns=int(protocol["data"]["context_turns"]))
+    examples = build_therapist_examples(
+        corpus, context_turns=int(protocol["data"]["context_turns"])
+    )
     examples["outer_fold"] = examples["source_id"].map(fold_lookup(split_manifest))
     if examples["outer_fold"].isna().any():
         raise ValueError("At least one source lacks an outer-fold assignment")
@@ -229,7 +233,10 @@ def run_baselines(
                 }
                 for recipe in RECIPES
             ]
-            best = max(candidate_scores, key=lambda item: (item["mean_inner_source_balanced_macro_f1"], item["recipe_id"]))
+            best = max(
+                candidate_scores,
+                key=lambda item: (item["mean_inner_source_balanced_macro_f1"], item["recipe_id"]),
+            )
             recipe = next(value for value in RECIPES if value.recipe_id == best["recipe_id"])
             features, classifier = _fit(train, text_column, recipe, seed + fold)
             probabilities = _predict(features, classifier, test, text_column)

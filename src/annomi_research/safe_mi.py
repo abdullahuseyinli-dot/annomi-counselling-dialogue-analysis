@@ -99,9 +99,7 @@ def estimate_global_transitions(
     global_prior = global_counts / global_counts.sum()
     smoothed = counts + float(dirichlet_strength) * global_prior[None, None, :]
     probabilities = smoothed / smoothed.sum(axis=-1, keepdims=True)
-    if not np.isfinite(probabilities).all() or not np.allclose(
-        probabilities.sum(axis=-1), 1.0
-    ):
+    if not np.isfinite(probabilities).all() or not np.allclose(probabilities.sum(axis=-1), 1.0):
         raise AssertionError("SAFE-MI transition probabilities are invalid")
     return probabilities
 
@@ -392,8 +390,7 @@ def _fit_one(
                 best_validation_a = validation_a
                 best_validation_c = validation_c
                 best_state = {
-                    name: value.detach().cpu().clone()
-                    for name, value in model.state_dict().items()
+                    name: value.detach().cpu().clone() for name, value in model.state_dict().items()
                 }
                 stale = 0
                 print(
@@ -476,8 +473,11 @@ def _fit_one(
 
 
 def _cache_directory(config_sha256: str, split_sha256: str) -> Path:
-    return ROOT / "artifacts" / "safe_mi_v2" / (
-        f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}"
+    return (
+        ROOT
+        / "artifacts"
+        / "safe_mi_v2"
+        / (f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}")
     )
 
 
@@ -628,9 +628,7 @@ def _prototype_probabilities(
     config: dict[str, Any],
 ) -> np.ndarray:
     window = int(config["architecture"]["local_attention_window"])
-    reference, reference_features = _decision_features(
-        reference_sessions, embeddings, window
-    )
+    reference, reference_features = _decision_features(reference_sessions, embeddings, window)
     queries, query_features = _decision_features(query_sessions, embeddings, window)
     query_lookup = {
         (int(row.transcript_id), int(row.decision_utterance_id)): index
@@ -878,7 +876,9 @@ def _partitions_by_fold(
     config: dict[str, Any],
     fold_count: int,
 ) -> tuple[
-    dict[int, tuple[list[SessionTurns], list[SessionTurns], list[SessionTurns], list[SessionTurns]]],
+    dict[
+        int, tuple[list[SessionTurns], list[SessionTurns], list[SessionTurns], list[SessionTurns]]
+    ],
     list[dict[str, Any]],
 ]:
     result: dict[
@@ -899,12 +899,8 @@ def _partitions_by_fold(
             {
                 "outer_fold": fold,
                 "fit_source_ids": sorted({session.source_id for session in fit}),
-                "validation_source_ids": sorted(
-                    {session.source_id for session in validation}
-                ),
-                "calibration_source_ids": sorted(
-                    {session.source_id for session in calibration}
-                ),
+                "validation_source_ids": sorted({session.source_id for session in validation}),
+                "calibration_source_ids": sorted({session.source_id for session in calibration}),
                 "test_source_ids": sorted({session.source_id for session in test}),
                 "fit_transcripts": len(fit),
                 "validation_transcripts": len(validation),
@@ -1018,12 +1014,8 @@ def _fold_rejections(
     gate = protocol["screen_stopping_gate"]
     rows: list[dict[str, Any]] = []
     for fold in sorted(task_c["outer_fold"].unique()):
-        candidate_frame = task_c[
-            task_c["model"].eq(candidate) & task_c["outer_fold"].eq(fold)
-        ]
-        baseline_frame = task_c[
-            task_c["model"].eq(baseline) & task_c["outer_fold"].eq(fold)
-        ]
+        candidate_frame = task_c[task_c["model"].eq(candidate) & task_c["outer_fold"].eq(fold)]
+        baseline_frame = task_c[task_c["model"].eq(baseline) & task_c["outer_fold"].eq(fold)]
         candidate_metrics = evaluate_action_predictions(candidate_frame)
         baseline_metrics = evaluate_action_predictions(baseline_frame)
         f1_delta = float(
@@ -1031,8 +1023,7 @@ def _fold_rejections(
             - baseline_metrics["source_balanced_macro_f1"]
         )
         brier_delta = float(
-            candidate_metrics["source_balanced_brier"]
-            - baseline_metrics["source_balanced_brier"]
+            candidate_metrics["source_balanced_brier"] - baseline_metrics["source_balanced_brier"]
         )
         bad = bool(
             f1_delta < -float(gate["maximum_task_c_macro_f1_degradation"])
@@ -1072,12 +1063,9 @@ def _choose_screen_finalists(
     c_only_candidates = [
         model
         for model in c_metrics
-        if model != baseline
-        and (model == "r1_prototype" or not modes[model].task_a_loss)
+        if model != baseline and (model == "r1_prototype" or not modes[model].task_a_loss)
     ]
-    eligible_c = [
-        model for model in c_only_candidates if not rejections[model]["rejected"]
-    ]
+    eligible_c = [model for model in c_only_candidates if not rejections[model]["rejected"]]
     c_pool = eligible_c or c_only_candidates
     best_c = max(
         c_pool,
@@ -1088,19 +1076,15 @@ def _choose_screen_finalists(
     )
 
     baseline_c = c_metrics[baseline]
-    joint_candidates = [model for model in c_metrics if modes.get(model, None) and modes[model].task_a_loss]
+    joint_candidates = [
+        model for model in c_metrics if modes.get(model, None) and modes[model].task_a_loss
+    ]
 
     def joint_key(model: str) -> tuple[bool, float, float, float]:
         c_value = c_metrics[model]
-        c_preserved = (
-            float(c_value["source_balanced_macro_f1"])
-            - float(baseline_c["source_balanced_macro_f1"])
-            >= -float(
-                protocol["final_exploratory_gate"][
-                    "joint_maximum_task_c_macro_f1_degradation"
-                ]
-            )
-        )
+        c_preserved = float(c_value["source_balanced_macro_f1"]) - float(
+            baseline_c["source_balanced_macro_f1"]
+        ) >= -float(protocol["final_exploratory_gate"]["joint_maximum_task_c_macro_f1_degradation"])
         a_value = a_metrics[model]["t10"]
         return (
             c_preserved,
@@ -1145,8 +1129,10 @@ def _paired_bootstrap(
         ["source_id", "transcript_id", "target_utterance_id"], kind="stable"
     )
     c_keys = ["source_id", "transcript_id", "target_utterance_id", "label"]
-    if not candidate_c[c_keys].reset_index(drop=True).equals(
-        baseline_c[c_keys].reset_index(drop=True)
+    if (
+        not candidate_c[c_keys]
+        .reset_index(drop=True)
+        .equals(baseline_c[c_keys].reset_index(drop=True))
     ):
         raise ValueError("SAFE-MI candidate and Task C baseline ledgers do not align")
     candidate_a = task_a[
@@ -1157,8 +1143,10 @@ def _paired_bootstrap(
     )
     if not candidate_a.empty:
         a_keys = ["source_id", "transcript_id", "checkpoint", "label"]
-        if not candidate_a[a_keys].reset_index(drop=True).equals(
-            baseline_a_t10[a_keys].reset_index(drop=True)
+        if (
+            not candidate_a[a_keys]
+            .reset_index(drop=True)
+            .equals(baseline_a_t10[a_keys].reset_index(drop=True))
         ):
             raise ValueError("SAFE-MI candidate and Task A baseline ledgers do not align")
 
@@ -1280,9 +1268,7 @@ def _seed_deltas(
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"task_a": {}, "task_c": {}}
     for seed in sorted(candidate_c.loc[candidate_c["model"].eq(candidate), "seed"].unique()):
-        c_value = candidate_c[
-            candidate_c["model"].eq(candidate) & candidate_c["seed"].eq(seed)
-        ]
+        c_value = candidate_c[candidate_c["model"].eq(candidate) & candidate_c["seed"].eq(seed)]
         c_base = candidate_c[
             candidate_c["model"].eq(baseline_c_name) & candidate_c["seed"].eq(seed)
         ]
@@ -1303,19 +1289,11 @@ def _seed_deltas(
             & baseline_a["checkpoint"].eq("t10")
         ]
         result["task_a"][str(int(seed))] = float(
-            evaluate_quality_predictions(a_value)["t10"][
-                "source_balanced_balanced_accuracy"
-            ]
-            - evaluate_quality_predictions(a_base)["t10"][
-                "source_balanced_balanced_accuracy"
-            ]
+            evaluate_quality_predictions(a_value)["t10"]["source_balanced_balanced_accuracy"]
+            - evaluate_quality_predictions(a_base)["t10"]["source_balanced_balanced_accuracy"]
         )
-    result["task_a_positive_seed_count"] = sum(
-        value > 0 for value in result["task_a"].values()
-    )
-    result["task_c_positive_seed_count"] = sum(
-        value > 0 for value in result["task_c"].values()
-    )
+    result["task_a_positive_seed_count"] = sum(value > 0 for value in result["task_a"].values())
+    result["task_c_positive_seed_count"] = sum(value > 0 for value in result["task_c"].values())
     return result
 
 
@@ -1331,8 +1309,7 @@ def _candidate_gate(
     baseline_c = aggregate["task_c_metrics"]["c0_frozen_gru"]
     candidate_c = aggregate["task_c_metrics"][candidate]
     c_f1_delta = float(
-        candidate_c["source_balanced_macro_f1"]
-        - baseline_c["source_balanced_macro_f1"]
+        candidate_c["source_balanced_macro_f1"] - baseline_c["source_balanced_macro_f1"]
     )
     c_brier_delta = float(
         candidate_c["source_balanced_brier"] - baseline_c["source_balanced_brier"]
@@ -1357,8 +1334,7 @@ def _candidate_gate(
         components = {
             "joint_c_noninferiority": c_f1_delta
             >= -float(config["joint_maximum_task_c_macro_f1_degradation"]),
-            "joint_c_brier": c_brier_delta
-            <= float(config["maximum_task_c_brier_degradation"]),
+            "joint_c_brier": c_brier_delta <= float(config["maximum_task_c_brier_degradation"]),
             "joint_a_minimum_gain": a_delta
             >= float(config["joint_minimum_task_a_balanced_accuracy_gain"]),
             "joint_a_brier": a_brier_delta
@@ -1368,11 +1344,9 @@ def _candidate_gate(
         a_delta = None
         a_brier_delta = None
         components = {
-            "task_c_minimum_gain": c_f1_delta
-            >= float(config["task_c_minimum_macro_f1_gain"]),
+            "task_c_minimum_gain": c_f1_delta >= float(config["task_c_minimum_macro_f1_gain"]),
             "task_c_positive_interval": c_interval["low"] > 0,
-            "task_c_brier": c_brier_delta
-            <= float(config["maximum_task_c_brier_degradation"]),
+            "task_c_brier": c_brier_delta <= float(config["maximum_task_c_brier_degradation"]),
             "task_c_positive_seeds": seed_deltas["task_c_positive_seed_count"]
             >= int(config["minimum_positive_seed_count"]),
         }
@@ -1381,9 +1355,7 @@ def _candidate_gate(
             "all_classes_predicted": predicted_classes == set(LABELS),
             "prediction_set_coverage": float(set_metrics["source_balanced_coverage"])
             >= float(config["prediction_set_minimum_coverage"]),
-            "prediction_set_efficiency": float(
-                set_metrics["source_balanced_mean_set_size"]
-            )
+            "prediction_set_efficiency": float(set_metrics["source_balanced_mean_set_size"])
             <= float(config["prediction_set_maximum_mean_size"]),
         }
     )
@@ -1479,8 +1451,7 @@ def run_safe_mi(
     )
     frozen_embeddings = extract_turn_embeddings(corpus, config)
     mode_lookup = {
-        value["model"]: mode_from_config(config, value["model"])
-        for value in config["models"]
+        value["model"]: mode_from_config(config, value["model"]) for value in config["models"]
     }
     config_sha256 = sha256_file(SAFE_MI_CONFIG)
     cache_dir = _cache_directory(config_sha256, split_manifest["manifest_sha256"])
@@ -1502,9 +1473,7 @@ def run_safe_mi(
         selections,
     )
 
-    stage1_names = {
-        value["model"] for value in config["models"] if value["stage"] == "c_screen"
-    }
+    stage1_names = {value["model"] for value in config["models"] if value["stage"] == "c_screen"}
     stage1 = _aggregate_results(
         registry,
         stage1_names,

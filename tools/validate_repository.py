@@ -5,7 +5,10 @@ import json
 import re
 import subprocess
 import sys
+import tomllib
+from html import unescape
 from pathlib import Path
+from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -16,7 +19,38 @@ REQUIRED = {
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
     "CITATION.cff",
+    "MANIFEST.in",
+    ".zenodo.json",
+    ".gitleaks.toml",
     "pyproject.toml",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    ".mailmap",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/ISSUE_TEMPLATE/bug_report.yml",
+    ".github/ISSUE_TEMPLATE/research_change.yml",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/dependabot.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/evidence.yml",
+    ".github/workflows/security.yml",
+    "docs/README.md",
+    "docs/BENCHMARK_CARD.md",
+    "docs/DATA_CARD.md",
+    "docs/REPRODUCIBILITY.md",
+    "docs/ARTIFACTS.md",
+    "docs/HARDWARE.md",
+    "docs/PROJECT_STATUS.md",
+    "docs/RELEASE_EVIDENCE_GATE.md",
+    "docs/VERSIONING.md",
+    "docs/LIMITATIONS.md",
+    "docs/LITERATURE_MATRIX.md",
+    "paper/README.md",
+    "paper/OUTLINE.md",
+    "paper/CLAIM_EVIDENCE_CROSSWALK.md",
+    "paper/references.bib",
     "annomi_counselling_dialogue_analysis.ipynb",
     "experiments/pipeline_source.ipynb",
     "data/source_manifest.json",
@@ -83,33 +117,27 @@ REQUIRED = {
     "assets/research/safe_mi_effect_intervals.svg",
     "tools/build_ac_assets.py",
     "tools/build_safe_mi_assets.py",
+    "tools/validate_distribution.py",
+    "tools/smoke_install_distribution.py",
 }
-TEXT_SUFFIXES = {".md", ".py", ".toml", ".yml", ".yaml", ".json", ".csv", ".txt", ".ipynb"}
-release_hygiene_terms = [
-    "assess" + "ment",
-    "course" + "work",
-    r"student\s+" + "number",
-    r"assign" + r"ment\s+sub" + "mission",
-]
-attribution_terms = [
-    "chat" + "gpt",
-    r"as\s+an\s+" + "ai",
-    r"generated\s+by\s+(?:an?\s+)?" + "ai",
-    "copi" + "lot",
-    "clau" + "de",
-    "gem" + "ini",
-]
+TEXT_SUFFIXES = {
+    ".bib",
+    ".cff",
+    ".csv",
+    ".ipynb",
+    ".json",
+    ".md",
+    ".py",
+    ".toml",
+    ".txt",
+    ".yaml",
+    ".yml",
+}
 FORBIDDEN = {
     "machine-specific user path": re.compile(r"[A-Za-z]:\\Users\\", re.IGNORECASE),
     "local file URI": re.compile("file:" + "/" * 2, re.IGNORECASE),
-    "course identifier": re.compile(r"\bcs\s*552j\b", re.IGNORECASE),
-    "personal identifier": re.compile(r"\b" + "5253" + "3844" + r"\b"),
-    "academic framing": re.compile(
-        r"\b(" + "|".join(release_hygiene_terms) + r")\b", re.IGNORECASE
-    ),
-    "assistant attribution": re.compile(
-        r"\b(" + "|".join(attribution_terms) + r")\b", re.IGNORECASE
-    ),
+    "unresolved merge marker": re.compile(r"^(?:<{7}|={7}|>{7})(?: |$)", re.MULTILINE),
+    "unresolved editorial marker": re.compile(r"\b(?:TODO|FIXME|TBD|lorem ipsum)\b", re.IGNORECASE),
 }
 HEAVY_SUFFIXES = {".joblib", ".pkl", ".pt", ".pth", ".ckpt", ".safetensors", ".npy", ".npz"}
 MAX_TRACKED_BYTES = 10 * 1024 * 1024
@@ -138,7 +166,7 @@ LARGE_EVIDENCE_SHA256 = {
 def repository_files() -> list[Path]:
     if (ROOT / ".git").exists():
         result = subprocess.run(
-            ["git", "ls-files", "-z"],
+            ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
             cwd=ROOT,
             check=True,
             capture_output=True,
@@ -186,19 +214,56 @@ def validate_notebooks() -> list[str]:
     return ["portfolio notebook is executed and error-free", "full pipeline is code-only and clean"]
 
 
-def validate_links() -> str:
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    targets = re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", readme)
-    missing = []
-    for target in targets:
-        target = target.strip().split("#", 1)[0]
-        if not target or re.match(r"(?:https?|mailto):", target):
-            continue
-        if not (ROOT / target).exists():
-            missing.append(target)
+def validate_links(files: list[Path]) -> str:
+    missing: list[str] = []
+    markdown_files = [path for path in files if path.suffix.lower() == ".md"]
+    for path in markdown_files:
+        content = path.read_text(encoding="utf-8-sig")
+        targets = re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", content)
+        for raw_target in targets:
+            target = unescape(raw_target.strip())
+            if target.startswith("<") and target.endswith(">"):
+                target = target[1:-1]
+            else:
+                target = target.split(maxsplit=1)[0]
+            target = unquote(target).split("#", 1)[0]
+            if not target or re.match(r"(?:https?|mailto):", target, re.IGNORECASE):
+                continue
+            candidate = (
+                ROOT / target.lstrip("/") if target.startswith("/") else path.parent / target
+            )
+            if not candidate.exists():
+                rel = path.relative_to(ROOT).as_posix()
+                missing.append(f"{rel} -> {target}")
     if missing:
-        raise ValueError(f"README has missing local links: {missing}")
-    return "README local links resolve"
+        raise ValueError(f"Markdown has missing local links: {missing}")
+    return f"local links resolve across {len(markdown_files)} Markdown files"
+
+
+def validate_release_metadata() -> str:
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+    expected = str(project["version"])
+
+    package_text = (ROOT / "src" / "annomi_research" / "__init__.py").read_text(encoding="utf-8")
+    fallback_match = re.search(
+        r'^\s*__version__\s*=\s*["\']([^"\']+)["\']', package_text, re.MULTILINE
+    )
+    if fallback_match is None or fallback_match.group(1) != expected:
+        raise ValueError("Package fallback version does not match pyproject.toml")
+
+    citation_text = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    citation_match = re.search(r"^version:\s*[\"']?([^\"'\s]+)", citation_text, re.MULTILINE)
+    if citation_match is None or citation_match.group(1) != expected:
+        raise ValueError("CITATION.cff version does not match pyproject.toml")
+    if ".dev" in expected and re.search(r"^date-released:", citation_text, re.MULTILINE):
+        raise ValueError("Development citation metadata must not claim a release date")
+
+    zenodo = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    if str(zenodo.get("version")) != expected:
+        raise ValueError("Zenodo metadata version does not match pyproject.toml")
+    if zenodo.get("doi"):
+        raise ValueError("Preparatory Zenodo metadata must not claim an unissued DOI")
+    return f"development release metadata is consistent at version {expected}"
 
 
 def validate_research_publication_assets() -> list[str]:
@@ -304,15 +369,22 @@ def main() -> None:
             raise ValueError(f"Model or binary experiment artifact is tracked: {rel}")
         if rel.startswith("data/raw/"):
             raise ValueError(f"Raw dataset file is tracked: {rel}")
-        if path.suffix.lower() in TEXT_SUFFIXES or path.name in {".gitignore", ".gitattributes"}:
+        if path.suffix.lower() in TEXT_SUFFIXES or path.name in {
+            ".gitattributes",
+            ".gitignore",
+            ".mailmap",
+        }:
             text = path.read_text(encoding="utf-8-sig", errors="replace")
             for label, pattern in FORBIDDEN.items():
+                if rel == "tools/validate_repository.py" and label == "unresolved editorial marker":
+                    continue
                 if pattern.search(text):
                     raise ValueError(f"Found {label} in {rel}")
 
     checks = validate_evidence(ROOT)
     checks.extend(validate_notebooks())
-    checks.append(validate_links())
+    checks.append(validate_links(files))
+    checks.append(validate_release_metadata())
     checks.extend(validate_research_publication_assets())
     checks.extend(validate_ac_publication_assets())
     checks.extend(validate_safe_mi_publication_assets())

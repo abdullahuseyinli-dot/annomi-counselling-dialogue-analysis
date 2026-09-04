@@ -1,0 +1,42 @@
+name: History secret scan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out complete history without credentials
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download and verify Gitleaks 8.30.1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .audit/security
+          gh release download v8.30.1 --repo gitleaks/gitleaks \
+            --pattern gitleaks_8.30.1_linux_x64.tar.gz --dir .audit/security
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  .audit/security/gitleaks_8.30.1_linux_x64.tar.gz" \
+            | sha256sum --check --strict
+          tar -xzf .audit/security/gitleaks_8.30.1_linux_x64.tar.gz \
+            -C .audit/security gitleaks
+          test "$(.audit/security/gitleaks version)" = "8.30.1"
+
+      - name: Scan reachable Git history
+        shell: bash
+        run: >-
+          .audit/security/gitleaks git --no-banner --redact=100
+          --config .gitleaks.toml --log-opts=--all

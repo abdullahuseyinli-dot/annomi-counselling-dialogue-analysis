@@ -65,12 +65,8 @@ def test_task_c_is_a_strict_client_handoff_without_target_text() -> None:
 
 def test_task_a_absolute_prefix_does_not_include_later_turns() -> None:
     examples = build_task_a_examples(_corpus(), therapist_budgets=(1, 2))
-    first = examples[
-        examples["transcript_id"].eq(1) & examples["checkpoint"].eq("t1")
-    ].iloc[0]
-    second = examples[
-        examples["transcript_id"].eq(1) & examples["checkpoint"].eq("t2")
-    ].iloc[0]
+    first = examples[examples["transcript_id"].eq(1) & examples["checkpoint"].eq("t1")].iloc[0]
+    second = examples[examples["transcript_id"].eq(1) & examples["checkpoint"].eq("t2")].iloc[0]
     assert "first therapist" in first["prefix_text"]
     assert "observed client" not in first["prefix_text"]
     assert "future target therapist" in second["prefix_text"]
@@ -95,9 +91,7 @@ def test_quality_transition_priors_are_valid() -> None:
 
 
 def test_qtrace_forward_never_accepts_target_or_quality_labels() -> None:
-    transition = np.full(
-        (2, len(LABELS), len(CLIENT_LABELS), len(LABELS)), 1.0 / len(LABELS)
-    )
+    transition = np.full((2, len(LABELS), len(CLIENT_LABELS), len(LABELS)), 1.0 / len(LABELS))
     mode = QTraceMode("qtrace_mi", True, True, True, True)
     model = QTraceModel(
         embedding_size=12,
@@ -120,9 +114,7 @@ def test_qtrace_forward_never_accepts_target_or_quality_labels() -> None:
     assert output["action_probabilities"].shape == (2, 5, len(LABELS))
     assert output["online_quality_probabilities"].shape == (2, 5, 2)
     assert torch.allclose(output["action_probabilities"].sum(dim=-1), torch.ones(2, 5))
-    assert torch.allclose(
-        output["online_quality_probabilities"].sum(dim=-1), torch.ones(2, 5)
-    )
+    assert torch.allclose(output["online_quality_probabilities"].sum(dim=-1), torch.ones(2, 5))
 
 
 def test_source_crc_prediction_sets_are_nonempty_and_reconstruct_coverage() -> None:

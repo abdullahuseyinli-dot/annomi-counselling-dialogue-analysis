@@ -15,12 +15,8 @@ AC_PROTOCOL = ROOT / "configs" / "research" / "protocol_ac_v1.json"
 QTRACE_CONFIG = ROOT / "configs" / "research" / "qtrace_mi_v1.json"
 SAFE_MI_PROTOCOL = ROOT / "configs" / "research" / "protocol_safe_mi_v2.json"
 SAFE_MI_CONFIG = ROOT / "configs" / "research" / "safe_mi_v2.json"
-SAFE_MI_EXTENSION_PROTOCOL = (
-    ROOT / "configs" / "research" / "protocol_safe_mi_v2_1.json"
-)
-MI_TAGS_EXTERNAL_PROTOCOL = (
-    ROOT / "configs" / "research" / "protocol_mi_tags_external_v1.json"
-)
+SAFE_MI_EXTENSION_PROTOCOL = ROOT / "configs" / "research" / "protocol_safe_mi_v2_1.json"
+MI_TAGS_EXTERNAL_PROTOCOL = ROOT / "configs" / "research" / "protocol_mi_tags_external_v1.json"
 LEGACY_SPLIT = ROOT / "results" / "protocol" / "official_split.json"
 RESEARCH_RESULTS = ROOT / "results" / "research"
 ARTIFACTS = ROOT / "artifacts"

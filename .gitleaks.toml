@@ -1,0 +1,4 @@
+title = "AnnoMI repository secret-scanning policy"
+
+[extend]
+useDefault = true

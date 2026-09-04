@@ -73,9 +73,7 @@ def validate_research(
         raise ValueError("Q-TRACE configuration is not registered")
     if qtrace_config["protocol_id"] != ac_protocol["protocol_id"]:
         raise ValueError("Task A/C protocol and Q-TRACE configuration disagree")
-    task_a = build_task_a_examples(
-        corpus, tuple(ac_protocol["task_a"]["therapist_turn_budgets"])
-    )
+    task_a = build_task_a_examples(corpus, tuple(ac_protocol["task_a"]["therapist_turn_budgets"]))
     task_c = build_task_c_examples(
         corpus, int(ac_protocol["task_c"]["context_turns_for_flat_baseline"])
     )

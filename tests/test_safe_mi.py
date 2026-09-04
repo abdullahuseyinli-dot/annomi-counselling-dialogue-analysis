@@ -70,7 +70,9 @@ def test_safe_mi_attention_is_causal_and_outputs_probabilities() -> None:
     assert first["action_probabilities"].shape == (2, 6, len(LABELS))
     assert first["online_quality_probabilities"].shape == (2, 6, 2)
     assert torch.allclose(first["action_probabilities"].sum(-1), torch.ones(2, 6))
-    assert torch.allclose(first["action_probabilities"][:, :4], second["action_probabilities"][:, :4])
+    assert torch.allclose(
+        first["action_probabilities"][:, :4], second["action_probabilities"][:, :4]
+    )
 
 
 def test_transition_residual_starts_as_exact_noop() -> None:

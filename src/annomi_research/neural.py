@@ -144,9 +144,11 @@ def _seed_everything(seed: int) -> None:
 def _training_weights(frame: pd.DataFrame) -> np.ndarray:
     source_weights = source_balanced_weights(frame["source_id"])
     counts = frame["label"].value_counts()
-    class_weights = frame["label"].map(
-        lambda label: len(frame) / (len(LABELS) * int(counts[label]))
-    ).to_numpy(dtype=float)
+    class_weights = (
+        frame["label"]
+        .map(lambda label: len(frame) / (len(LABELS) * int(counts[label])))
+        .to_numpy(dtype=float)
+    )
     weights = source_weights * class_weights
     return weights / weights.mean()
 
@@ -168,9 +170,7 @@ def _tensor_dataset(
     )
     label_ids = torch.tensor([LABELS.index(str(value)) for value in frame["label"]])
     weights = (
-        _training_weights(frame)
-        if include_training_weights
-        else np.ones(len(frame), dtype=float)
+        _training_weights(frame) if include_training_weights else np.ones(len(frame), dtype=float)
     )
     return TensorDataset(
         encoded["input_ids"],
@@ -338,9 +338,7 @@ def _fit_once(
                         reduction="none",
                         label_smoothing=float(settings["label_smoothing"]),
                     )
-                    loss = (
-                        losses * weights.to(device, non_blocking=True)
-                    ).mean() / accumulation
+                    loss = (losses * weights.to(device, non_blocking=True)).mean() / accumulation
                 if not torch.isfinite(loss):
                     raise FloatingPointError("Training produced a non-finite loss")
                 loss.backward()
@@ -378,9 +376,8 @@ def _fit_once(
                 stale_epochs = 0
             else:
                 stale_epochs += 1
-            if (
-                epoch >= int(settings["minimum_epochs"])
-                and stale_epochs >= int(settings["early_stopping_patience"])
+            if epoch >= int(settings["minimum_epochs"]) and stale_epochs >= int(
+                settings["early_stopping_patience"]
             ):
                 break
 
@@ -451,11 +448,7 @@ def _round_median_epoch(epochs: list[int]) -> int:
 
 
 def _fold_cache_dir(model_name: str, commit: str, config_sha256: str) -> Path:
-    return (
-        ARTIFACTS
-        / "neural_v1"
-        / f"{model_name}_{commit[:12]}_{config_sha256[:12]}"
-    )
+    return ARTIFACTS / "neural_v1" / f"{model_name}_{commit[:12]}_{config_sha256[:12]}"
 
 
 def _load_cached_fold(
@@ -488,9 +481,7 @@ def _write_cached_fold(
     metadata["prediction_sha256"] = write_create_only(
         directory / f"fold_{fold}_predictions.csv", payload
     )
-    write_create_only(
-        directory / f"fold_{fold}_metadata.json", canonical_json_bytes(metadata)
-    )
+    write_create_only(directory / f"fold_{fold}_metadata.json", canonical_json_bytes(metadata))
 
 
 def _run_outer_fold(
@@ -709,9 +700,7 @@ def run_neural(
     ledger_buffer = io.StringIO()
     ledger.to_csv(ledger_buffer, index=False, lineterminator="\n", float_format="%.10g")
     ensemble_buffer = io.StringIO()
-    ensemble.to_csv(
-        ensemble_buffer, index=False, lineterminator="\n", float_format="%.10g"
-    )
+    ensemble.to_csv(ensemble_buffer, index=False, lineterminator="\n", float_format="%.10g")
     ledger_hash = write_create_only(
         output_dir / "predictions_by_seed.csv", ledger_buffer.getvalue().encode("utf-8")
     )
@@ -798,8 +787,10 @@ def _stratified_cap(frame: pd.DataFrame, rows_per_label: int, seed: int) -> pd.D
     groups = []
     for _, group in frame.groupby("label", sort=True):
         groups.append(group.sample(n=min(rows_per_label, len(group)), random_state=seed))
-    return pd.concat(groups, ignore_index=True).sample(frac=1.0, random_state=seed).reset_index(
-        drop=True
+    return (
+        pd.concat(groups, ignore_index=True)
+        .sample(frac=1.0, random_state=seed)
+        .reset_index(drop=True)
     )
 
 

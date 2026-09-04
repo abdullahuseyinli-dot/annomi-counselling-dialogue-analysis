@@ -89,9 +89,7 @@ class _AdaptedTurnEncoder(nn.Module):
 
 def _training_frame(corpus: Corpus, sessions: list[SessionTurns]) -> pd.DataFrame:
     transcript_ids = {session.transcript_id for session in sessions}
-    frame = corpus.utterances[
-        corpus.utterances["transcript_id"].isin(transcript_ids)
-    ].copy()
+    frame = corpus.utterances[corpus.utterances["transcript_id"].isin(transcript_ids)].copy()
     frame["role"] = frame["interlocutor"].map({"client": 0, "therapist": 1})
     therapist_targets = frame["main_therapist_behaviour"].map(
         {label: index for index, label in enumerate(LABELS)}
@@ -154,7 +152,9 @@ def _load_cached_embeddings(
     }
 
 
-def _class_weights(frame: pd.DataFrame, role: int, classes: int, device: torch.device) -> torch.Tensor:
+def _class_weights(
+    frame: pd.DataFrame, role: int, classes: int, device: torch.device
+) -> torch.Tensor:
     values = frame.loc[frame["role"].eq(role), "target"].to_numpy(dtype=int)
     counts = np.bincount(values, minlength=classes).astype(float)
     if (counts == 0).any():
@@ -177,9 +177,7 @@ def train_and_extract_adapted_embeddings(
     rather than predicted gold labels.
     """
 
-    cache_path, metadata_path = _adapter_cache_paths(
-        config, sessions, fold, seed, phase
-    )
+    cache_path, metadata_path = _adapter_cache_paths(config, sessions, fold, seed, phase)
     cached = _load_cached_embeddings(cache_path, metadata_path)
     if cached is not None:
         print(
@@ -211,12 +209,8 @@ def train_and_extract_adapted_embeddings(
             return_tensors="pt",
         )
         encoded["roles"] = torch.tensor([item["role"] for item in items], dtype=torch.long)
-        encoded["targets"] = torch.tensor(
-            [item["target"] for item in items], dtype=torch.long
-        )
-        encoded["weights"] = torch.tensor(
-            [item["weight"] for item in items], dtype=torch.float32
-        )
+        encoded["targets"] = torch.tensor([item["target"] for item in items], dtype=torch.long)
+        encoded["weights"] = torch.tensor([item["weight"] for item in items], dtype=torch.float32)
         return encoded
 
     loader = DataLoader(
@@ -229,10 +223,10 @@ def train_and_extract_adapted_embeddings(
         collate_fn=collate,
     )
     model = _AdaptedTurnEncoder(config).to(device)
-    trainable_parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
-    trainable_parameter_count = int(
-        sum(parameter.numel() for parameter in trainable_parameters)
-    )
+    trainable_parameters = [
+        parameter for parameter in model.parameters() if parameter.requires_grad
+    ]
+    trainable_parameter_count = int(sum(parameter.numel() for parameter in trainable_parameters))
     optimizer = torch.optim.AdamW(
         trainable_parameters,
         lr=float(adapter_config["learning_rate"]),
@@ -295,9 +289,12 @@ def train_and_extract_adapted_embeddings(
         model.eval()
         extraction_batch_size = int(adapter_config["extraction_batch_size"])
         for start in range(0, len(extraction), extraction_batch_size):
-            texts = extraction["utterance_text"].iloc[
-                start : start + extraction_batch_size
-            ].astype(str).tolist()
+            texts = (
+                extraction["utterance_text"]
+                .iloc[start : start + extraction_batch_size]
+                .astype(str)
+                .tolist()
+            )
             encoded = tokenizer(
                 texts,
                 max_length=int(encoder_config["max_length"]),
@@ -306,9 +303,7 @@ def train_and_extract_adapted_embeddings(
                 return_attention_mask=True,
                 return_tensors="pt",
             )
-            with torch.inference_mode(), torch.autocast(
-                device_type="cuda", dtype=torch.bfloat16
-            ):
+            with torch.inference_mode(), torch.autocast(device_type="cuda", dtype=torch.bfloat16):
                 pooled, _, _ = model(
                     encoded["input_ids"].to(device, non_blocking=True),
                     encoded["attention_mask"].to(device, non_blocking=True),

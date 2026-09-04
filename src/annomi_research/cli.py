@@ -7,16 +7,10 @@ from .ac_baselines import run_ac_baselines
 from .audit import build_data_audit
 from .baselines import run_baselines
 from .constants import FULL_DATA, RESEARCH_RESULTS, SIMPLE_DATA
-from .dash import run_dash_mi, run_dash_smoke
 from .data import load_corpus
 from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
 from .mi_tags_external import run_mi_tags_sample_audit
-from .neural import run_environment_gate, run_neural, run_neural_smoke
-from .panel import run_panel_mi, run_panel_smoke
-from .qtrace import run_qtrace, run_qtrace_smoke
-from .safe_mi import run_safe_mi, run_safe_mi_smoke
-from .safe_mi_extension import run_safe_mi_extension
 from .splits import build_source_folds
 from .validation import legacy_inventory, validate_research
 
@@ -137,6 +131,8 @@ def main(argv: list[str] | None = None) -> int:
             )
         return 0
     if args.command == "check-neural-env":
+        from .neural import run_environment_gate
+
         result = run_environment_gate()
         print(
             f"PASS CUDA/BF16 environment: {result['runtime_environment']['gpu']} "
@@ -144,6 +140,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "smoke-neural":
+        from .neural import run_neural_smoke
+
         result = run_neural_smoke(corpus, read_json(args.splits), args.model)
         print(
             f"PASS {args.model} CUDA smoke: "
@@ -152,6 +150,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "run-neural":
+        from .neural import run_neural
+
         result = run_neural(
             corpus,
             read_json(args.splits),
@@ -166,6 +166,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "smoke-dash":
+        from .dash import run_dash_smoke
+
         result = run_dash_smoke(corpus, read_json(args.splits))
         print(
             f"PASS DASH-MI CUDA smoke: "
@@ -174,6 +176,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "run-dash":
+        from .dash import run_dash_mi
+
         result = run_dash_mi(
             corpus,
             read_json(args.splits),
@@ -187,6 +191,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "smoke-panel":
+        from .panel import run_panel_smoke
+
         result = run_panel_smoke(corpus)
         print(
             "PASS PANEL-MI smoke: "
@@ -196,6 +202,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "run-panel":
+        from .panel import run_panel_mi
+
         result = run_panel_mi(corpus, output_dir=args.output_dir)
         primary = result["metrics"]["seed_ensemble"]["therapist"]["panel_mi"]
         gate = result["inference"]["candidate_success_gate"]["pass"]
@@ -221,6 +229,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "smoke-qtrace":
+        from .qtrace import run_qtrace_smoke
+
         result = run_qtrace_smoke(corpus, read_json(args.splits))
         print(
             "PASS Q-TRACE-MI CUDA smoke: "
@@ -229,6 +239,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "run-qtrace":
+        from .qtrace import run_qtrace
+
         result = run_qtrace(
             corpus,
             read_json(args.splits),
@@ -245,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "smoke-safe-mi":
+        from .safe_mi import run_safe_mi_smoke
+
         result = run_safe_mi_smoke(corpus, read_json(args.splits))
         print(
             "PASS SAFE-MI CUDA smoke: "
@@ -253,6 +267,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     if args.command == "run-safe-mi":
+        from .safe_mi import run_safe_mi
+
         result = run_safe_mi(
             corpus,
             read_json(args.splits),
@@ -261,12 +277,13 @@ def main(argv: list[str] | None = None) -> int:
         finalists = result["finalists"]
         metrics = result["final"]["task_c_metrics"]
         rendered = ", ".join(
-            f"{model}={metrics[model]['source_balanced_macro_f1']:.4f}"
-            for model in finalists
+            f"{model}={metrics[model]['source_balanced_macro_f1']:.4f}" for model in finalists
         )
         print(f"SAFE-MI final Task C macro-F1: {rendered}")
         return 0
     if args.command == "run-safe-mi-extension":
+        from .safe_mi_extension import run_safe_mi_extension
+
         result = run_safe_mi_extension(
             corpus,
             read_json(args.splits),

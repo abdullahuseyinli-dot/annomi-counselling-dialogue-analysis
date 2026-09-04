@@ -40,7 +40,8 @@ def validate(path: Path, manifest: dict) -> None:
         if reader.fieldnames != manifest["expected_columns"]:
             raise ValueError(f"Unexpected columns: {reader.fieldnames}")
         row_count = 0
-        for row_count, row in enumerate(reader, start=1):
+        for row in reader:
+            row_count += 1
             transcript_ids.add(row["transcript_id"])
     if row_count != manifest["rows"]:
         raise ValueError(f"Unexpected row count: {row_count}")
@@ -51,9 +52,7 @@ def validate(path: Path, manifest: dict) -> None:
     if expected_annotators is not None:
         with path.open(encoding="utf-8-sig", newline="") as handle:
             annotators = {
-                row["annotator_id"]
-                for row in csv.DictReader(handle)
-                if row["annotator_id"].strip()
+                row["annotator_id"] for row in csv.DictReader(handle) if row["annotator_id"].strip()
             }
         if len(annotators) != expected_annotators:
             raise ValueError(

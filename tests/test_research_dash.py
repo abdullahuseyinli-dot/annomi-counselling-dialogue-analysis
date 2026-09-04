@@ -17,9 +17,7 @@ class _FakeEncoder(nn.Module):
         self.config = SimpleNamespace(hidden_size=8)
         self.embedding = nn.Embedding(16, 8)
 
-    def forward(
-        self, input_ids: torch.Tensor, attention_mask: torch.Tensor
-    ) -> SimpleNamespace:
+    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> SimpleNamespace:
         del attention_mask
         return SimpleNamespace(last_hidden_state=self.embedding(input_ids))
 

@@ -83,6 +83,7 @@ class QTraceModel(nn.Module):
             raise ValueError("Transition distributions do not sum to one")
         self.register_buffer("transition_probabilities", transitions)
         low_quality_prior = float(np.clip(low_quality_prior, 1e-6, 1 - 1e-6))
+        self.quality_prior_log_odds: torch.Tensor
         self.register_buffer(
             "quality_prior_log_odds",
             torch.tensor(math.log(low_quality_prior / (1.0 - low_quality_prior))),
@@ -147,7 +148,9 @@ class QTraceModel(nn.Module):
         )
         states = self.state_dropout(states)
 
-        unconditional_probabilities = torch.softmax(self.unconditional_action(states).float(), dim=-1)
+        unconditional_probabilities = torch.softmax(
+            self.unconditional_action(states).float(), dim=-1
+        )
         quality_logits = self.quality_action(states).reshape(
             batch_size, sequence_length, 2, len(LABELS)
         )
@@ -263,35 +266,35 @@ def qtrace_loss(
     )
 
     quality_targets = batch["quality"][:, None].expand_as(batch["next_action_targets"])
-    selected_quality = output["online_quality_probabilities"].gather(
-        -1, quality_targets.clamp_min(0)[..., None]
-    ).squeeze(-1)
-    quality_losses = -torch.log(selected_quality.clamp_min(1e-8)) * class_weights[
-        "quality"
-    ][quality_targets]
-    quality = _weighted_session_average(
-        quality_losses, quality_mask, session_weights
+    selected_quality = (
+        output["online_quality_probabilities"]
+        .gather(-1, quality_targets.clamp_min(0)[..., None])
+        .squeeze(-1)
     )
+    quality_losses = (
+        -torch.log(selected_quality.clamp_min(1e-8)) * class_weights["quality"][quality_targets]
+    )
+    quality = _weighted_session_average(quality_losses, quality_mask, session_weights)
 
     action_targets = batch["next_action_targets"].clamp_min(0)
-    selected_action = output["action_probabilities"].gather(
-        -1, action_targets[..., None]
-    ).squeeze(-1)
-    action_losses = -torch.log(selected_action.clamp_min(1e-8)) * class_weights["action"][
-        action_targets
-    ]
+    selected_action = (
+        output["action_probabilities"].gather(-1, action_targets[..., None]).squeeze(-1)
+    )
+    action_losses = (
+        -torch.log(selected_action.clamp_min(1e-8)) * class_weights["action"][action_targets]
+    )
     action = _weighted_session_average(action_losses, action_mask, session_weights)
 
     quality_index = batch["quality"][:, None, None, None].expand(
         -1, output["quality_action_probabilities"].shape[1], 1, len(LABELS)
     )
-    expert_probabilities = output["quality_action_probabilities"].gather(
-        2, quality_index
-    ).squeeze(2)
+    expert_probabilities = (
+        output["quality_action_probabilities"].gather(2, quality_index).squeeze(2)
+    )
     selected_expert = expert_probabilities.gather(-1, action_targets[..., None]).squeeze(-1)
-    expert_losses = -torch.log(selected_expert.clamp_min(1e-8)) * class_weights["action"][
-        action_targets
-    ]
+    expert_losses = (
+        -torch.log(selected_expert.clamp_min(1e-8)) * class_weights["action"][action_targets]
+    )
     expert = _weighted_session_average(expert_losses, action_mask, session_weights)
 
     transition_kl_rows = (

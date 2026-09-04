@@ -97,9 +97,11 @@ def evaluate_predictions(predictions: pd.DataFrame) -> dict[str, Any]:
     clipped = np.clip(probabilities, 1e-12, 1.0)
     true_indices = np.asarray([LABELS.index(str(label)) for label in y_true], dtype=int)
     row_log_loss = -np.log(clipped[np.arange(len(clipped)), true_indices])
-    source_losses = pd.DataFrame(
-        {"source_id": predictions["source_id"].to_numpy(), "loss": row_log_loss}
-    ).groupby("source_id", sort=False)["loss"].mean()
+    source_losses = (
+        pd.DataFrame({"source_id": predictions["source_id"].to_numpy(), "loss": row_log_loss})
+        .groupby("source_id", sort=False)["loss"]
+        .mean()
+    )
     tail_count = max(1, math.ceil(0.2 * len(source_losses)))
     confusion = confusion_matrix(y_true, y_pred, labels=list(LABELS)).astype(int)
 
@@ -112,9 +114,7 @@ def evaluate_predictions(predictions: pd.DataFrame) -> dict[str, Any]:
         "source_balanced_brier": multiclass_brier(y_true, probabilities, weights),
         "source_balanced_log_loss": float(np.average(row_log_loss, weights=weights)),
         "equal_frequency_ece_10": equal_frequency_ece(y_true, clipped, weights),
-        "worst_20pct_source_log_loss_cvar": float(
-            source_losses.nlargest(tail_count).mean()
-        ),
+        "worst_20pct_source_log_loss_cvar": float(source_losses.nlargest(tail_count).mean()),
         "seen_text_macro_f1": _safe_macro_f1(
             predictions.loc[seen, "label"], predictions.loc[seen, "prediction"]
         ),

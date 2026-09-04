@@ -1,5 +1,5 @@
-# Captured package versions from the completed experiment environment.
-# Use requirements-experiment.txt for installation; this file documents provenance.
+# Historical portfolio environment record; retained for provenance, not current installation.
+# Use pyproject.toml and uv.lock for the source-disjoint research package.
 # Python 3.11.9
 bertopic==0.17.4
 catboost==1.2.10

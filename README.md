@@ -1,15 +1,22 @@
 # AnnoMI Counselling Dialogue Analysis
 
-A leakage-controlled, disagreement-aware benchmark for motivational-interviewing behaviour coding
-on [AnnoMI](https://github.com/uccollab/AnnoMI). The project upgrades an earlier portfolio analysis
-into a registered research pipeline with source-disjoint nested validation, five-seed neural
-evaluation, row-level probability ledgers, paired cluster inference, negative-result retention, and
-a separate multi-annotator label-distribution study.
+[![Python 3.11-3.12](https://img.shields.io/badge/Python-3.11--3.12-3776AB.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> **Status:** all executable AnnoMI results below are complete and reconstruct from tracked
-> evidence. External MI-TAGS confirmation awaits researcher-authorized access to the full corpus.
-> The protocols are under [`configs/research/`](configs/research/); raw counselling text and model
-> weights are not distributed.
+A leakage-controlled, disagreement-aware benchmark for motivational-interviewing behaviour coding
+on [AnnoMI](https://github.com/uccollab/AnnoMI). It combines source-disjoint nested validation,
+five-seed neural evaluation, row-level probability ledgers, paired cluster inference,
+negative-result retention, and a separate multi-annotator label-distribution study.
+
+> **Status:** this is a development candidate, not an archived software release. The executable
+> AnnoMI results below reconstruct from tracked evidence; external MI-TAGS confirmation awaits
+> authorized access to the full corpus. No release DOI is claimed. See the
+> [project status](docs/PROJECT_STATUS.md), [documentation index](docs/README.md), and
+> [manuscript evidence map](paper/CLAIM_EVIDENCE_CROSSWALK.md).
+
+Historical files use *registered* for an analysis specification committed before its corresponding
+local run. This records sequencing within Git; it does not mean independent public preregistration.
+Raw counselling text and model weights are not distributed.
 
 ![Overview of leakage-controlled classification and vote-distribution results](assets/research/research_overview.png)
 
@@ -26,7 +33,7 @@ each of five outer folds, and neural probabilities are averaged across five fixe
 | RoBERTa, causal history | **0.8163** | 0.2838 | 0.5880 | 0.0800 |
 | DASH-MI | 0.8116 | 0.2828 | 0.5883 | 0.0810 |
 
-The defensible headline is nuanced:
+The paired analyses distinguish supported improvements from numerical rankings:
 
 - Target-only RoBERTa improves source-balanced macro-F1 over TF-IDF by **0.0935**, with a paired
   source-bootstrap 95% interval of **[0.0778, 0.1097]**. It passes the registered candidate gate.
@@ -71,7 +78,7 @@ sample records as possible AnnoMI overlaps; the sample cannot support external p
 
 ## Multi-annotator result
 
-No additional labeling is needed. AnnoMI already contains 428 utterances with ten annotations each
+The study uses AnnoMI's existing 428 utterances with ten annotations each
 across seven transcripts. The registered leave-one-transcript-out study predicts the complete vote
 distribution, models therapist and client codes separately, and treats seven transcripts—not 4,280
 annotation rows—as the inferential units.
@@ -91,7 +98,7 @@ Soft label-distribution learning beats the transcript prior on therapist log sco
 (95% interval **[-0.7257, -0.5055]**, exact sign-flip p = **0.0078**, 7/7 transcripts) and on
 client log score by **-0.1113** (interval **[-0.1773, -0.0402]**, p = **0.0156**, 6/7).
 
-The creative annotator-conditioned PANEL-MI model is an informative negative primary result. It
+The annotator-conditioned PANEL-MI model is an informative negative primary result. It
 fails its registered log-score gate, although it gives the best therapist JSD and entropy error.
 That Pareto trade-off is retained rather than relabeled as a win. The full method, failure log,
 selection trace, and results are in the
@@ -99,7 +106,7 @@ selection trace, and results are in the
 
 ![Registered paired effects with cluster-level intervals](assets/research/registered_effect_intervals.png)
 
-## Why the evaluation is stronger
+## Evaluation controls
 
 - Normalized source video URL, not utterance or transcript alone, is the dependency group for the
   main benchmark.
@@ -119,48 +126,20 @@ clinical-validity, therapist-ranking, causal-effect, or state-of-the-art claim.
 
 ## Reproduce
 
-Python 3.11 and a CUDA GPU with BF16 support reproduce the registered neural runs. The sparse and
-multi-annotator heads run on CPU after frozen embedding extraction.
+The default check uses CPU-only neural dependencies and does not retrain models or download raw
+dialogue data:
 
 ```bash
-uv sync --extra analysis --extra dev --extra neural
-python tools/download_dataset.py --variant simple
-python tools/download_dataset.py --variant full
-
-python -m annomi_research audit-data
-python -m annomi_research make-splits
-python -m annomi_research validate
-pytest -q
-
-python -m annomi_research check-neural-env
-python -m annomi_research smoke-neural --model roberta_utterance
-python -m annomi_research run-neural --model roberta_utterance
-python -m annomi_research smoke-neural --model roberta_flat_causal10
-python -m annomi_research run-neural --model roberta_flat_causal10
-python -m annomi_research smoke-dash
-python -m annomi_research run-dash
-python -m annomi_research smoke-panel
-python -m annomi_research run-panel
-
-python -m annomi_research run-ac-baselines
-python -m annomi_research smoke-qtrace
-python -m annomi_research run-qtrace
-python -m annomi_research smoke-safe-mi
-python -m annomi_research run-safe-mi
-python -m annomi_research run-safe-mi-extension
-python -m annomi_research audit-mi-tags
-
-python tools/build_research_assets.py
-python tools/build_ac_assets.py
-python tools/build_safe_mi_assets.py
-python tools/validate_repository.py
+uv sync --locked --extra dev --extra neural-cpu
+uv run python -m pytest --cov=annomi_research --cov-report=term-missing
+uv run python tools/validate_repository.py
 ```
 
-Evidence writers are create-only: an identical rerun is a safe no-op, while a different payload
-must use a new output lineage. Dataset files are commit-pinned and checksum-verified before fitting.
-See the [locked protocol](docs/research/LOCKED_PROTOCOL.md),
-[validity audit](docs/research/VALIDITY_AUDIT.md), and
-[result lineage](docs/RESULT_LINEAGE.md).
+Data-backed validation, classical reproduction, CUDA/BF16 neural reproduction, and the optional
+MI-TAGS audit have different access and hardware requirements. The exact commands and environment
+boundaries are in [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). Evidence writers are create-only:
+an identical rerun is a safe no-op, while a different payload must use a new output lineage.
+Dataset files are commit-pinned and checksum-verified before fitting.
 
 ## Repository map
 
@@ -172,9 +151,12 @@ results/research/publication_v1/  Derived exact tables plus a hash manifest
 results/research/publication_ac_v1/  Derived Task A/C tables plus a hash manifest
 results/research/publication_safe_mi_v2/  SAFE-MI tables, intervals, and audit manifest
 docs/research/                    Registrations, execution logs, and result reports
+docs/                             Benchmark, data, model, artifact, and release documentation
+paper/                            Manuscript outline, bibliography, and claim-evidence crosswalk
 assets/research/                  Script-generated publication figures
 tests/                            Fast contracts for data, models, metrics, and evidence
 tools/                            Pinned download, validation, and asset builders
+.github/workflows/                Cross-platform CI, data audit, and history secret scan
 ```
 
 The earlier single-holdout portfolio result remains in the notebook and legacy result directories as

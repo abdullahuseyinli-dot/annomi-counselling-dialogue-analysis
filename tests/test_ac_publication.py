@@ -16,9 +16,7 @@ def test_task_a_publication_table_contains_all_registered_models_and_checkpoints
     assert set(frame["checkpoint"]) == {"t3", "t5", "t10", "t20", "full"}
     primary = frame[frame["checkpoint"].eq("t10")].set_index("model")
     assert primary["source_balanced_balanced_accuracy"].idxmax() == "oracle_gold_codes"
-    assert np.isclose(
-        primary.loc["qtrace_mi", "source_balanced_balanced_accuracy"], 0.7
-    )
+    assert np.isclose(primary.loc["qtrace_mi", "source_balanced_balanced_accuracy"], 0.7)
 
 
 def test_task_c_publication_table_retains_negative_candidate_result() -> None:

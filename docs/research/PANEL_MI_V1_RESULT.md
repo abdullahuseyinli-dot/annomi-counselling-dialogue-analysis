@@ -67,4 +67,4 @@ No new labels were created: this study uses the ten existing annotations per ite
 response distribution of this anonymous ten-person panel on seven public demonstration dialogues.
 The 428 utterances are the analysis units and the seven transcripts are the inferential clusters;
 the 4,280 annotation rows are never treated as independent observations. Results do not establish
-clinical validity, population-wide annotator behavior, algorithmic novelty, or state of the art.
+clinical validity, population-wide annotator behaviour, algorithmic novelty, or state of the art.

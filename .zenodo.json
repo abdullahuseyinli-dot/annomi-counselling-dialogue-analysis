@@ -1,0 +1,26 @@
+{
+  "title": "AnnoMI Counselling Dialogue Analysis",
+  "description": "Research software and auditable evidence for source-disjoint motivational-interviewing behaviour coding, outcome forecasting, and multi-annotator analysis on AnnoMI.",
+  "creators": [
+    {
+      "name": "Huseyinli, Abdulla"
+    }
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "version": "0.3.0.dev0",
+  "keywords": [
+    "motivational interviewing",
+    "natural language processing",
+    "behaviour coding",
+    "grouped cross-validation",
+    "uncertainty quantification"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/uccollab/AnnoMI",
+      "relation": "references",
+      "scheme": "url"
+    }
+  ]
+}

@@ -109,9 +109,7 @@ class DashMIModel(nn.Module):
         self.context_normalization = nn.LayerNorm(hidden)
         self.residual_dense = nn.Linear(hidden, hidden)
         self.residual_output = nn.Linear(hidden, len(LABELS))
-        nn.init.constant_(
-            self.context_gate.bias, float(architecture["initial_gate_bias"])
-        )
+        nn.init.constant_(self.context_gate.bias, float(architecture["initial_gate_bias"]))
         if architecture["zero_initialize_context_residual_output"]:
             nn.init.zeros_(self.residual_output.weight)
             nn.init.zeros_(self.residual_output.bias)
@@ -167,9 +165,10 @@ class DashMIModel(nn.Module):
         mask = history_attention_mask.bool()
         attention = attention.masked_fill(~mask, 0.0)
         valid_tokens = mask.sum(dim=1).clamp_min(2).float()
-        entropy = -(attention.clamp_min(1e-12) * attention.clamp_min(1e-12).log()).sum(
-            dim=1
-        ) / valid_tokens.log()
+        entropy = (
+            -(attention.clamp_min(1e-12) * attention.clamp_min(1e-12).log()).sum(dim=1)
+            / valid_tokens.log()
+        )
         diagnostics = {
             "context_gate_mean": gate.float().mean(dim=1) * context_available.float(),
             "context_attention_entropy": entropy * context_available.float(),
@@ -250,9 +249,7 @@ def _tensor_dataset(
     )
     label_ids = torch.tensor([LABELS.index(str(value)) for value in frame["label"]])
     weights = (
-        _training_weights(frame)
-        if include_training_weights
-        else np.ones(len(frame), dtype=float)
+        _training_weights(frame) if include_training_weights else np.ones(len(frame), dtype=float)
     )
     disagreement_mix = recipe.disagreement_mix if include_training_weights else 0.0
     targets = _soft_training_targets(frame, disagreement_mix)
@@ -299,9 +296,7 @@ def _predict(
                 available.to(device, non_blocking=True),
             )
         probabilities.append(torch.softmax(logits.float(), dim=-1).cpu().numpy())
-        target_probabilities.append(
-            torch.softmax(target_logits.float(), dim=-1).cpu().numpy()
-        )
+        target_probabilities.append(torch.softmax(target_logits.float(), dim=-1).cpu().numpy())
         for name, value in diagnostics.items():
             diagnostic_values[name].append(value.cpu().numpy())
 
@@ -315,10 +310,7 @@ def _predict(
     return DashPredictions(
         probabilities=main,
         target_only_probabilities=target_only,
-        **{
-            name: np.concatenate(values, axis=0)
-            for name, values in diagnostic_values.items()
-        },
+        **{name: np.concatenate(values, axis=0) for name, values in diagnostic_values.items()},
     )
 
 
@@ -337,12 +329,8 @@ def _fit_once(
     architecture = config["architecture"]
     train_data = _tensor_dataset(train, tokenizer, config, recipe, True)
     eval_data = _tensor_dataset(validation_or_test, tokenizer, config, recipe, False)
-    train_loader = _loader(
-        train_data, int(settings["train_batch_size"]), shuffle=True, seed=seed
-    )
-    eval_loader = _loader(
-        eval_data, int(settings["eval_batch_size"]), shuffle=False, seed=seed
-    )
+    train_loader = _loader(train_data, int(settings["train_batch_size"]), shuffle=True, seed=seed)
+    eval_loader = _loader(eval_data, int(settings["eval_batch_size"]), shuffle=False, seed=seed)
     maximum_epochs = fixed_epochs or int(settings["maximum_epochs"])
     accumulation = int(settings["gradient_accumulation_steps"])
     updates_per_epoch = math.ceil(len(train_loader) / accumulation)
@@ -397,9 +385,7 @@ def _fit_once(
                 available = context_available.to(device, non_blocking=True)
                 dropout = float(architecture["context_example_dropout"])
                 if dropout:
-                    available = available * (
-                        torch.rand(available.shape, device=device) >= dropout
-                    )
+                    available = available * (torch.rand(available.shape, device=device) >= dropout)
                 with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
                     logits, target_logits, _ = model(
                         target_ids.to(device, non_blocking=True),
@@ -409,18 +395,14 @@ def _fit_once(
                         available,
                     )
                     targets = soft_targets.to(device, non_blocking=True)
-                    full_losses = -(targets * F.log_softmax(logits.float(), dim=-1)).sum(
+                    full_losses = -(targets * F.log_softmax(logits.float(), dim=-1)).sum(dim=-1)
+                    target_losses = -(targets * F.log_softmax(target_logits.float(), dim=-1)).sum(
                         dim=-1
                     )
-                    target_losses = -(
-                        targets * F.log_softmax(target_logits.float(), dim=-1)
-                    ).sum(dim=-1)
-                    auxiliary_weight = float(
-                        architecture["target_auxiliary_loss_weight"]
+                    auxiliary_weight = float(architecture["target_auxiliary_loss_weight"])
+                    row_losses = (full_losses + auxiliary_weight * target_losses) / (
+                        1.0 + auxiliary_weight
                     )
-                    row_losses = (
-                        full_losses + auxiliary_weight * target_losses
-                    ) / (1.0 + auxiliary_weight)
                     loss = (
                         row_losses * weights.to(device, non_blocking=True)
                     ).mean() / accumulation
@@ -428,9 +410,7 @@ def _fit_once(
                     raise FloatingPointError("DASH-MI training produced a non-finite loss")
                 loss.backward()
                 running_loss += float(loss.detach()) * accumulation
-                should_step = batch_index % accumulation == 0 or batch_index == len(
-                    train_loader
-                )
+                should_step = batch_index % accumulation == 0 or batch_index == len(train_loader)
                 if should_step:
                     nn.utils.clip_grad_norm_(
                         model.parameters(), float(settings["maximum_gradient_norm"])
@@ -463,9 +443,8 @@ def _fit_once(
                 stale_epochs = 0
             else:
                 stale_epochs += 1
-            if (
-                epoch >= int(settings["minimum_epochs"])
-                and stale_epochs >= int(settings["early_stopping_patience"])
+            if epoch >= int(settings["minimum_epochs"]) and stale_epochs >= int(
+                settings["early_stopping_patience"]
             ):
                 break
 
@@ -534,9 +513,7 @@ def _ledger_rows(
     ledger["target_only_prediction"] = target_predicted
     for index, label in enumerate(LABELS):
         ledger[f"prob_{label}"] = predictions.probabilities[:, index]
-        ledger[f"prob_target_only_{label}"] = predictions.target_only_probabilities[
-            :, index
-        ]
+        ledger[f"prob_target_only_{label}"] = predictions.target_only_probabilities[:, index]
     ledger["context_gate_mean"] = predictions.context_gate_mean
     ledger["context_attention_entropy"] = predictions.context_attention_entropy
     ledger["context_attention_max"] = predictions.context_attention_max
@@ -548,8 +525,7 @@ def _ledger_rows(
     )
     ledger["selected_recipe"] = recipe.recipe_id
     ledger["max_length"] = (
-        f"target{config['architecture']['target_max_length']}+history"
-        f"{recipe.history_max_length}"
+        f"target{config['architecture']['target_max_length']}+history{recipe.history_max_length}"
     )
     ledger["target_max_length"] = int(config["architecture"]["target_max_length"])
     ledger["history_max_length"] = recipe.history_max_length
@@ -620,9 +596,7 @@ def _run_outer_fold(
         key=lambda item: (-item["mean_inner_source_balanced_macro_f1"], item["recipe_id"]),
     )
     selected_recipe = next(
-        recipe
-        for recipe in _recipes(config)
-        if recipe.recipe_id == selected_record["recipe_id"]
+        recipe for recipe in _recipes(config) if recipe.recipe_id == selected_record["recipe_id"]
     )
     selected_epochs = _round_median_epoch(
         [record["best_epoch"] for record in selected_record["inner_folds"]]
@@ -739,9 +713,7 @@ def _diagnostic_summary(ensemble: pd.DataFrame) -> dict[str, Any]:
             ensemble["prediction"].ne(ensemble["target_only_prediction"]).mean()
         ),
         "mean_context_gate": float(ensemble["context_gate_mean"].mean()),
-        "mean_context_attention_entropy": float(
-            ensemble["context_attention_entropy"].mean()
-        ),
+        "mean_context_attention_entropy": float(ensemble["context_attention_entropy"].mean()),
         "mean_context_attention_max": float(ensemble["context_attention_max"].mean()),
         "mean_context_residual_l2": float(ensemble["context_residual_l2"].mean()),
     }
@@ -786,9 +758,7 @@ def run_dash_mi(
         if cached is None:
             print(f"Starting dash_mi outer fold {fold}", flush=True)
             fold_started = time.perf_counter()
-            fold_ledger, selection = _run_outer_fold(
-                examples, fold, protocol, config, tokenizer
-            )
+            fold_ledger, selection = _run_outer_fold(examples, fold, protocol, config, tokenizer)
             metadata = {
                 **expected_cache,
                 "selection": selection,
@@ -831,9 +801,7 @@ def run_dash_mi(
     ledger_buffer = io.StringIO()
     ledger.to_csv(ledger_buffer, index=False, lineterminator="\n", float_format="%.10g")
     ensemble_buffer = io.StringIO()
-    ensemble.to_csv(
-        ensemble_buffer, index=False, lineterminator="\n", float_format="%.10g"
-    )
+    ensemble.to_csv(ensemble_buffer, index=False, lineterminator="\n", float_format="%.10g")
     ledger_hash = write_create_only(
         output_dir / "predictions_by_seed.csv", ledger_buffer.getvalue().encode("utf-8")
     )
@@ -908,9 +876,7 @@ def run_dash_smoke(
     )
     train = _stratified_cap(outer_train.iloc[train_indices], 64, seed=1907)
     validation = _stratified_cap(outer_train.iloc[validation_indices], 32, seed=1907)
-    recipe = max(
-        recipes, key=lambda value: (value.history_max_length, value.disagreement_mix)
-    )
+    recipe = max(recipes, key=lambda value: (value.history_max_length, value.disagreement_mix))
     started = time.perf_counter()
     outcome = _fit_once(
         train,
@@ -943,11 +909,7 @@ def run_dash_smoke(
         "maximum_probability_sum_error": float(
             max(
                 np.max(np.abs(outcome.predictions.probabilities.sum(axis=1) - 1.0)),
-                np.max(
-                    np.abs(
-                        outcome.predictions.target_only_probabilities.sum(axis=1) - 1.0
-                    )
-                ),
+                np.max(np.abs(outcome.predictions.target_only_probabilities.sum(axis=1) - 1.0)),
             )
         ),
         "peak_memory_bytes": outcome.peak_memory_bytes,
@@ -964,15 +926,11 @@ def validate_dash_evidence(output_dir: Path) -> None:
     seeds = pd.read_csv(
         output_dir / "predictions_by_seed.csv", dtype={"source_id": str, "seed": int}
     )
-    ensemble = pd.read_csv(
-        output_dir / "predictions_seed_ensemble.csv", dtype={"source_id": str}
-    )
+    ensemble = pd.read_csv(output_dir / "predictions_seed_ensemble.csv", dtype={"source_id": str})
     target_columns = [f"prob_target_only_{label}" for label in LABELS]
     for frame_name, frame in (("seeds", seeds), ("ensemble", ensemble)):
         values = frame[target_columns].to_numpy(dtype=float)
-        if not np.isfinite(values).all() or not np.allclose(
-            values.sum(axis=1), 1.0, atol=1e-6
-        ):
+        if not np.isfinite(values).all() or not np.allclose(values.sum(axis=1), 1.0, atol=1e-6):
             raise ValueError(f"Invalid DASH-MI target-only probabilities in {frame_name}")
         diagnostics = frame[
             [

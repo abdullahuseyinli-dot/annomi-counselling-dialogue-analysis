@@ -58,9 +58,7 @@ def test_seed_ensemble_averages_probabilities_before_argmax() -> None:
         remaining = (1.0 - reflection_probability) / 3.0
         row.update(
             {
-                f"prob_{label}": (
-                    reflection_probability if label == "reflection" else remaining
-                )
+                f"prob_{label}": (reflection_probability if label == "reflection" else remaining)
                 for label in LABELS
             }
         )

@@ -85,9 +85,7 @@ class SafeMIModel(nn.Module):
         self.local_window = int(architecture["local_attention_window"])
         self.evidence_bound = float(architecture["quality_text_evidence_bound"])
         self.evidence_decay = float(architecture["quality_evidence_decay"])
-        self.maximum_transition_residual = float(
-            architecture["maximum_transition_residual"]
-        )
+        self.maximum_transition_residual = float(architecture["maximum_transition_residual"])
 
         self.role_embedding = nn.Embedding(2, role_size)
         self.therapist_auxiliary = nn.Linear(embedding_size, len(LABELS))
@@ -148,8 +146,11 @@ class SafeMIModel(nn.Module):
         if prior.shape != (len(LABELS),) or (prior <= 0).any():
             raise ValueError("Action class prior must contain one positive value per class")
         prior = prior / prior.sum()
-        self.register_buffer("action_log_prior", torch.log(torch.tensor(prior, dtype=torch.float32)))
+        self.register_buffer(
+            "action_log_prior", torch.log(torch.tensor(prior, dtype=torch.float32))
+        )
         low_quality_prior = float(np.clip(low_quality_prior, 1e-6, 1 - 1e-6))
+        self.quality_prior_log_odds: torch.Tensor
         self.register_buffer(
             "quality_prior_log_odds",
             torch.tensor(math.log(low_quality_prior / (1.0 - low_quality_prior))),
@@ -225,13 +226,13 @@ class SafeMIModel(nn.Module):
             self.text_quality_evidence(evidence_states).squeeze(-1).float()
         )
         code_probabilities = (
-            therapist_probabilities.detach()
-            if self.mode.detach_task_a
-            else therapist_probabilities
+            therapist_probabilities.detach() if self.mode.detach_task_a else therapist_probabilities
         )
         action_scale = torch.sigmoid(self.action_evidence_logit)
-        action_evidence = action_scale * self.evidence_bound * torch.tanh(
-            self.action_quality_evidence(code_probabilities).squeeze(-1).float()
+        action_evidence = (
+            action_scale
+            * self.evidence_bound
+            * torch.tanh(self.action_quality_evidence(code_probabilities).squeeze(-1).float())
         )
         action_evidence *= roles.eq(1)
         text_evidence *= valid_mask

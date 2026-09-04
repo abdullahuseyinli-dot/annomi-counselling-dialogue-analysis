@@ -22,7 +22,9 @@ def normalize_overlap_text(value: str) -> str:
     """Normalize titles/transcripts exactly as locked by the external protocol."""
 
     normalized = unicodedata.normalize("NFKC", str(value)).casefold()
-    return re.sub(r"\s+", " ", "".join(char if char.isalnum() else " " for char in normalized)).strip()
+    return re.sub(
+        r"\s+", " ", "".join(char if char.isalnum() else " " for char in normalized)
+    ).strip()
 
 
 def token_set_ratio(first: str, second: str) -> float:
@@ -180,12 +182,8 @@ def build_mi_tags_sample_audit(corpus: Corpus) -> dict[str, Any]:
     manifest = _verify_sample_files()
     samples, schema = _sample_records()
     annomi = _annomi_records(corpus)
-    title_threshold = float(
-        protocol["overlap_audit"]["fuzzy_title_token_set_ratio_threshold"]
-    )
-    shingle_threshold = float(
-        protocol["overlap_audit"]["five_word_shingle_jaccard_threshold"]
-    )
+    title_threshold = float(protocol["overlap_audit"]["fuzzy_title_token_set_ratio_threshold"])
+    shingle_threshold = float(protocol["overlap_audit"]["five_word_shingle_jaccard_threshold"])
     rows: list[dict[str, Any]] = []
     for sample in samples:
         normalized_title = normalize_overlap_text(sample["title"])
@@ -206,9 +204,7 @@ def build_mi_tags_sample_audit(corpus: Corpus) -> dict[str, Any]:
             normalize_overlap_text(best_text["text"]).encode()
         ).hexdigest()
         exact_session_text = sample_text_hash == best_text_hash
-        exact_fragment = any(
-            sample_text_hash in record["utterance_hashes"] for record in annomi
-        )
+        exact_fragment = any(sample_text_hash in record["utterance_hashes"] for record in annomi)
         quarantined = bool(
             exact_title
             or title_score >= title_threshold
@@ -236,22 +232,18 @@ def build_mi_tags_sample_audit(corpus: Corpus) -> dict[str, Any]:
             }
         )
     partitions = pd.Series([row["locked_partition_if_released"] for row in rows]).value_counts()
-    quarantined = sum(bool(row["quarantined"]) for row in rows)
+    quarantined_count = sum(bool(row["quarantined"]) for row in rows)
     return {
         "audit_id": "annomi-safe-mi-mi-tags-public-sample-overlap-v1",
         "status": "sample_audit_complete_full_external_evaluation_blocked",
         "performance_claim_permitted": False,
         "protocol_id": protocol["protocol_id"],
         "protocol_sha256": sha256_file(MI_TAGS_EXTERNAL_PROTOCOL),
-        "protocol_commit_before_sample_retrieval": manifest[
-            "protocol_commit_before_retrieval"
-        ],
+        "protocol_commit_before_sample_retrieval": manifest["protocol_commit_before_retrieval"],
         "code_commit": git_commit(ROOT),
         "upstream_repository": manifest["upstream_repository"],
         "upstream_commit": manifest["upstream_commit"],
-        "sample_file_sha256": {
-            name: value["sha256"] for name, value in manifest["files"].items()
-        },
+        "sample_file_sha256": {name: value["sha256"] for name, value in manifest["files"].items()},
         "schema": schema,
         "thresholds": protocol["overlap_audit"],
         "supplemental_safety_check": (
@@ -260,14 +252,12 @@ def build_mi_tags_sample_audit(corpus: Corpus) -> dict[str, Any]:
         "records": rows,
         "summary": {
             "sample_records": len(rows),
-            "quarantined_records": quarantined,
-            "clear_records": len(rows) - quarantined,
+            "quarantined_records": quarantined_count,
+            "clear_records": len(rows) - quarantined_count,
             "partition_counts_before_quarantine": {
                 str(name): int(value) for name, value in partitions.items()
             },
-            "minimum_test_groups_required": int(
-                protocol["locked_split"]["minimum_test_groups"]
-            ),
+            "minimum_test_groups_required": int(protocol["locked_split"]["minimum_test_groups"]),
             "sample_sufficient_for_external_evaluation": False,
         },
         "full_external_stage": {

@@ -8,9 +8,11 @@ weights, libraries, or source media.
 
 Raw counselling text is not redistributed. `tools/download_dataset.py` retrieves the
 simplified dataset from the official repository at a pinned commit and verifies its
-digest. The extended AnnoMI paper describes the dataset release as public domain; users
-should review the current upstream repository, source-media permissions, and cited papers
-before redistribution or downstream use.
+digest. The official AnnoMI repository did not expose a separate dataset licence when this
+notice was prepared. Public availability is not, by itself, a licence grant. Users should
+review the current upstream terms, source-media permissions, and cited papers before using
+or redistributing the data. The repository's MIT licence covers this project's original
+software and documentation, not the upstream dialogue data or third-party annotations.
 
 - Repository: https://github.com/uccollab/AnnoMI
 - Initial paper: https://doi.org/10.1109/ICASSP43922.2022.9746035

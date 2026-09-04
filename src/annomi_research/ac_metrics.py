@@ -51,7 +51,10 @@ def evaluate_quality_predictions(predictions: pd.DataFrame) -> dict[str, Any]:
         if frame.empty:
             continue
         probabilities = frame["prob_low"].to_numpy(dtype=float)
-        if not np.isfinite(probabilities).all() or ((probabilities < 0) | (probabilities > 1)).any():
+        if (
+            not np.isfinite(probabilities).all()
+            or ((probabilities < 0) | (probabilities > 1)).any()
+        ):
             raise ValueError("Task A probabilities must be finite and in [0, 1]")
         targets = frame["label"].eq("low").to_numpy(dtype=int)
         predicted = np.where(probabilities >= 0.5, "low", "high")
@@ -62,7 +65,9 @@ def evaluate_quality_predictions(predictions: pd.DataFrame) -> dict[str, Any]:
             "n_transcripts": len(frame),
             "n_sources": int(frame["source_id"].nunique()),
             "low_transcripts": int(targets.sum()),
-            "source_balanced_accuracy": float(np.average(predicted == frame["label"], weights=weights)),
+            "source_balanced_accuracy": float(
+                np.average(predicted == frame["label"], weights=weights)
+            ),
             "source_balanced_balanced_accuracy": float(
                 balanced_accuracy_score(frame["label"], predicted, sample_weight=weights)
             ),
@@ -201,9 +206,11 @@ def source_crc_threshold(
     selected_empirical_risk = 0.0
     selected_bound = 1.0 / (n_sources + 1)
     for threshold in candidates:
-        source_losses = frame.assign(missed=frame["score"].gt(threshold)).groupby(
-            "source_id", sort=False
-        )["missed"].mean()
+        source_losses = (
+            frame.assign(missed=frame["score"].gt(threshold))
+            .groupby("source_id", sort=False)["missed"]
+            .mean()
+        )
         empirical_risk = float(source_losses.mean())
         risk_bound = n_sources / (n_sources + 1) * empirical_risk + 1.0 / (n_sources + 1)
         if risk_bound <= alpha + 1e-12:

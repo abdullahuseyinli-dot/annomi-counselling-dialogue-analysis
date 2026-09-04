@@ -103,7 +103,7 @@ The systems are not intended for:
 - AnnoMI consists of public demonstration videos, not a representative sample of clinical care.
 - Source-disjoint validation reduces direct production/speaker leakage but does not establish
   transportability to private sessions, other languages, new coding manuals, or demographic groups.
-- The labels compress nuanced dialogue behavior. Disagreement can reflect ambiguity, coding
+- The labels compress nuanced dialogue behaviour. Disagreement can reflect ambiguity, coding
   conventions, or annotator tendencies rather than removable noise.
 - The multi-annotator result describes one anonymous ten-person panel across only seven dialogues.
 - Context can expose sensitive conversational details and modestly harms probabilistic quality in

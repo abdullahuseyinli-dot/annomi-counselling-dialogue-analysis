@@ -165,7 +165,9 @@ def _runtime_environment() -> dict[str, Any]:
         "cuda_available": torch.cuda.is_available(),
         "cuda_runtime": torch.version.cuda,
         "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
-        "bf16_supported": bool(torch.cuda.is_bf16_supported()) if torch.cuda.is_available() else False,
+        "bf16_supported": bool(torch.cuda.is_bf16_supported())
+        if torch.cuda.is_available()
+        else False,
     }
 
 
@@ -188,7 +190,9 @@ def _seed_everything(seed: int) -> None:
     torch.use_deterministic_algorithms(True, warn_only=True)
 
 
-def _require_registered_state(split_manifest: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+def _require_registered_state(
+    split_manifest: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
     protocol = read_json(AC_PROTOCOL)
     config = read_json(QTRACE_CONFIG)
     if protocol["status"] != "locked_before_task_ac_evaluation":
@@ -205,7 +209,9 @@ def _require_registered_state(split_manifest: dict[str, Any]) -> tuple[dict[str,
         if sha256_file(data_path) != read_json(manifest_path)["sha256"]:
             raise ValueError(f"Dataset hash mismatch: {data_path}")
     if not _git_is_clean():
-        raise RuntimeError("Commit tracked code and configuration before generating Q-TRACE evidence")
+        raise RuntimeError(
+            "Commit tracked code and configuration before generating Q-TRACE evidence"
+        )
     return protocol, config
 
 
@@ -233,7 +239,9 @@ def _embedding_cache_paths(config: dict[str, Any]) -> tuple[Path, Path]:
     return root / f"turn_embeddings_{identity}.npz", root / f"turn_embeddings_{identity}.json"
 
 
-def extract_turn_embeddings(corpus: Corpus, config: dict[str, Any]) -> dict[tuple[int, int], np.ndarray]:
+def extract_turn_embeddings(
+    corpus: Corpus, config: dict[str, Any]
+) -> dict[tuple[int, int], np.ndarray]:
     cache_path, metadata_path = _embedding_cache_paths(config)
     frame = corpus.utterances.sort_values(
         ["transcript_id", "utterance_id"], kind="stable"
@@ -293,7 +301,10 @@ def extract_turn_embeddings(corpus: Corpus, config: dict[str, Any]) -> dict[tupl
                 pooled = (hidden.float() * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1)
             outputs.append(pooled.cpu().numpy().astype(np.float16))
             if start == 0 or (start // batch_size + 1) % 25 == 0:
-                print(f"Q-TRACE embeddings: {min(start + batch_size, len(frame))}/{len(frame)}", flush=True)
+                print(
+                    f"Q-TRACE embeddings: {min(start + batch_size, len(frame))}/{len(frame)}",
+                    flush=True,
+                )
     finally:
         del model
         gc.collect()
@@ -384,8 +395,14 @@ def _inner_partitions(
     calibration = [
         session for session in outer_train if assignment[session.source_id] == calibration_fold
     ]
-    partitions = [{session.source_id for session in values} for values in (fit, validation, calibration)]
-    if partitions[0] & partitions[1] or partitions[0] & partitions[2] or partitions[1] & partitions[2]:
+    partitions = [
+        {session.source_id for session in values} for values in (fit, validation, calibration)
+    ]
+    if (
+        partitions[0] & partitions[1]
+        or partitions[0] & partitions[2]
+        or partitions[1] & partitions[2]
+    ):
         raise AssertionError("Internal fit/validation/calibration sources overlap")
     return fit, validation, calibration, assignment
 
@@ -400,10 +417,7 @@ def _class_weights(sessions: list[SessionTurns], device: torch.device) -> dict[s
 
     quality = [session.quality for session in sessions]
     therapist = [
-        int(value)
-        for session in sessions
-        for value in session.therapist_labels
-        if int(value) >= 0
+        int(value) for session in sessions for value in session.therapist_labels if int(value) >= 0
     ]
     client = [
         int(value) for session in sessions for value in session.client_labels if int(value) >= 0
@@ -496,7 +510,9 @@ def _predict_sessions(
                             "prob_high": 1.0 - probability_low,
                             "prob_low": probability_low,
                             "prediction": "low" if probability_low >= 0.5 else "high",
-                            "cumulative_text_evidence": float(text_evidence[row, : position + 1].sum()),
+                            "cumulative_text_evidence": float(
+                                text_evidence[row, : position + 1].sum()
+                            ),
                             "cumulative_action_evidence": float(
                                 action_evidence[row, : position + 1].sum()
                             ),
@@ -517,9 +533,7 @@ def _predict_sessions(
                         "source_id": session.source_id,
                         "label": LABELS[int(session.next_action_targets[position])],
                         "prediction": LABELS[int(probabilities.argmax())],
-                        "seen_text_in_outer_train": normalize_text(
-                            session.texts[position]
-                        )
+                        "seen_text_in_outer_train": normalize_text(session.texts[position])
                         in fit_texts,
                         "predicted_low_quality_probability": float(
                             quality_probabilities[row, position, 1]
@@ -616,9 +630,7 @@ def _fit_one(
                         batch_on_device["roles"],
                         batch_on_device["lengths"],
                     )
-                    loss, _ = qtrace_loss(
-                        output, batch_on_device, mode, training, class_weights
-                    )
+                    loss, _ = qtrace_loss(output, batch_on_device, mode, training, class_weights)
                 if not torch.isfinite(loss):
                     raise FloatingPointError("Q-TRACE training produced a non-finite loss")
                 loss.backward()
@@ -702,8 +714,10 @@ def _fit_one(
 
 
 def _cache_directory(config_sha256: str, split_sha256: str) -> Path:
-    return ARTIFACTS / "qtrace_mi_v1" / (
-        f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}"
+    return (
+        ARTIFACTS
+        / "qtrace_mi_v1"
+        / (f"runs_{git_commit(ROOT)[:12]}_{config_sha256[:12]}_{split_sha256[:12]}")
     )
 
 
@@ -765,7 +779,11 @@ def _load_fit_cache(
     if not paths["metadata"].exists():
         return None
     metadata = json.loads(paths["metadata"].read_text(encoding="utf-8"))
-    if metadata.get("model") != mode.name or metadata.get("fold") != fold or metadata.get("seed") != seed:
+    if (
+        metadata.get("model") != mode.name
+        or metadata.get("fold") != fold
+        or metadata.get("seed") != seed
+    ):
         raise ValueError("Q-TRACE cache identity mismatch")
     frames: dict[str, pd.DataFrame] = {}
     for name in ("calibration_a", "calibration_c", "test_a", "test_c"):
@@ -824,7 +842,11 @@ def _ensemble_action(frame: pd.DataFrame) -> pd.DataFrame:
         "transition_gate_high",
         "transition_gate_low",
     ]
-    ensemble = frame.groupby(keys, sort=False)[probability_columns + diagnostic_columns].mean().reset_index()
+    ensemble = (
+        frame.groupby(keys, sort=False)[probability_columns + diagnostic_columns]
+        .mean()
+        .reset_index()
+    )
     for column in probability_columns:
         ensemble[f"raw_{column}"] = ensemble[column]
     ensemble["prediction"] = np.asarray(LABELS, dtype=object)[
@@ -927,9 +949,12 @@ def _calibrate_action(
 def _source_bootstrap_weights(frame: pd.DataFrame, sampled_sources: np.ndarray) -> np.ndarray:
     multiplicity = Counter(str(value) for value in sampled_sources)
     row_counts = frame["source_id"].astype(str).value_counts()
-    return frame["source_id"].astype(str).map(
-        lambda value: multiplicity.get(value, 0) / float(row_counts[value])
-    ).to_numpy(dtype=float)
+    return (
+        frame["source_id"]
+        .astype(str)
+        .map(lambda value: multiplicity.get(value, 0) / float(row_counts[value]))
+        .to_numpy(dtype=float)
+    )
 
 
 def _bootstrap_inference(
@@ -952,12 +977,16 @@ def _bootstrap_inference(
     )
     a_keys = ["source_id", "transcript_id", "checkpoint", "label"]
     c_keys = ["source_id", "transcript_id", "target_utterance_id", "label"]
-    if not qtrace_a[a_keys].reset_index(drop=True).equals(
-        baseline_a[a_keys].reset_index(drop=True)
+    if (
+        not qtrace_a[a_keys]
+        .reset_index(drop=True)
+        .equals(baseline_a[a_keys].reset_index(drop=True))
     ):
         raise ValueError("Task A candidate and baseline ledgers do not align")
-    if not qtrace_c[c_keys].reset_index(drop=True).equals(
-        baseline_c[c_keys].reset_index(drop=True)
+    if (
+        not qtrace_c[c_keys]
+        .reset_index(drop=True)
+        .equals(baseline_c[c_keys].reset_index(drop=True))
     ):
         raise ValueError("Task C candidate and baseline ledgers do not align")
     a_sources = qtrace_a["source_id"].astype(str).unique()
@@ -975,9 +1004,7 @@ def _bootstrap_inference(
         active_a = a_weights > 0
         active_c = c_weights > 0
         candidate_a_prediction = np.where(qtrace_a["prob_low"].to_numpy() >= 0.5, "low", "high")
-        baseline_a_prediction = np.where(
-            baseline_a["prob_low"].to_numpy() >= 0.5, "low", "high"
-        )
+        baseline_a_prediction = np.where(baseline_a["prob_low"].to_numpy() >= 0.5, "low", "high")
         candidate_a = balanced_accuracy_score(
             qtrace_a.loc[active_a, "label"],
             candidate_a_prediction[active_a],
@@ -1075,9 +1102,7 @@ def _seed_deltas(task_a: pd.DataFrame, task_c: pd.DataFrame) -> dict[str, Any]:
             candidate_metric_c = evaluate_action_predictions(candidate_c)[
                 "source_balanced_macro_f1"
             ]
-            baseline_metric_c = evaluate_action_predictions(baseline_c)[
-                "source_balanced_macro_f1"
-            ]
+            baseline_metric_c = evaluate_action_predictions(baseline_c)["source_balanced_macro_f1"]
             result["task_c"][str(seed)] = candidate_metric_c - baseline_metric_c
     result["task_a_positive_seed_count"] = sum(value > 0 for value in result["task_a"].values())
     result["task_c_positive_seed_count"] = sum(value > 0 for value in result["task_c"].values())
@@ -1101,9 +1126,7 @@ def run_qtrace(
         validate_qtrace_evidence(output_dir)
         return read_json(output_dir / "summary.json")
     protocol, config = _require_registered_state(split_manifest)
-    sessions = build_session_turns(
-        corpus, tuple(protocol["task_a"]["therapist_turn_budgets"])
-    )
+    sessions = build_session_turns(corpus, tuple(protocol["task_a"]["therapist_turn_budgets"]))
     if sum(int((session.next_action_targets >= 0).sum()) for session in sessions) != int(
         protocol["task_c"]["expected_decisions"]
     ):
@@ -1188,9 +1211,7 @@ def run_qtrace(
     calibration_c = _ensemble_action(pd.concat(all_calibration_c, ignore_index=True))
     task_a_ensemble = _ensemble_quality(task_a_by_seed)
     task_c_ensemble = _ensemble_action(task_c_by_seed)
-    task_a_ensemble, calibration_a_records = _calibrate_quality(
-        calibration_a, task_a_ensemble
-    )
+    task_a_ensemble, calibration_a_records = _calibrate_quality(calibration_a, task_a_ensemble)
     task_c_ensemble, calibration_c_records = _calibrate_action(
         calibration_c,
         task_c_ensemble,
@@ -1220,14 +1241,14 @@ def run_qtrace(
     qtrace_c_metric = task_c_metrics["qtrace_mi"]
     baseline_c_metric = task_c_metrics["c_only"]
     c_point_delta = (
-        qtrace_c_metric["source_balanced_macro_f1"]
-        - baseline_c_metric["source_balanced_macro_f1"]
+        qtrace_c_metric["source_balanced_macro_f1"] - baseline_c_metric["source_balanced_macro_f1"]
     )
     c_brier_delta = (
-        qtrace_c_metric["source_balanced_brier"]
-        - baseline_c_metric["source_balanced_brier"]
+        qtrace_c_metric["source_balanced_brier"] - baseline_c_metric["source_balanced_brier"]
     )
-    class_collapse = set(task_c_ensemble.loc[task_c_ensemble["model"].eq("qtrace_mi"), "prediction"]) != set(LABELS)
+    class_collapse = set(
+        task_c_ensemble.loc[task_c_ensemble["model"].eq("qtrace_mi"), "prediction"]
+    ) != set(LABELS)
     gate = {
         "task_a_positive_interval": bool(a_interval["low"] > 0),
         "task_c_minimum_delta": bool(
@@ -1299,9 +1320,7 @@ def run_qtrace_smoke(corpus: Corpus, split_manifest: dict[str, Any]) -> dict[str
     if output_path.exists():
         return read_json(output_path)
     device = _require_device()
-    sessions = build_session_turns(
-        corpus, tuple(protocol["task_a"]["therapist_turn_budgets"])
-    )
+    sessions = build_session_turns(corpus, tuple(protocol["task_a"]["therapist_turn_budgets"]))
     lookup = fold_lookup(split_manifest)
     outer_train = [session for session in sessions if lookup[session.source_id] != 0]
     fit, _, _, _ = _inner_partitions(outer_train, 0, config)
@@ -1337,13 +1356,9 @@ def run_qtrace_smoke(corpus: Corpus, split_manifest: dict[str, Any]) -> dict[str
     optimizer.zero_grad(set_to_none=True)
     with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
         output = model(batch["embeddings"], batch["roles"], batch["lengths"])
-        loss, components = qtrace_loss(
-            output, batch, mode, config["training"], class_weights
-        )
+        loss, components = qtrace_loss(output, batch, mode, config["training"], class_weights)
     loss.backward()
-    nn.utils.clip_grad_norm_(
-        model.parameters(), float(config["training"]["maximum_gradient_norm"])
-    )
+    nn.utils.clip_grad_norm_(model.parameters(), float(config["training"]["maximum_gradient_norm"]))
     optimizer.step()
     action_sums = output["action_probabilities"].float().sum(dim=-1)
     quality_sums = output["online_quality_probabilities"].float().sum(dim=-1)
@@ -1405,9 +1420,7 @@ def validate_qtrace_evidence(output_dir: Path) -> None:
     )
     if task_a_seed.duplicated(["model", "seed", "transcript_id", "checkpoint"]).any():
         raise ValueError("Duplicate Q-TRACE Task A per-seed prediction")
-    if task_c_seed.duplicated(
-        ["model", "seed", "transcript_id", "target_utterance_id"]
-    ).any():
+    if task_c_seed.duplicated(["model", "seed", "transcript_id", "target_utterance_id"]).any():
         raise ValueError("Duplicate Q-TRACE Task C per-seed prediction")
     if task_a.duplicated(["model", "transcript_id", "checkpoint"]).any():
         raise ValueError("Duplicate Q-TRACE Task A ensemble prediction")
@@ -1429,7 +1442,8 @@ def validate_qtrace_evidence(output_dir: Path) -> None:
                 "source_balanced_log_loss",
             ):
                 _assert_close(
-                    metrics[metric], recorded[checkpoint][metric],
+                    metrics[metric],
+                    recorded[checkpoint][metric],
                     f"A/{model}/{checkpoint}/{metric}",
                 )
     for model, frame in task_c.groupby("model", sort=True):
@@ -1448,6 +1462,4 @@ def validate_qtrace_evidence(output_dir: Path) -> None:
             "source_balanced_mean_set_size",
             "source_balanced_singleton_rate",
         ):
-            _assert_close(
-                set_metrics[metric], recorded_sets[metric], f"sets/{model}/{metric}"
-            )
+            _assert_close(set_metrics[metric], recorded_sets[metric], f"sets/{model}/{metric}")

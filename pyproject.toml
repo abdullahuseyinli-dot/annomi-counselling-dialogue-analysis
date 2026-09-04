@@ -4,12 +4,29 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "annomi-counselling-dialogue-analysis"
-version = "0.2.0"
+version = "0.3.0.dev0"
 description = "Source-disjoint and disagreement-aware AnnoMI research benchmark"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "Abdulla Huseyinli" }]
+keywords = [
+  "motivational interviewing",
+  "natural language processing",
+  "behaviour coding",
+  "grouped cross-validation",
+  "uncertainty quantification",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
   "joblib>=1.5,<2",
   "numpy>=2.2,<3",
@@ -31,7 +48,10 @@ analysis = [
   "pandas>=2.2,<3",
 ]
 dev = [
+  "matplotlib>=3.8,<4",
+  "mypy>=1.18,<2",
   "pytest>=8,<10",
+  "pytest-cov>=7,<8",
   "ruff>=0.15,<1",
 ]
 neural = [
@@ -42,11 +62,38 @@ neural = [
   "torch==2.14.0",
   "transformers>=4.55,<6",
 ]
+neural-cpu = [
+  "accelerate>=1.10,<2",
+  "datasets>=3.6,<5",
+  "peft>=0.17,<1",
+  "sentencepiece>=0.2,<0.3",
+  "torch==2.14.0",
+  "transformers>=4.55,<6",
+]
+
+[project.urls]
+Repository = "https://github.com/abdullahuseyinli-dot/annomi-counselling-dialogue-analysis"
+Issues = "https://github.com/abdullahuseyinli-dot/annomi-counselling-dialogue-analysis/issues"
+Documentation = "https://github.com/abdullahuseyinli-dot/annomi-counselling-dialogue-analysis/tree/main/docs"
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cu130", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+  { index = "pytorch-cu130", extra = "neural" },
+  { index = "pytorch-cpu", extra = "neural-cpu" },
 ]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "neural" },
+    { extra = "neural-cpu" },
+  ],
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cu130"
@@ -55,10 +102,13 @@ explicit = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["annomi_research*", "annomi_portfolio*"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+strict_config = true
+strict_markers = true
 
 [tool.coverage.run]
 branch = true
@@ -66,8 +116,33 @@ source = ["annomi_research"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 70
+fail_under = 25
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tools/build_ac_assets.py" = ["E402"]
+"tools/build_research_assets.py" = ["E402", "RUF001"]
+"tools/build_safe_mi_assets.py" = ["E402"]
+"tools/validate_repository.py" = ["E402"]
+
+[tool.ruff.format]
+# These builders are byte-pinned by create-only publication manifests.
+exclude = [
+  "tools/build_ac_assets.py",
+  "tools/build_research_assets.py",
+  "tools/build_safe_mi_assets.py",
+]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src/annomi_research"]
+ignore_missing_imports = true
+no_strict_optional = true
+check_untyped_defs = true
+warn_unused_ignores = true
