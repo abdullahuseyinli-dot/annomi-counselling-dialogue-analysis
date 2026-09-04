@@ -10,6 +10,7 @@ from .constants import (
     AC_PROTOCOL,
     FULL_DATA,
     FULL_MANIFEST,
+    MI_TAGS_EXTERNAL_PROTOCOL,
     LABELS,
     PROTOCOL,
     QTRACE_CONFIG,
@@ -92,6 +93,15 @@ def validate_research(
     if safe_config["protocol_id"] != safe_protocol["protocol_id"]:
         raise ValueError("SAFE-MI protocol and configuration disagree")
     checks.append("SAFE-MI v2 is explicitly registered as post-Q-TRACE exploratory work")
+
+    external_protocol = read_json(MI_TAGS_EXTERNAL_PROTOCOL)
+    if external_protocol["status"] != "registered_before_mi_tags_sample_or_full_data_access":
+        raise ValueError("MI-TAGS external protocol was not locked before data access")
+    if external_protocol["sample_boundary"]["performance_claim_permitted"]:
+        raise ValueError("MI-TAGS public samples cannot support a performance claim")
+    if len(external_protocol["task_c_mapping"]) != 11:
+        raise ValueError("MI-TAGS to AnnoMI mapping is incomplete")
+    checks.append("MI-TAGS external protocol, mapping, and sample boundary")
 
     split_manifest = read_json(split_manifest_path)
     validate_source_folds(corpus, split_manifest)

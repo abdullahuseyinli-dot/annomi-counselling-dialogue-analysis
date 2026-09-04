@@ -1,0 +1,88 @@
+{
+  "protocol_id": "annomi-safe-mi-mi-tags-external-v1",
+  "status": "registered_before_mi_tags_sample_or_full_data_access",
+  "registered_date": "2026-09-04",
+  "purpose": "external confirmation of SAFE-MI findings after AnnoMI development was consumed",
+  "source": {
+    "repository": "https://github.com/Advanced-Reality-Lab/MI-TAGS",
+    "commit": "a4c3fca2686a7e6a2ac9b19f35e43b45d08b56a6",
+    "paper": "https://aclanthology.org/2024.lrec-main.1017/",
+    "sample_files": ["sample_utterances.csv", "sample_global_mitis.csv"],
+    "full_data_access": "requires the official author-hosted access request form"
+  },
+  "access_sequence": [
+    "freeze this protocol in Git",
+    "download the public sample at the pinned commit",
+    "audit exact and fuzzy title overlap before inspecting sample outcomes",
+    "audit exact normalized transcript and local-shingle overlap",
+    "quarantine every possible AnnoMI overlap",
+    "request the full corpus under its official terms",
+    "apply the same audit and deterministic split without changing thresholds"
+  ],
+  "overlap_audit": {
+    "annomi_group": "normalized video_url source_id",
+    "mi_tags_group": "normalized Video Title until full source URLs are supplied",
+    "normalization": "Unicode NFKC, lowercase, alphanumeric tokens separated by one space",
+    "exact_title_match": true,
+    "fuzzy_title_token_set_ratio_threshold": 0.92,
+    "exact_session_text_sha256": true,
+    "five_word_shingle_jaccard_threshold": 0.35,
+    "quarantine_rule": "quarantine if any title threshold or transcript threshold is met",
+    "manual_release_permitted": false
+  },
+  "locked_split": {
+    "unit": "normalized Video Title source group after overlap quarantine",
+    "rule": "SHA256(group_key) interpreted as an integer modulo 5",
+    "train_remainders": [0, 1, 2],
+    "calibration_remainder": 3,
+    "test_remainder": 4,
+    "minimum_test_groups": 20,
+    "fallback_if_minimum_not_met": "blocked; do not alter the rule after outcome access"
+  },
+  "task_c_mapping": {
+    "Question": "question",
+    "Simple Reflection": "reflection",
+    "Complex Reflection": "reflection",
+    "Giving Information": "therapist_input",
+    "Persuade": "therapist_input",
+    "Persuade with Permission": "therapist_input",
+    "Seeking Collaboration": "therapist_input",
+    "Structure Statement": "other",
+    "Emphasize Autonomy": "other",
+    "Confront": "other",
+    "Affirm": "other"
+  },
+  "task_a": {
+    "targets": [
+      "Empathy",
+      "SofteningSustainTalk",
+      "CultivatingChangeTalk",
+      "Partnership"
+    ],
+    "scale": "MITI 4.2 ordinal 1-5",
+    "primary_metric": "source_balanced_quadratic_weighted_kappa",
+    "secondary_metrics": [
+      "source_balanced_mean_absolute_error",
+      "source_balanced_spearman_correlation"
+    ],
+    "claim_boundary": "The AnnoMI uploader quality target is not equated with any MITI global score."
+  },
+  "task_c": {
+    "target": "mapped next therapist MITI behaviour after a client turn",
+    "primary_metric": "source_balanced_macro_f1",
+    "proper_metrics": ["source_balanced_brier", "source_balanced_log_loss"],
+    "claim_boundary": "Forecasting the recorded action does not identify an optimal intervention."
+  },
+  "confirmation_rule": {
+    "comparison": "SAFE-MI finalist versus the frozen-GRU matched external baseline",
+    "task_c_minimum_macro_f1_gain": 0.02,
+    "task_c_source_bootstrap_interval_must_be_positive": true,
+    "maximum_task_c_brier_degradation": 0.01,
+    "task_a_direction": "report all four ordinal outcomes; no binary-quality equivalence claim",
+    "multiplicity": "Holm correction across the four Task A targets"
+  },
+  "sample_boundary": {
+    "performance_claim_permitted": false,
+    "allowed_uses": ["schema validation", "overlap audit", "pipeline smoke test"]
+  }
+}
