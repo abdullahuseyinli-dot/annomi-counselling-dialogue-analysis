@@ -1,0 +1,1617 @@
+{
+  "code_commit": "937cd4f4ebd150e8e3d8e23c0ea70f8ea28d41a7",
+  "cohort": {
+    "annotations_per_item": 10,
+    "anonymous_annotators": 10,
+    "items": 428,
+    "items_by_task": {
+      "client": 212,
+      "therapist": 216
+    },
+    "plurality_ties_by_task": {
+      "client": 10,
+      "therapist": 4
+    },
+    "transcripts": [
+      7,
+      27,
+      55,
+      56,
+      66,
+      109,
+      130
+    ]
+  },
+  "config_id": "annomi-panel-mi-v1",
+  "config_sha256": "aaa9a31df44094a0e7cecae2d3f908c7ea38ee7035abf05d8b35e7b86115076b",
+  "dataset_sha256": {
+    "full": "3b60fec5e9d83cbb18ade0e412fb9afaef3b81724748a5d715f844bdd7432c9f",
+    "simple": "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61"
+  },
+  "elapsed_seconds_current_invocation": 105.53418879999663,
+  "embedding": {
+    "cache_filename": "embeddings_937cd4f4ebd1_e362c303c84df233.npz",
+    "cache_hit": false,
+    "cohort_fingerprint": "e362c303c84df233c7a58bc5a96d11f630f492358e8ea9e7fe6cc1b0adff4b73",
+    "dimensions": 768,
+    "peak_encoder_memory_bytes": 639162880,
+    "rows": 428
+  },
+  "ensemble_prediction_ledger_sha256": "25073b29dd0265b86a8ad61b4d12edc15573ad911759f73ac0a02b154eb080c4",
+  "final_seeds": [
+    17,
+    42,
+    101,
+    314,
+    2718
+  ],
+  "inference": {
+    "candidate_success_gate": {
+      "checks": {
+        "bootstrap_upper_bound_below_zero": false,
+        "exact_one_sided_sign_flip_p_at_most_threshold": false,
+        "jensen_shannon_divergence_not_increased": true,
+        "minimum_improved_transcripts": false,
+        "vote_log_score_delta_negative": false
+      },
+      "pass": false
+    },
+    "comparisons": {
+      "client:panel_mi_vs_soft_linear": {
+        "baseline": "soft_linear",
+        "bootstrap_resamples": 10000,
+        "candidate": "panel_mi",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": 0.013646931379679875,
+            "low": -0.001262343668867325
+          },
+          "vote_brier": {
+            "high": 0.05601368866606604,
+            "low": 0.014775153702001272
+          },
+          "vote_log_score": {
+            "high": 0.12108777980394118,
+            "low": 0.034100190812482646
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.984375,
+        "improved_transcripts_vote_log_score": 1,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": 0.015523161417391308,
+            "vote_brier": 0.07095883302230435,
+            "vote_log_score": 0.12181449164434788
+          },
+          "130": {
+            "jensen_shannon_divergence": -0.009673779760909086,
+            "vote_brier": -0.01791819017909091,
+            "vote_log_score": -0.02520865700909092
+          },
+          "27": {
+            "jensen_shannon_divergence": 0.01785477879,
+            "vote_brier": 0.05955127520272727,
+            "vote_log_score": 0.16269934299090913
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.005849531088375,
+            "vote_brier": 0.013335269113125006,
+            "vote_log_score": 0.022398927626562523
+          },
+          "56": {
+            "jensen_shannon_divergence": 0.003999815565034482,
+            "vote_brier": 0.034780484019436786,
+            "vote_log_score": 0.06537264986586207
+          },
+          "66": {
+            "jensen_shannon_divergence": 0.016111698735333337,
+            "vote_brier": 0.050942814867333326,
+            "vote_log_score": 0.10847290191333332
+          },
+          "7": {
+            "jensen_shannon_divergence": 0.008072587624666665,
+            "vote_brier": 0.0467815020769697,
+            "vote_log_score": 0.10474123757787882
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": 0.006576961611877387,
+          "vote_brier": 0.036918855446115076,
+          "vote_log_score": 0.08004155637282896
+        },
+        "task": "client",
+        "tied_transcripts_vote_log_score": 0
+      },
+      "client:soft_linear_vs_hard_linear": {
+        "baseline": "hard_linear",
+        "bootstrap_resamples": 10000,
+        "candidate": "soft_linear",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": -0.0023822921110259205,
+            "low": -0.02370610063541803
+          },
+          "vote_brier": {
+            "high": 0.014709880962490695,
+            "low": -0.06403909498756158
+          },
+          "vote_log_score": {
+            "high": 0.020795302912703383,
+            "low": -0.09286480647047617
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.1328125,
+        "improved_transcripts_vote_log_score": 6,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": -0.013078937094956517,
+            "vote_brier": -0.01318938818478261,
+            "vote_log_score": -0.02485757266956523
+          },
+          "130": {
+            "jensen_shannon_divergence": -0.035923025394545456,
+            "vote_brier": -0.11569677733818183,
+            "vote_log_score": -0.16037835328181815
+          },
+          "27": {
+            "jensen_shannon_divergence": 0.010148760123636358,
+            "vote_brier": 0.04443313175636364,
+            "vote_log_score": 0.08923938421818184
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.006562209638406247,
+            "vote_brier": 0.0021447460976249944,
+            "vote_log_score": -0.010444089350000012
+          },
+          "56": {
+            "jensen_shannon_divergence": -0.004222257663942529,
+            "vote_brier": 0.009271171983068963,
+            "vote_log_score": -0.004093217254022991
+          },
+          "66": {
+            "jensen_shannon_divergence": -0.030340219148000003,
+            "vote_brier": -0.09019480465866667,
+            "vote_log_score": -0.12716046741333334
+          },
+          "7": {
+            "jensen_shannon_divergence": -0.010168639133939391,
+            "vote_brier": 0.006605201345727272,
+            "vote_log_score": -0.0038370348393939485
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": -0.012878075421450542,
+          "vote_brier": -0.022375245571263747,
+          "vote_log_score": -0.0345044786557074
+        },
+        "task": "client",
+        "tied_transcripts_vote_log_score": 0
+      },
+      "client:soft_linear_vs_transcript_balanced_prior": {
+        "baseline": "transcript_balanced_prior",
+        "bootstrap_resamples": 10000,
+        "candidate": "soft_linear",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": -0.02351148714996292,
+            "low": -0.04896726483107281
+          },
+          "vote_brier": {
+            "high": -0.04054080519331526,
+            "low": -0.11401092896455034
+          },
+          "vote_log_score": {
+            "high": -0.04018179670390361,
+            "low": -0.17725144794568876
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.015625,
+        "improved_transcripts_vote_log_score": 6,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": -0.04003182534869564,
+            "vote_brier": -0.09480502503391304,
+            "vote_log_score": -0.12729628915652177
+          },
+          "130": {
+            "jensen_shannon_divergence": -0.06334127419945455,
+            "vote_brier": -0.16565389007363637,
+            "vote_log_score": -0.26135671799090915
+          },
+          "27": {
+            "jensen_shannon_divergence": -0.0024831467083636445,
+            "vote_brier": 0.010595109345454571,
+            "vote_log_score": 0.06594852407272728
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.04053904992809375,
+            "vote_brier": -0.07768686373768752,
+            "vote_log_score": -0.13012246614374998
+          },
+          "56": {
+            "jensen_shannon_divergence": -0.029310649316264363,
+            "vote_brier": -0.049743558811103435,
+            "vote_log_score": -0.09124732246091956
+          },
+          "66": {
+            "jensen_shannon_divergence": -0.037129308686,
+            "vote_brier": -0.09299092439266668,
+            "vote_log_score": -0.12163625166666664
+          },
+          "7": {
+            "jensen_shannon_divergence": -0.045768023288787874,
+            "vote_brier": -0.06849624580730303,
+            "vote_log_score": -0.11368394137575757
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": -0.03694332535366569,
+          "vote_brier": -0.07696877121583649,
+          "vote_log_score": -0.1113420663888282
+        },
+        "task": "client",
+        "tied_transcripts_vote_log_score": 0
+      },
+      "therapist:panel_mi_vs_soft_linear": {
+        "baseline": "soft_linear",
+        "bootstrap_resamples": 10000,
+        "candidate": "panel_mi",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": 0.0041515627991248975,
+            "low": -0.026076192666920628
+          },
+          "vote_brier": {
+            "high": 0.030584677355747096,
+            "low": -0.030508264027635817
+          },
+          "vote_log_score": {
+            "high": 0.10740813842299048,
+            "low": -0.035258422302880135
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.8671875,
+        "improved_transcripts_vote_log_score": 2,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": -0.053841923728652166,
+            "vote_brier": -0.07802624842196215,
+            "vote_log_score": -0.15035268741086957
+          },
+          "130": {
+            "jensen_shannon_divergence": -0.01288793243027273,
+            "vote_brier": -0.035161555920754546,
+            "vote_log_score": 0.04795594809090909
+          },
+          "27": {
+            "jensen_shannon_divergence": 0.01158009026666666,
+            "vote_brier": 0.03896923065841666,
+            "vote_log_score": 0.12129256413916668
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.0038748172269121198,
+            "vote_brier": 0.007141937274097948,
+            "vote_log_score": 0.049900939641496986
+          },
+          "56": {
+            "jensen_shannon_divergence": 0.011390149891348861,
+            "vote_brier": 0.052590376272833535,
+            "vote_log_score": 0.16688483312127272
+          },
+          "66": {
+            "jensen_shannon_divergence": -0.015574894995937505,
+            "vote_brier": 0.022256744248078143,
+            "vote_log_score": -0.014900345759125001
+          },
+          "7": {
+            "jensen_shannon_divergence": -0.00037001059839090946,
+            "vote_brier": 0.011168964497033999,
+            "vote_log_score": 0.08350276134684848
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": -0.009082762688878558,
+          "vote_brier": 0.0027056355153919423,
+          "vote_log_score": 0.043469144738528476
+        },
+        "task": "therapist",
+        "tied_transcripts_vote_log_score": 0
+      },
+      "therapist:soft_linear_vs_hard_linear": {
+        "baseline": "hard_linear",
+        "bootstrap_resamples": 10000,
+        "candidate": "soft_linear",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": 0.0034166779301233784,
+            "low": -0.02667892730388204
+          },
+          "vote_brier": {
+            "high": 0.01826484732133422,
+            "low": -0.040867911619167065
+          },
+          "vote_log_score": {
+            "high": 0.09270444392098742,
+            "low": -0.07340696927025736
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.5625,
+        "improved_transcripts_vote_log_score": 3,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": 0.0009617515991304365,
+            "vote_brier": -0.009332802796521739,
+            "vote_log_score": -0.006315400107391302
+          },
+          "130": {
+            "jensen_shannon_divergence": 0.01807687989,
+            "vote_brier": 0.055491350340818195,
+            "vote_log_score": 0.22438309056000003
+          },
+          "27": {
+            "jensen_shannon_divergence": -0.04163091044916667,
+            "vote_brier": -0.08748738118675,
+            "vote_log_score": -0.17426636999083334
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.03252642424678788,
+            "vote_brier": -0.03349393747258788,
+            "vote_log_score": -0.06618057435069696
+          },
+          "56": {
+            "jensen_shannon_divergence": -0.02383355064494318,
+            "vote_brier": -0.004760144992465907,
+            "vote_log_score": 0.009316579973056812
+          },
+          "66": {
+            "jensen_shannon_divergence": 0.008548160631875003,
+            "vote_brier": 0.008496465041874988,
+            "vote_log_score": 0.024138905112500022
+          },
+          "7": {
+            "jensen_shannon_divergence": -0.014047945519818182,
+            "vote_brier": -0.0033189555408303026,
+            "vote_log_score": 0.012264545322424247
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": -0.01206457696281578,
+          "vote_brier": -0.010629343800923233,
+          "vote_log_score": 0.0033343966455799323
+        },
+        "task": "therapist",
+        "tied_transcripts_vote_log_score": 0
+      },
+      "therapist:soft_linear_vs_transcript_balanced_prior": {
+        "baseline": "transcript_balanced_prior",
+        "bootstrap_resamples": 10000,
+        "candidate": "soft_linear",
+        "cluster_bootstrap_intervals": {
+          "jensen_shannon_divergence": {
+            "high": -0.15861025318642238,
+            "low": -0.20776972886742318
+          },
+          "vote_brier": {
+            "high": -0.32395075994056305,
+            "low": -0.41189515953503414
+          },
+          "vote_log_score": {
+            "high": -0.5054599740202351,
+            "low": -0.7257481790868513
+          }
+        },
+        "direction": "candidate_minus_baseline; negative favors candidate",
+        "exact_one_sided_sign_flip_p_vote_log_score": 0.0078125,
+        "improved_transcripts_vote_log_score": 7,
+        "n_transcript_clusters": 7,
+        "per_transcript_deltas": {
+          "109": {
+            "jensen_shannon_divergence": -0.1799523477969565,
+            "vote_brier": -0.4049567659191305,
+            "vote_log_score": -0.7057440153086957
+          },
+          "130": {
+            "jensen_shannon_divergence": -0.14110380110363638,
+            "vote_brier": -0.27966869581554543,
+            "vote_log_score": -0.29611438044000005
+          },
+          "27": {
+            "jensen_shannon_divergence": -0.14178961449333333,
+            "vote_brier": -0.28878125595925,
+            "vote_log_score": -0.5362174062158332
+          },
+          "55": {
+            "jensen_shannon_divergence": -0.22233984717496968,
+            "vote_brier": -0.4279719150539212,
+            "vote_log_score": -0.7757234712840302
+          },
+          "56": {
+            "jensen_shannon_divergence": -0.21053060440392046,
+            "vote_brier": -0.3995956975045227,
+            "vote_log_score": -0.7021712399884205
+          },
+          "66": {
+            "jensen_shannon_divergence": -0.16791242093624997,
+            "vote_brier": -0.35775010692375003,
+            "vote_log_score": -0.65582467320625
+          },
+          "7": {
+            "jensen_shannon_divergence": -0.22342879221042425,
+            "vote_brier": -0.43704780123607273,
+            "vote_log_score": -0.7443416358648484
+          }
+        },
+        "point_deltas": {
+          "jensen_shannon_divergence": -0.1838653468742129,
+          "vote_brier": -0.37082460548745605,
+          "vote_log_score": -0.630876688901154
+        },
+        "task": "therapist",
+        "tied_transcripts_vote_log_score": 0
+      }
+    }
+  },
+  "metrics": {
+    "panel_mi_per_seed": {
+      "client": {
+        "101": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.0927368188428988,
+          "mean_annotator_head_disagreement": 0.010268746907073816,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.18649292908277387,
+              "n_items": 23,
+              "vote_brier": 0.43258281564856604,
+              "vote_entropy_mean_absolute_error": 0.4054024015905347,
+              "vote_log_score": 1.1072011496739527
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11414981079568935,
+              "n_items": 11,
+              "vote_brier": 0.2392017552985913,
+              "vote_entropy_mean_absolute_error": 0.4498643384581134,
+              "vote_log_score": 0.8590932184614317
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.24898855361247615,
+              "n_items": 11,
+              "vote_brier": 0.5636911080411371,
+              "vote_entropy_mean_absolute_error": 0.42733339502201756,
+              "vote_log_score": 1.4224051729800207
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12778020917734045,
+              "n_items": 32,
+              "vote_brier": 0.2546935419517328,
+              "vote_entropy_mean_absolute_error": 0.4048670033650555,
+              "vote_log_score": 0.8049160166271878
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.10824298652440124,
+              "n_items": 87,
+              "vote_brier": 0.22609222177408841,
+              "vote_entropy_mean_absolute_error": 0.2863256410214025,
+              "vote_log_score": 0.8996521126957601
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.17079106598197227,
+              "n_items": 15,
+              "vote_brier": 0.4044380279497818,
+              "vote_entropy_mean_absolute_error": 0.39746831922702536,
+              "vote_log_score": 1.1792567574644237
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10994191166735517,
+              "n_items": 33,
+              "vote_brier": 0.2535667940447342,
+              "vote_entropy_mean_absolute_error": 0.25842955341486434,
+              "vote_log_score": 0.9250338520672577
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15234106669171546,
+          "transcript_balanced_plurality_macro_f1": 0.4675415539134462,
+          "transcript_balanced_vote_brier": 0.33918089495837594,
+          "transcript_balanced_vote_log_score": 1.0282226114242905,
+          "vote_entropy_mean_absolute_error": 0.37567009315700184,
+          "vote_entropy_prediction_spearman": 0.13687523311748337
+        },
+        "17": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.10996167515669895,
+          "mean_annotator_head_disagreement": 0.01142054000792824,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.186492949504022,
+              "n_items": 23,
+              "vote_brier": 0.43258288626464014,
+              "vote_entropy_mean_absolute_error": 0.40540238572387827,
+              "vote_log_score": 1.1072012653356376
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11805142509510266,
+              "n_items": 11,
+              "vote_brier": 0.25179069967850765,
+              "vote_entropy_mean_absolute_error": 0.44719297744965336,
+              "vote_log_score": 0.879478618945338
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.248610486230196,
+              "n_items": 11,
+              "vote_brier": 0.5642855800636766,
+              "vote_entropy_mean_absolute_error": 0.4310444564490922,
+              "vote_log_score": 1.4286671585762312
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12971611491290613,
+              "n_items": 32,
+              "vote_brier": 0.2589170547155867,
+              "vote_entropy_mean_absolute_error": 0.4026219872407538,
+              "vote_log_score": 0.8175856361230298
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.10767882240719655,
+              "n_items": 87,
+              "vote_brier": 0.2256807978045995,
+              "vote_entropy_mean_absolute_error": 0.28328091382410153,
+              "vote_log_score": 0.9043627166809542
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.1707910774028966,
+              "n_items": 15,
+              "vote_brier": 0.4044380625102871,
+              "vote_entropy_mean_absolute_error": 0.39746833016233357,
+              "vote_log_score": 1.1792568053337835
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10814783532283612,
+              "n_items": 33,
+              "vote_brier": 0.24842175599171196,
+              "vote_entropy_mean_absolute_error": 0.2613683677952389,
+              "vote_log_score": 0.9118297819327821
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15278410155359373,
+          "transcript_balanced_plurality_macro_f1": 0.46841721551689924,
+          "transcript_balanced_vote_brier": 0.340873833861287,
+          "transcript_balanced_vote_log_score": 1.032625997561108,
+          "vote_entropy_mean_absolute_error": 0.3754827740921502,
+          "vote_entropy_prediction_spearman": 0.14153428440164786
+        },
+        "2718": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.09466150179543112,
+          "mean_annotator_head_disagreement": 0.010548412148152088,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.18649294597429283,
+              "n_items": 23,
+              "vote_brier": 0.4325828760066914,
+              "vote_entropy_mean_absolute_error": 0.4054023780057966,
+              "vote_log_score": 1.10720122431391
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11414980961151348,
+              "n_items": 11,
+              "vote_brier": 0.23920174590475585,
+              "vote_entropy_mean_absolute_error": 0.4498643737948603,
+              "vote_log_score": 0.8590932213368951
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.24477458284909057,
+              "n_items": 11,
+              "vote_brier": 0.553822246228367,
+              "vote_entropy_mean_absolute_error": 0.4313690084392347,
+              "vote_log_score": 1.3891364801594284
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12646615014854012,
+              "n_items": 32,
+              "vote_brier": 0.25215075830541483,
+              "vote_entropy_mean_absolute_error": 0.40196924737479545,
+              "vote_log_score": 0.7991190588806749
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.10676060090048228,
+              "n_items": 87,
+              "vote_brier": 0.22116668626712302,
+              "vote_entropy_mean_absolute_error": 0.2884810232224196,
+              "vote_log_score": 0.8964576747929355
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.17079106671555158,
+              "n_items": 15,
+              "vote_brier": 0.40443803870113665,
+              "vote_entropy_mean_absolute_error": 0.39746829957020385,
+              "vote_log_score": 1.1792567396036342
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10749215191622796,
+              "n_items": 33,
+              "vote_brier": 0.2470463377878531,
+              "vote_entropy_mean_absolute_error": 0.26480966256420135,
+              "vote_log_score": 0.9096639526987962
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15098961544509984,
+          "transcript_balanced_plurality_macro_f1": 0.4723988024597882,
+          "transcript_balanced_vote_brier": 0.33577266988590604,
+          "transcript_balanced_vote_log_score": 1.0199897645408962,
+          "vote_entropy_mean_absolute_error": 0.3770519989959302,
+          "vote_entropy_prediction_spearman": 0.13664096841491374
+        },
+        "314": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.16819821604002208,
+          "mean_annotator_head_disagreement": 0.00926820927726112,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.18649291888730712,
+              "n_items": 23,
+              "vote_brier": 0.4325827957917432,
+              "vote_entropy_mean_absolute_error": 0.4054023901960393,
+              "vote_log_score": 1.1072011276604774
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11414979031133901,
+              "n_items": 11,
+              "vote_brier": 0.23920168841963882,
+              "vote_entropy_mean_absolute_error": 0.4498643472860539,
+              "vote_log_score": 0.8590931417472429
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.24965631233081867,
+              "n_items": 11,
+              "vote_brier": 0.567246070159614,
+              "vote_entropy_mean_absolute_error": 0.43053930361433146,
+              "vote_log_score": 1.4372809122356756
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12629946574224526,
+              "n_items": 32,
+              "vote_brier": 0.2526766035519082,
+              "vote_entropy_mean_absolute_error": 0.3974720017915554,
+              "vote_log_score": 0.7953204867228101
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.11123507708942328,
+              "n_items": 87,
+              "vote_brier": 0.235431126085445,
+              "vote_entropy_mean_absolute_error": 0.28335884525390825,
+              "vote_log_score": 0.9177313581776111
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.1707910948707648,
+              "n_items": 15,
+              "vote_brier": 0.4044381272819714,
+              "vote_entropy_mean_absolute_error": 0.3974683348874489,
+              "vote_log_score": 1.179256891599967
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10624868497629239,
+              "n_items": 33,
+              "vote_brier": 0.24073510521589925,
+              "vote_entropy_mean_absolute_error": 0.259731010505434,
+              "vote_log_score": 0.903573465703983
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15212476345831294,
+          "transcript_balanced_plurality_macro_f1": 0.46658364386227413,
+          "transcript_balanced_vote_brier": 0.3389016452151742,
+          "transcript_balanced_vote_log_score": 1.0284939119782526,
+          "vote_entropy_mean_absolute_error": 0.37483374764782446,
+          "vote_entropy_prediction_spearman": 0.14941863578485143
+        },
+        "42": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.1565105836112758,
+          "mean_annotator_head_disagreement": 0.011973353077089884,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.18649294867578775,
+              "n_items": 23,
+              "vote_brier": 0.4325828776388785,
+              "vote_entropy_mean_absolute_error": 0.40540239935835404,
+              "vote_log_score": 1.1072012383202594
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11671796985610179,
+              "n_items": 11,
+              "vote_brier": 0.247008211716039,
+              "vote_entropy_mean_absolute_error": 0.44744180300130165,
+              "vote_log_score": 0.8732274732299993
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.24834546087204903,
+              "n_items": 11,
+              "vote_brier": 0.5619658245277672,
+              "vote_entropy_mean_absolute_error": 0.4275717835625452,
+              "vote_log_score": 1.4161157627935443
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12504618814645738,
+              "n_items": 32,
+              "vote_brier": 0.2490328549428873,
+              "vote_entropy_mean_absolute_error": 0.3980074748058023,
+              "vote_log_score": 0.7896490647754444
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.1068872833371948,
+              "n_items": 87,
+              "vote_brier": 0.2211390939020469,
+              "vote_entropy_mean_absolute_error": 0.28979743675888814,
+              "vote_log_score": 0.8898332540038274
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.17079107479794417,
+              "n_items": 15,
+              "vote_brier": 0.4044380633734843,
+              "vote_entropy_mean_absolute_error": 0.3974683331610537,
+              "vote_log_score": 1.1792568077289907
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.1062727179199712,
+              "n_items": 33,
+              "vote_brier": 0.24137349883962325,
+              "vote_entropy_mean_absolute_error": 0.2587019162019421,
+              "vote_log_score": 0.8995860648489902
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15150766337221513,
+          "transcript_balanced_plurality_macro_f1": 0.4694601423697706,
+          "transcript_balanced_vote_brier": 0.33679148927724667,
+          "transcript_balanced_vote_log_score": 1.0221242379572937,
+          "vote_entropy_mean_absolute_error": 0.3749130209785553,
+          "vote_entropy_prediction_spearman": 0.15301901543499916
+        }
+      },
+      "therapist": {
+        "101": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.306849852192917,
+          "mean_annotator_head_disagreement": 0.017375509803239608,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.08107074703847082,
+              "n_items": 23,
+              "vote_brier": 0.12452770292858162,
+              "vote_entropy_mean_absolute_error": 0.28489197157898044,
+              "vote_log_score": 0.5618350044584686
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.1289873432418747,
+              "n_items": 11,
+              "vote_brier": 0.20845457108668405,
+              "vote_entropy_mean_absolute_error": 0.2886482190589175,
+              "vote_log_score": 1.1368312001689431
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.18761798146817046,
+              "n_items": 12,
+              "vote_brier": 0.3824792427705989,
+              "vote_entropy_mean_absolute_error": 0.4173126717666588,
+              "vote_log_score": 1.113399515604439
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.0909376002618637,
+              "n_items": 33,
+              "vote_brier": 0.20260240796288048,
+              "vote_entropy_mean_absolute_error": 0.22691986647804585,
+              "vote_log_score": 0.6904134650466225
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12611822048520493,
+              "n_items": 88,
+              "vote_brier": 0.2735917573567881,
+              "vote_entropy_mean_absolute_error": 0.2444724844500312,
+              "vote_log_score": 0.9602169070621592
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.12062567947042163,
+              "n_items": 16,
+              "vote_brier": 0.25388317927456094,
+              "vote_entropy_mean_absolute_error": 0.324526746555577,
+              "vote_log_score": 0.8281840529443893
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.0877051640104206,
+              "n_items": 33,
+              "vote_brier": 0.16324365404846522,
+              "vote_entropy_mean_absolute_error": 0.2648958549917014,
+              "vote_log_score": 0.7246088667085122
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11758039085377527,
+          "transcript_balanced_plurality_macro_f1": 0.7226503027907638,
+          "transcript_balanced_vote_brier": 0.22982607363265137,
+          "transcript_balanced_vote_log_score": 0.8593555731419334,
+          "vote_entropy_mean_absolute_error": 0.2930954021257017,
+          "vote_entropy_prediction_spearman": 0.3488981716916216
+        },
+        "17": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.27491117248310853,
+          "mean_annotator_head_disagreement": 0.016513204862979924,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.07719130587210726,
+              "n_items": 23,
+              "vote_brier": 0.1191815088328101,
+              "vote_entropy_mean_absolute_error": 0.2691518645950541,
+              "vote_log_score": 0.5512102089585474
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.12426786223827788,
+              "n_items": 11,
+              "vote_brier": 0.1880952960902361,
+              "vote_entropy_mean_absolute_error": 0.27030695369571406,
+              "vote_log_score": 1.1347898948573205
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.18944549166735156,
+              "n_items": 12,
+              "vote_brier": 0.38390695700742916,
+              "vote_entropy_mean_absolute_error": 0.40974846194644843,
+              "vote_log_score": 1.092399271102636
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.08764920282898923,
+              "n_items": 33,
+              "vote_brier": 0.18556650233894603,
+              "vote_entropy_mean_absolute_error": 0.250454244372694,
+              "vote_log_score": 0.6735020154576957
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12764691192259175,
+              "n_items": 88,
+              "vote_brier": 0.28067299557481695,
+              "vote_entropy_mean_absolute_error": 0.24148874995516686,
+              "vote_log_score": 0.9887352078646756
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.12062567609405815,
+              "n_items": 16,
+              "vote_brier": 0.25388318539295357,
+              "vote_entropy_mean_absolute_error": 0.3245267054960186,
+              "vote_log_score": 0.8281840385080015
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09338829441253993,
+              "n_items": 33,
+              "vote_brier": 0.18598602562231484,
+              "vote_entropy_mean_absolute_error": 0.2553375466379319,
+              "vote_log_score": 0.7691834305615562
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11717353500513081,
+          "transcript_balanced_plurality_macro_f1": 0.736008643934239,
+          "transcript_balanced_vote_brier": 0.22818463869421524,
+          "transcript_balanced_vote_log_score": 0.8625720096157761,
+          "vote_entropy_mean_absolute_error": 0.288716360957004,
+          "vote_entropy_prediction_spearman": 0.3478269056140835
+        },
+        "2718": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.35074666865304305,
+          "mean_annotator_head_disagreement": 0.015519979926757745,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.07952029005842318,
+              "n_items": 23,
+              "vote_brier": 0.12455457501254937,
+              "vote_entropy_mean_absolute_error": 0.2772659260192096,
+              "vote_log_score": 0.5585690504205837
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.12559820773242802,
+              "n_items": 11,
+              "vote_brier": 0.19002194945264136,
+              "vote_entropy_mean_absolute_error": 0.2695708897852959,
+              "vote_log_score": 1.1821922981893183
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.18247109864650699,
+              "n_items": 12,
+              "vote_brier": 0.3684865966845106,
+              "vote_entropy_mean_absolute_error": 0.4106264506107656,
+              "vote_log_score": 1.0650998185063207
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.09411152599742786,
+              "n_items": 33,
+              "vote_brier": 0.2082099117856198,
+              "vote_entropy_mean_absolute_error": 0.23818895341729968,
+              "vote_log_score": 0.7041475018857039
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12465893503526178,
+              "n_items": 88,
+              "vote_brier": 0.27007548092074113,
+              "vote_entropy_mean_absolute_error": 0.2412431715021251,
+              "vote_log_score": 0.9571526380436709
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.12062565274653417,
+              "n_items": 16,
+              "vote_brier": 0.25388310041463147,
+              "vote_entropy_mean_absolute_error": 0.32452670231864256,
+              "vote_log_score": 0.8281839303346021
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09495760021060339,
+              "n_items": 33,
+              "vote_brier": 0.1893095524470374,
+              "vote_entropy_mean_absolute_error": 0.25440240955488247,
+              "vote_log_score": 0.7584019497384289
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11742047291816933,
+          "transcript_balanced_plurality_macro_f1": 0.7156007767801799,
+          "transcript_balanced_vote_brier": 0.2292201666739616,
+          "transcript_balanced_vote_log_score": 0.8648210267312327,
+          "vote_entropy_mean_absolute_error": 0.28797492902974586,
+          "vote_entropy_prediction_spearman": 0.36267922161041266
+        },
+        "314": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.32294715309016864,
+          "mean_annotator_head_disagreement": 0.014324894936833206,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.07900847919195084,
+              "n_items": 23,
+              "vote_brier": 0.12172532475324838,
+              "vote_entropy_mean_absolute_error": 0.28158393834599027,
+              "vote_log_score": 0.5503860031128143
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.12794936284881714,
+              "n_items": 11,
+              "vote_brier": 0.20225331031779367,
+              "vote_entropy_mean_absolute_error": 0.28735054065841664,
+              "vote_log_score": 1.2025753168614024
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.1812420811231565,
+              "n_items": 12,
+              "vote_brier": 0.364141011344586,
+              "vote_entropy_mean_absolute_error": 0.4039242106873351,
+              "vote_log_score": 1.0619520405169307
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.093264913449885,
+              "n_items": 33,
+              "vote_brier": 0.20481302422652717,
+              "vote_entropy_mean_absolute_error": 0.23176081462677667,
+              "vote_log_score": 0.702036654591971
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12466656112359224,
+              "n_items": 88,
+              "vote_brier": 0.27047191229530093,
+              "vote_entropy_mean_absolute_error": 0.24422320681695872,
+              "vote_log_score": 0.9516084351058012
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.12048331157154803,
+              "n_items": 16,
+              "vote_brier": 0.25223921624077905,
+              "vote_entropy_mean_absolute_error": 0.3277086731068265,
+              "vote_log_score": 0.8305449653412035
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09218532429515046,
+              "n_items": 33,
+              "vote_brier": 0.17385206157975466,
+              "vote_entropy_mean_absolute_error": 0.2595304723330619,
+              "vote_log_score": 0.7510762730016304
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11697143337201431,
+          "transcript_balanced_plurality_macro_f1": 0.7318206388738173,
+          "transcript_balanced_vote_brier": 0.2270708372511414,
+          "transcript_balanced_vote_log_score": 0.8643113840759649,
+          "vote_entropy_mean_absolute_error": 0.29086883665362373,
+          "vote_entropy_prediction_spearman": 0.35808789744866404
+        },
+        "42": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.32267885401849694,
+          "mean_annotator_head_disagreement": 0.01763281104301841,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.0808750512026415,
+              "n_items": 23,
+              "vote_brier": 0.12439764964542864,
+              "vote_entropy_mean_absolute_error": 0.28233331694774877,
+              "vote_log_score": 0.5639776124063234
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.1243979606683113,
+              "n_items": 11,
+              "vote_brier": 0.19101071509893927,
+              "vote_entropy_mean_absolute_error": 0.27502044458445973,
+              "vote_log_score": 1.1168337043393117
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.1808950521413911,
+              "n_items": 12,
+              "vote_brier": 0.3579423457817484,
+              "vote_entropy_mean_absolute_error": 0.4066207055843296,
+              "vote_log_score": 1.0458538492603768
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.09265318109926006,
+              "n_items": 33,
+              "vote_brier": 0.20413044209598022,
+              "vote_entropy_mean_absolute_error": 0.22711091648227583,
+              "vote_log_score": 0.7156581761178901
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12873414583203957,
+              "n_items": 88,
+              "vote_brier": 0.2862968805097956,
+              "vote_entropy_mean_absolute_error": 0.23894052783250333,
+              "vote_log_score": 0.9680038504103123
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.1206256737624394,
+              "n_items": 16,
+              "vote_brier": 0.2538831592868944,
+              "vote_entropy_mean_absolute_error": 0.3245267418046086,
+              "vote_log_score": 0.8281840250273215
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09199882713368379,
+              "n_items": 33,
+              "vote_brier": 0.17525288959666588,
+              "vote_entropy_mean_absolute_error": 0.26622026564095963,
+              "vote_log_score": 0.7500058203510198
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11716855597710954,
+          "transcript_balanced_plurality_macro_f1": 0.7336171141510182,
+          "transcript_balanced_vote_brier": 0.22755915457363607,
+          "transcript_balanced_vote_log_score": 0.855502433987508,
+          "vote_entropy_mean_absolute_error": 0.2886818455538408,
+          "vote_entropy_prediction_spearman": 0.3578543421416692
+        }
+      }
+    },
+    "seed_ensemble": {
+      "client": {
+        "hard_linear": {
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.1840487143394271,
+              "n_items": 23,
+              "vote_brier": 0.3748134111324393,
+              "vote_entropy_mean_absolute_error": 0.5832361049713072,
+              "vote_log_score": 1.0102442852476727
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.1609427508954225,
+              "n_items": 11,
+              "vote_brier": 0.37660483307308146,
+              "vote_entropy_mean_absolute_error": 0.46022480422137496,
+              "vote_log_score": 1.0510675263679599
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.21998154850945453,
+              "n_items": 11,
+              "vote_brier": 0.4579777505643612,
+              "vote_entropy_mean_absolute_error": 0.5359042977734595,
+              "vote_log_score": 1.1651841809380936
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.13935933798522432,
+              "n_items": 32,
+              "vote_brier": 0.23761942199979486,
+              "vote_entropy_mean_absolute_error": 0.5782576408208393,
+              "vote_log_score": 0.7882296513516853
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.1081039997501495,
+              "n_items": 87,
+              "vote_brier": 0.18111884325192196,
+              "vote_entropy_mean_absolute_error": 0.44292878525214335,
+              "vote_log_score": 0.8378566666096033
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.18501959309583957,
+              "n_items": 15,
+              "vote_brier": 0.44369004863742767,
+              "vote_entropy_mean_absolute_error": 0.4398816956919679,
+              "vote_log_score": 1.1979443629865345
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10959971543970329,
+              "n_items": 33,
+              "vote_brier": 0.19254907815571923,
+              "vote_entropy_mean_absolute_error": 0.4245862875111625,
+              "vote_log_score": 0.807813711713701
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.15815080857360297,
+          "transcript_balanced_plurality_macro_f1": 0.3399351584715424,
+          "transcript_balanced_vote_brier": 0.32348191240210655,
+          "transcript_balanced_vote_log_score": 0.9797629121736071,
+          "vote_entropy_mean_absolute_error": 0.49500280232032207,
+          "vote_entropy_prediction_spearman": 0.11221599286831146
+        },
+        "panel_mi": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.12031988740173734,
+          "mean_annotator_head_disagreement": 0.010695852330067165,
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.18649293870969894,
+              "n_items": 23,
+              "vote_brier": 0.43258285105499167,
+              "vote_entropy_mean_absolute_error": 0.40540238844281,
+              "vote_log_score": 1.1072012038067298
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.11534594693803389,
+              "n_items": 11,
+              "vote_brier": 0.2429898645677554,
+              "vote_entropy_mean_absolute_error": 0.44932172591251063,
+              "vote_log_score": 0.8654805034125329
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.2479850856149964,
+              "n_items": 11,
+              "vote_brier": 0.5619621518271299,
+              "vote_entropy_mean_absolute_error": 0.4298657103530589,
+              "vote_log_score": 1.4171229291199894
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12694759638290876,
+              "n_items": 32,
+              "vote_brier": 0.2530994330617796,
+              "vote_entropy_mean_absolute_error": 0.40127058018734824,
+              "vote_log_score": 0.8001845000752137
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.10788155735156194,
+              "n_items": 87,
+              "vote_brier": 0.22517049476164366,
+              "vote_entropy_mean_absolute_error": 0.2863849397937102,
+              "vote_log_score": 0.8991360978044003
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.17079107272661384,
+              "n_items": 15,
+              "vote_brier": 0.40443805505729613,
+              "vote_entropy_mean_absolute_error": 0.3974683187572627,
+              "vote_log_score": 1.1792567887411358
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10750366311684803,
+              "n_items": 33,
+              "vote_brier": 0.2459357785370852,
+              "vote_entropy_mean_absolute_error": 0.2602337707239684,
+              "vote_log_score": 0.9087179246257994
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.1518496944058088,
+          "transcript_balanced_plurality_macro_f1": 0.4723988024597882,
+          "transcript_balanced_vote_brier": 0.3380255184096688,
+          "transcript_balanced_vote_log_score": 1.0252999925122572,
+          "vote_entropy_mean_absolute_error": 0.3757067763100955,
+          "vote_entropy_prediction_spearman": 0.14514042465923585
+        },
+        "soft_linear": {
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.1709697779060321,
+              "n_items": 23,
+              "vote_brier": 0.3616240245784219,
+              "vote_entropy_mean_absolute_error": 0.4878632019627367,
+              "vote_log_score": 0.9853867143963294
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.12501972506479636,
+              "n_items": 11,
+              "vote_brier": 0.2609080515128775,
+              "vote_entropy_mean_absolute_error": 0.4698461858447033,
+              "vote_log_score": 0.8906891759615232
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.2301303087882432,
+              "n_items": 11,
+              "vote_brier": 0.5024108846172639,
+              "vote_entropy_mean_absolute_error": 0.47650990496659246,
+              "vote_log_score": 1.2544235882695902
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.13279712802364832,
+              "n_items": 32,
+              "vote_brier": 0.23976416747360435,
+              "vote_entropy_mean_absolute_error": 0.4921896917448155,
+              "vote_log_score": 0.7777855660411843
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.1038817421085618,
+              "n_items": 87,
+              "vote_brier": 0.19039001481509554,
+              "vote_entropy_mean_absolute_error": 0.3483779651332445,
+              "vote_log_score": 0.8337634512884772
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.15467937465522896,
+              "n_items": 15,
+              "vote_brier": 0.3534952455686605,
+              "vote_entropy_mean_absolute_error": 0.42263648726278574,
+              "vote_log_score": 1.0707838855004643
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09943107619523178,
+              "n_items": 33,
+              "vote_brier": 0.19915427726932727,
+              "vote_entropy_mean_absolute_error": 0.3014674253897448,
+              "vote_log_score": 0.8039766791688722
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.14527273324882034,
+          "transcript_balanced_plurality_macro_f1": 0.44049500826661325,
+          "transcript_balanced_vote_brier": 0.30110666654789303,
+          "transcript_balanced_vote_log_score": 0.9452584372323484,
+          "vote_entropy_mean_absolute_error": 0.4284129803292318,
+          "vote_entropy_prediction_spearman": 0.15523236882703667
+        },
+        "transcript_balanced_prior": {
+          "n_items": 212,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.21100160371672566,
+              "n_items": 23,
+              "vote_brier": 0.4564290499298051,
+              "vote_entropy_mean_absolute_error": 0.5986761379029998,
+              "vote_log_score": 1.1126829960724791
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.18836100039235568,
+              "n_items": 11,
+              "vote_brier": 0.42656194356738214,
+              "vote_entropy_mean_absolute_error": 0.5102450247986515,
+              "vote_log_score": 1.1520458919040673
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.23261345445484383,
+              "n_items": 11,
+              "vote_brier": 0.4918157705257151,
+              "vote_entropy_mean_absolute_error": 0.6175406299747139,
+              "vote_log_score": 1.1884750564510203
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.1733361781966559,
+              "n_items": 32,
+              "vote_brier": 0.31745103049539936,
+              "vote_entropy_mean_absolute_error": 0.6527829220407095,
+              "vote_log_score": 0.9079080314904315
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.13319239183252274,
+              "n_items": 87,
+              "vote_brier": 0.2401335729147769,
+              "vote_entropy_mean_absolute_error": 0.5158190709166376,
+              "vote_log_score": 0.9250107605207686
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.1918086838784192,
+              "n_items": 15,
+              "vote_brier": 0.44648617122694384,
+              "vote_entropy_mean_absolute_error": 0.4807955278305994,
+              "vote_log_score": 1.192420122919861
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.14519909986770466,
+              "n_items": 33,
+              "vote_brier": 0.26765052451118015,
+              "vote_entropy_mean_absolute_error": 0.5603405511224,
+              "vote_log_score": 0.9176606066697386
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.18221605890560397,
+          "transcript_balanced_plurality_macro_f1": 0.24173178676419826,
+          "transcript_balanced_vote_brier": 0.3780754375958861,
+          "transcript_balanced_vote_log_score": 1.0566004951469095,
+          "vote_entropy_mean_absolute_error": 0.5623142663695302,
+          "vote_entropy_prediction_spearman": -0.054848633440299874
+        }
+      },
+      "therapist": {
+        "hard_linear": {
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.13219257178212374,
+              "n_items": 23,
+              "vote_brier": 0.20943635389639778,
+              "vote_entropy_mean_absolute_error": 0.48192491425425565,
+              "vote_log_score": 0.7122824533188878
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.12073995089937156,
+              "n_items": 11,
+              "vote_brier": 0.17469091544353407,
+              "vote_entropy_mean_absolute_error": 0.3571275929065415,
+              "vote_log_score": 0.8734668364535718
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.21390915176365657,
+              "n_items": 12,
+              "vote_brier": 0.4183153527250038,
+              "vote_entropy_mean_absolute_error": 0.5044737868604939,
+              "vote_log_score": 1.122085444176668
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.12755834972235006,
+              "n_items": 33,
+              "vote_brier": 0.22566986909676226,
+              "vote_entropy_mean_absolute_error": 0.45847037899142185,
+              "vote_log_score": 0.7077434734806615
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.1384816258371927,
+              "n_items": 88,
+              "vote_brier": 0.22732450408674365,
+              "vote_entropy_mean_absolute_error": 0.4624062305617814,
+              "vote_log_score": 0.7846332622100572
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.1276045160666186,
+              "n_items": 16,
+              "vote_brier": 0.22273196207186452,
+              "vote_entropy_mean_absolute_error": 0.4059244407284152,
+              "vote_log_score": 0.8192709303124368
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.10600211118604107,
+              "n_items": 33,
+              "vote_brier": 0.16787606468860475,
+              "vote_entropy_mean_absolute_error": 0.39599028708814743,
+              "vote_log_score": 0.6498587090206631
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.13806975389390774,
+          "transcript_balanced_plurality_macro_f1": 0.7400510929363313,
+          "transcript_balanced_vote_brier": 0.2351492888584158,
+          "transcript_balanced_vote_log_score": 0.809905872710421,
+          "vote_entropy_mean_absolute_error": 0.43804537591300813,
+          "vote_entropy_prediction_spearman": 0.2857681078706279
+        },
+        "panel_mi": {
+          "annotator_head_disagreement_to_vote_entropy_spearman": 0.324500971454886,
+          "mean_annotator_head_disagreement": 0.01627328016971566,
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.07931240047039234,
+              "n_items": 23,
+              "vote_brier": 0.12207730044528846,
+              "vote_entropy_mean_absolute_error": 0.27991332627160637,
+              "vote_log_score": 0.5556143413059342
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.1259288978974232,
+              "n_items": 11,
+              "vote_brier": 0.19502070948255934,
+              "vote_entropy_mean_absolute_error": 0.2781585086529135,
+              "vote_log_score": 1.145805894963983
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.18385833024381404,
+              "n_items": 12,
+              "vote_brier": 0.36979718702566006,
+              "vote_entropy_mean_absolute_error": 0.41146689676774845,
+              "vote_log_score": 1.0691116572901107
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.09115711022869558,
+              "n_items": 33,
+              "vote_brier": 0.19931786993052908,
+              "vote_entropy_mean_absolute_error": 0.2374195417219064,
+              "vote_log_score": 0.6914638307665529
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.12603822466009953,
+              "n_items": 88,
+              "vote_brier": 0.2751547331060386,
+              "vote_entropy_mean_absolute_error": 0.24255105634289817,
+              "vote_log_score": 0.9608346914679795
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.12057778276830466,
+              "n_items": 16,
+              "vote_brier": 0.2534851703451282,
+              "vote_entropy_mean_absolute_error": 0.32522836405934274,
+              "vote_log_score": 0.8285094704428014
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09158415478123365,
+              "n_items": 33,
+              "vote_brier": 0.17572607163493026,
+              "vote_entropy_mean_absolute_error": 0.26236039778544207,
+              "vote_log_score": 0.745626009780023
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.11692241443570899,
+          "transcript_balanced_plurality_macro_f1": 0.7326275154440111,
+          "transcript_balanced_vote_brier": 0.22722557742430488,
+          "transcript_balanced_vote_log_score": 0.8567094137167692,
+          "vote_entropy_mean_absolute_error": 0.29101401308597963,
+          "vote_entropy_prediction_spearman": 0.3610977369145637
+        },
+        "soft_linear": {
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.13315432425498194,
+              "n_items": 23,
+              "vote_brier": 0.20010355341269745,
+              "vote_entropy_mean_absolute_error": 0.5286947473265594,
+              "vote_log_score": 0.7059670470830849
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.1388168289835701,
+              "n_items": 11,
+              "vote_brier": 0.23018225799796121,
+              "vote_entropy_mean_absolute_error": 0.3111874060650072,
+              "vote_log_score": 1.097849940025499
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.17227824038933914,
+              "n_items": 12,
+              "vote_brier": 0.330827963322782,
+              "vote_entropy_mean_absolute_error": 0.4327828413775505,
+              "vote_log_score": 0.9478190841162193
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.09503192701220206,
+              "n_items": 33,
+              "vote_brier": 0.19217592991050977,
+              "vote_entropy_mean_absolute_error": 0.29234286850209,
+              "vote_log_score": 0.6415628911743312
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.1146480744331143,
+              "n_items": 88,
+              "vote_brier": 0.22256435383540635,
+              "vote_entropy_mean_absolute_error": 0.2851245263751711,
+              "vote_log_score": 0.793949851857872
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.13615267807242043,
+              "n_items": 16,
+              "vote_brier": 0.2312284285215068,
+              "vote_entropy_mean_absolute_error": 0.469164771715303,
+              "vote_log_score": 0.8434098079698154
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.09195416486257917,
+              "n_items": 33,
+              "vote_brier": 0.1645571085773223,
+              "vote_entropy_mean_absolute_error": 0.28836243995577665,
+              "vote_log_score": 0.6621232496188387
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.1260051768583153,
+          "transcript_balanced_plurality_macro_f1": 0.7430137829493361,
+          "transcript_balanced_vote_brier": 0.22451994222545515,
+          "transcript_balanced_vote_log_score": 0.813240267406523,
+          "vote_entropy_mean_absolute_error": 0.37252280018820827,
+          "vote_entropy_prediction_spearman": 0.3368124888084537
+        },
+        "transcript_balanced_prior": {
+          "n_items": 216,
+          "n_transcripts": 7,
+          "per_transcript": {
+            "109": {
+              "jensen_shannon_divergence": 0.3131066721752864,
+              "n_items": 23,
+              "vote_brier": 0.6050603170071052,
+              "vote_entropy_mean_absolute_error": 0.8009408354964703,
+              "vote_log_score": 1.411711055040394
+            },
+            "130": {
+              "jensen_shannon_divergence": 0.27992063197682276,
+              "n_items": 11,
+              "vote_brier": 0.5098509616764092,
+              "vote_entropy_mean_absolute_error": 0.7161534882909827,
+              "vote_log_score": 1.393964307303124
+            },
+            "27": {
+              "jensen_shannon_divergence": 0.314067856475935,
+              "n_items": 12,
+              "vote_brier": 0.6196092244656072,
+              "vote_entropy_mean_absolute_error": 0.7555626989297699,
+              "vote_log_score": 1.4840364808611886
+            },
+            "55": {
+              "jensen_shannon_divergence": 0.3173717744170803,
+              "n_items": 33,
+              "vote_brier": 0.6201478451864303,
+              "vote_entropy_mean_absolute_error": 0.8146601456802307,
+              "vote_log_score": 1.4172863560034588
+            },
+            "56": {
+              "jensen_shannon_divergence": 0.3251786798834098,
+              "n_items": 88,
+              "vote_brier": 0.622160056002521,
+              "vote_entropy_mean_absolute_error": 0.7710958137975129,
+              "vote_log_score": 1.4961210861433778
+            },
+            "66": {
+              "jensen_shannon_divergence": 0.30406509874070414,
+              "n_items": 16,
+              "vote_brier": 0.5889785346222518,
+              "vote_entropy_mean_absolute_error": 0.7195067655206389,
+              "vote_log_score": 1.4992344815066119
+            },
+            "7": {
+              "jensen_shannon_divergence": 0.3153829581268584,
+              "n_items": 33,
+              "vote_brier": 0.6016049114424262,
+              "vote_entropy_mean_absolute_error": 0.8036169116868564,
+              "vote_log_score": 1.406464882033799
+            }
+          },
+          "transcript_balanced_jensen_shannon_divergence": 0.3098705245422996,
+          "transcript_balanced_plurality_macro_f1": 0.08179572120654151,
+          "transcript_balanced_vote_brier": 0.5953445500575357,
+          "transcript_balanced_vote_log_score": 1.444116949841708,
+          "vote_entropy_mean_absolute_error": 0.7687909513432087,
+          "vote_entropy_prediction_spearman": -0.01951204510592534
+        }
+      }
+    }
+  },
+  "prediction_ledger_sha256": "9862f0c9db0fad81680afd48f5e5bea13c30b341af2fd5ba2f191e92d1903097",
+  "protocol_id": "dash-mi-source-cv-v1",
+  "result_id": "annomi-panel-mi-seven-transcript-loto-v1",
+  "runtime_environment": {
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "scikit_learn": "1.9.0",
+    "scipy": "1.17.1",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "selection_sha256": "54ebc6a051962699cd10e25474944f1b336a6c36f8169643d3a52a58746b064e"
+}
