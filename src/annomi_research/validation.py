@@ -17,6 +17,7 @@ from .constants import (
     RESEARCH_RESULTS,
     ROOT,
     SAFE_MI_CONFIG,
+    SAFE_MI_EXTENSION_PROTOCOL,
     SAFE_MI_PROTOCOL,
     SIMPLE_DATA,
     SIMPLE_MANIFEST,
@@ -102,6 +103,13 @@ def validate_research(
     if len(external_protocol["task_c_mapping"]) != 11:
         raise ValueError("MI-TAGS to AnnoMI mapping is incomplete")
     checks.append("MI-TAGS external protocol, mapping, and sample boundary")
+
+    extension_protocol = read_json(SAFE_MI_EXTENSION_PROTOCOL)
+    if extension_protocol["status"] != "registered_posthoc_after_safe_mi_v2_outcomes":
+        raise ValueError("SAFE-MI v2.1 extension lost its posthoc designation")
+    if extension_protocol["claim_boundary"]["confirmatory_claim_permitted"]:
+        raise ValueError("SAFE-MI v2.1 cannot support a confirmatory claim")
+    checks.append("SAFE-MI v2.1 posthoc extension and stopping rule")
 
     split_manifest = read_json(split_manifest_path)
     validate_source_folds(corpus, split_manifest)

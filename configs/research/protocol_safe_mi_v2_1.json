@@ -1,0 +1,46 @@
+{
+  "protocol_id": "annomi-safe-mi-posthoc-extension-v2.1",
+  "status": "registered_posthoc_after_safe_mi_v2_outcomes",
+  "registered_date": "2026-09-04",
+  "claim_boundary": {
+    "confirmatory_claim_permitted": false,
+    "reason": "SAFE-MI v2 screening and final outcomes were inspected before this extension.",
+    "external_confirmation_required": true
+  },
+  "frozen_inputs": {
+    "safe_mi_config": "configs/research/safe_mi_v2.json",
+    "safe_mi_result": "results/research/safe_mi_v2/summary.json",
+    "screen_seed": 17,
+    "final_seeds": [17, 42, 101, 314, 2718],
+    "outer_source_folds": "results/research/gate0/source_folds_v1.json"
+  },
+  "extension_rationale": {
+    "task_a": "m2_oneway was not the C-first joint finalist but had the best screened t10 balanced accuracy (0.80), so it receives the same five-seed audit as a Task-A-focused model.",
+    "task_c": "c1_adapted_gru was trained for every final seed as the prototype base but omitted from the final v2 ledger; it is reported without any new tuning.",
+    "uncertainty": "Report outer-fold cross-fitted APS/CRC sets as a descriptive sensitivity analysis in addition to the registered split-source sets."
+  },
+  "models": {
+    "task_a_focused": "m2_oneway",
+    "task_c_neural_base": "c1_adapted_gru",
+    "matched_task_c_baseline": "c0_frozen_gru",
+    "task_a_baseline": "qtrace_mi_v1/a_only"
+  },
+  "execution": {
+    "reuse_seed17_fit": true,
+    "run_missing_m2_seeds": [42, 101, 314, 2718],
+    "no_hyperparameter_changes": true,
+    "bootstrap_resamples": 5000,
+    "bootstrap_seed": 20260904,
+    "crossfit_prediction_set_alpha": 0.2
+  },
+  "descriptive_gates": {
+    "task_a_minimum_t10_balanced_accuracy_gain": 0.03,
+    "task_a_maximum_t10_brier_degradation": 0.01,
+    "task_a_minimum_positive_seed_count": 4,
+    "task_c_noninferiority_margin": -0.02,
+    "task_c_maximum_brier_degradation": 0.01,
+    "crossfit_prediction_set_minimum_coverage": 0.8,
+    "crossfit_prediction_set_maximum_mean_size": 2.5
+  },
+  "stopping_rule": "No further AnnoMI architecture selection after this extension; use genuinely independent data."
+}
