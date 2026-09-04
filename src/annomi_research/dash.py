@@ -182,7 +182,7 @@ def _require_registered_state() -> tuple[dict[str, Any], dict[str, Any]]:
     protocol = read_json(PROTOCOL)
     config = read_json(DASH_CONFIG)
     if config["status"] != "registered_before_dash_mi_evaluation":
-        raise ValueError("DASH-MI configuration is not prospectively registered")
+        raise ValueError("DASH-MI configuration is missing its pre-evaluation status")
     if config["protocol_id"] != protocol["protocol_id"]:
         raise ValueError("DASH-MI configuration and research protocol disagree")
     if config["selection"]["inner_folds"] != protocol["development"]["inner_folds"]:

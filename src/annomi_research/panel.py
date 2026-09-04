@@ -143,7 +143,7 @@ def _require_registered_state() -> tuple[dict[str, Any], dict[str, Any]]:
     protocol = read_json(PROTOCOL)
     config = read_json(PANEL_CONFIG)
     if config["status"] != "registered_before_any_multiannotator_model_evaluation":
-        raise ValueError("PANEL-MI configuration is not prospectively registered")
+        raise ValueError("PANEL-MI configuration is missing its pre-evaluation status")
     if config["protocol_id"] != protocol["protocol_id"]:
         raise ValueError("PANEL-MI configuration and research protocol disagree")
     if config["final_seeds"] != protocol["development"]["seeds"]:

@@ -1,9 +1,8 @@
 # Validity audit of the portfolio benchmark
 
-The repository state at commit `e3ff100b3866a283146e4af41596f5a837153818` is preserved by
-the annotated tag `portfolio-v0.1.0-development-consumed`. Its aggregate results remain available,
-but they are development-consumed and are not the confirmatory endpoint of the source-disjoint
-study.
+The earlier repository state is available at commit
+`e3ff100b3866a283146e4af41596f5a837153818`. Its aggregate results informed the later study design
+and are therefore treated as exploratory.
 
 ## Strengths retained
 
@@ -36,5 +35,5 @@ study.
 
 ## Consequence
 
-No prior file is deleted or silently corrected. New claims must originate from the separately
-versioned source-disjoint protocol, executable package, and row-level out-of-fold evidence.
+The earlier result tables are unchanged. Source-disjoint results are reported from separate
+versioned outputs with row-level out-of-fold predictions.

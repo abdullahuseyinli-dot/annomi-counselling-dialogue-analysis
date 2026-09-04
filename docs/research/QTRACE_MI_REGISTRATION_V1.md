@@ -1,10 +1,9 @@
 # Q-TRACE-MI Task A/C registration v1
 
 `configs/research/protocol_ac_v1.json` and `configs/research/qtrace_mi_v1.json` define this study.
-The neural architecture, ablations, endpoints, calibration procedure, and success gate were frozen
-before any Q-TRACE-MI neural score was inspected. The historical Task A/C exports and a pre-lock
-engineering run of the fixed classical baselines are development-consumed evidence; neither may be
-described as prospective confirmation.
+The neural architecture, ablations, endpoints, calibration procedure, and success gate were fixed
+before Q-TRACE-MI was evaluated. Earlier Task A/C results and an initial baseline run informed model
+development and are reported only as exploratory context.
 
 ## Questions
 

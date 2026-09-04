@@ -1,8 +1,8 @@
 # DASH-MI result v1
 
 Status: completed adaptive five-fold, five-seed evaluation under
-`dash-mi-source-cv-v1` and the prospectively registered `annomi-dash-mi-source-cv-neural-v1`
-configuration.
+`dash-mi-source-cv-v1` and the `annomi-dash-mi-source-cv-neural-v1` configuration committed
+before evaluation.
 
 The DASH-MI seed-probability ensemble obtains source-balanced macro-F1 **0.8116** and ordinary
 utterance macro-F1 **0.7926** over all 4,882 out-of-source therapist utterances from 119 source
@@ -20,10 +20,9 @@ reported in `DASH_MI_INFERENCE_V1.md` and does not support an improvement.
 | equal-frequency ECE (lower is better) | **0.0237** | 0.0658 | 0.0800 | 0.0810 |
 | worst-20% source log-loss CVaR (lower is better) | 1.2391 | **1.1006** | 1.2039 | 1.2076 |
 
-The model therefore does not become the benchmark leader. It nearly matches the two simpler
-RoBERTa controls on hard-label F1, but target-only RoBERTa retains clearly better probabilistic
-metrics and flat causal concatenation retains the highest F1 point estimate. DASH-MI remains an
-informative adaptive experiment and ablation platform rather than a promoted replacement.
+DASH-MI did not show a supported improvement over either simpler RoBERTa baseline. Causal RoBERTa
+has the highest macro-F1 point estimate; target-only RoBERTa has the lowest Brier and log-loss point
+estimates.
 
 ## Matched context ablation
 
@@ -40,7 +39,8 @@ a point estimate. Context changes only 26 of 4,882 ensemble hard predictions (0.
 | equal-frequency ECE (lower is better) | 0.0810 | 0.0810 | -0.0000 |
 | worst-20% source log-loss CVaR (lower is better) | **1.2018** | 1.2076 | +0.0058 |
 
-Context slightly improves F1 and Brier but slightly worsens log loss and worst-source tail loss.
+With context, the F1 and Brier point estimates are slightly better, while log loss and worst-source
+tail loss are slightly worse.
 Only three of five matched seeds improve: -0.0005 (17), -0.0019 (42), +0.0005 (101), +0.0012
 (314), and +0.0007 (2718). These are descriptive diagnostics, not independent tests. The paired
 source-bootstrap interval is [-0.0008, +0.0031] and does not support a measurable context effect.

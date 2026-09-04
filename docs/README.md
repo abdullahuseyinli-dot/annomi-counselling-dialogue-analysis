@@ -1,13 +1,12 @@
 # Documentation
 
-This repository is a research-software and evidence candidate, not a completed archival release.
-The executable AnnoMI analyses are retained, but there is currently no matching release tag, DOI,
-or public archive deposit. Full MI-TAGS confirmation also awaits authorized corpus access.
+This repository contains the current research code and results. It has not yet been archived or
+assigned a DOI. Full MI-TAGS evaluation requires access to the complete corpus.
 
 ## Start here
 
 - [Project status](PROJECT_STATUS.md): completed, pending, and blocked work.
-- [Benchmark card](BENCHMARK_CARD.md): tasks, splits, metrics, and defensible results.
+- [Benchmark card](BENCHMARK_CARD.md): tasks, splits, metrics, and reported results.
 - [Data card](DATA_CARD.md): provenance, local-only data, and reuse constraints.
 - [Model card](MODEL_CARD.md): system design, intended use, and model risks.
 - [Limitations](LIMITATIONS.md): validity and interpretation boundaries.

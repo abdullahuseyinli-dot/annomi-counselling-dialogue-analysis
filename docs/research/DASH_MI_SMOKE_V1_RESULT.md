@@ -12,9 +12,9 @@ The smoke test did not touch outer-test data. It exercised the 192-token target 
 history stream, target-conditioned attention, disagreement-distribution loss, context dropout,
 auxiliary target loss, residual output, optimizer groups, BF16 autocast, and both inference paths.
 
-PyTorch again warned that its memory-efficient attention backward kernel is nondeterministic under
-the registered `warn_only` policy. This limitation is retained rather than concealed. The final
-evaluation uses all five fixed seeds and reports each seed separately.
+PyTorch warned that its memory-efficient attention backward kernel is nondeterministic under the
+recorded `warn_only` policy. The final evaluation uses all five fixed seeds and reports each seed
+separately.
 
 The machine-readable evidence is `results/research/gate1/dash_mi_smoke_v1.json`. It records code
 commit `67f3cefaecf71108de63758a98678ebec0caf465`, the DASH-MI configuration hash, split hash,

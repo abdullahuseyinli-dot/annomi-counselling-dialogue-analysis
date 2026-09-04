@@ -116,7 +116,7 @@ def validate_research(
     recorded_inventory = read_json(inventory_path)
     if recorded_inventory != legacy_inventory():
         raise ValueError("Legacy evidence inventory changed")
-    checks.append("legacy development evidence remains byte-identical")
+    checks.append("legacy result inventory matches the recorded files")
 
     baseline_dir = RESEARCH_RESULTS / "baseline_v1"
     if baseline_dir.exists():
@@ -153,7 +153,7 @@ def validate_research(
 
     validate_mi_tags_sample_audit(corpus)
     if (RESEARCH_RESULTS / "mi_tags_external_v1" / "sample_overlap_audit.json").exists():
-        checks.append("MI-TAGS public-sample overlap evidence and claim boundary")
+        checks.append("MI-TAGS sample audit and overlap exclusions")
 
     neural_root = RESEARCH_RESULTS / "neural_v1"
     if neural_root.exists():

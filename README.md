@@ -3,19 +3,19 @@
 [![Python 3.11-3.12](https://img.shields.io/badge/Python-3.11--3.12-3776AB.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A leakage-controlled, disagreement-aware benchmark for motivational-interviewing behaviour coding
-on [AnnoMI](https://github.com/uccollab/AnnoMI). It combines source-disjoint nested validation,
-five-seed neural evaluation, row-level probability ledgers, paired cluster inference,
-negative-result retention, and a separate multi-annotator label-distribution study.
+This repository evaluates therapist-behaviour classification on
+[AnnoMI](https://github.com/uccollab/AnnoMI) using cross-validation grouped by source video. It also
+includes early-session forecasting and a separate analysis of multi-annotator label distributions.
+Result files and evaluation code are included for reproducibility.
 
-> **Status:** this is a development candidate, not an archived software release. The executable
-> AnnoMI results below reconstruct from tracked evidence; external MI-TAGS confirmation awaits
-> authorized access to the full corpus. No release DOI is claimed. See the
+> **Status:** the tables and figures below can be rebuilt from the tracked result files. Full
+> MI-TAGS evaluation requires access to the complete corpus. This development version has not been
+> archived and has no DOI. See the
 > [project status](docs/PROJECT_STATUS.md), [documentation index](docs/README.md), and
 > [manuscript evidence map](paper/CLAIM_EVIDENCE_CROSSWALK.md).
 
-Historical files use *registered* for an analysis specification committed before its corresponding
-local run. This records sequencing within Git; it does not mean independent public preregistration.
+Here, *registered* means that the analysis plan was committed before the corresponding local run;
+it does not imply public preregistration.
 Raw counselling text and model weights are not distributed.
 
 ![Overview of leakage-controlled classification and vote-distribution results](assets/research/research_overview.png)
@@ -23,8 +23,9 @@ Raw counselling text and model weights are not distributed.
 ## Main source-disjoint result
 
 The primary task predicts four therapist-behaviour codes on 4,882 utterances from 119 normalized
-video sources. Every reported prediction is out of source: model and recipe selection occur inside
-each of five outer folds, and neural probabilities are averaged across five fixed seeds.
+video sources. Each test prediction comes from a model trained without data from the same video
+source. Model and recipe selection are nested within five outer folds, and neural probabilities are
+averaged across five fixed seeds.
 
 | Model | Source-balanced macro-F1 ↑ | Brier ↓ | Log loss ↓ | ECE ↓ |
 |---|---:|---:|---:|---:|
@@ -33,18 +34,19 @@ each of five outer folds, and neural probabilities are averaged across five fixe
 | RoBERTa, causal history | **0.8163** | 0.2838 | 0.5880 | 0.0800 |
 | DASH-MI | 0.8116 | 0.2828 | 0.5883 | 0.0810 |
 
-The paired analyses distinguish supported improvements from numerical rankings:
+Paired comparisons show:
 
 - Target-only RoBERTa improves source-balanced macro-F1 over TF-IDF by **0.0935**, with a paired
-  source-bootstrap 95% interval of **[0.0778, 0.1097]**. It passes the registered candidate gate.
+  source-bootstrap 95% interval of **[0.0778, 0.1097]**. This met the prespecified success criterion.
 - Causal-history RoBERTa is the **numerical F1 leader at 0.8163**, but its +0.0056 gain over
   target-only has interval **[-0.0040, 0.0154]** and its log loss is worse. It is not a supported
   replacement for the better-calibrated target-only model.
 - DASH-MI reaches 0.8116. Its context residual changes only 0.53% of decisions, and neither its
   +0.0011 context-ablation delta nor its -0.0047 delta versus causal RoBERTa is supported.
 
-Thus, **0.8163 is the best observed classification score**, while target-only RoBERTa is the best
-supported and best probabilistic system. See the
+Causal-history RoBERTa has the highest macro-F1 at **0.8163**. Target-only RoBERTa is the
+better-supported choice: its gain over TF-IDF is statistically supported, and it has lower Brier
+score and log loss than the other neural models. See the
 [neural result](docs/research/ROBERTA_FLAT_CAUSAL_V1_RESULT.md),
 [DASH-MI result](docs/research/DASH_MI_V1_RESULT.md), and
 [paired inference](docs/research/DASH_MI_INFERENCE_V1.md).
@@ -52,27 +54,28 @@ supported and best probabilistic system. See the
 ## Early quality and next-action forecasting
 
 The Task A/C track adds causal early-session quality classification and strict client-to-therapist
-next-action forecasting. The later SAFE-MI campaign screened frozen and fold-adapted encoders,
-GRU and attention contexts, asymmetric multitask transfer, bounded transition residuals, and
-source-safe prototype retrieval before five-seed evaluation.
+next-action forecasting. We evaluated frozen and adapted encoders, GRU and attention context
+models, one-way multitask transfer, transition priors, and prototype retrieval.
 
 | Task | Earlier registered result | Updated exploratory point result | Interpretation |
 |---|---:|---:|---|
-| A: quality after 10 therapist turns | Q-TRACE-MI: 0.7000 balanced accuracy | **One-way multitask: 0.7389** | +0.0389 numerical; interval vs A-only crosses zero and Brier is worse |
-| C: next therapist action | C-only: 0.4251 macro-F1 | **Frozen-GRU: 0.4359** | +0.0108 cross-run pipeline update; no SAFE-MI candidate beats its matched baseline |
+| A: quality after 10 therapist turns | Q-TRACE-MI: 0.7000 balanced accuracy | **One-way multitask: 0.7389** | +0.0389 cross-run difference; paired intervals vs A-only cross zero for accuracy and Brier |
+| C: next therapist action | C-only: 0.4251 macro-F1 | **Frozen-GRU: 0.4359** | +0.0108 descriptive cross-run difference, not a paired comparison; no SAFE-MI candidate beats its matched baseline |
 
-The one-way Task A model improves over A-only in four of five seeds (+0.0889), but its paired-source
-95% interval is [-0.0521, 0.2256] and its Brier degradation exceeds the frozen limit. For Task C,
-safe prototype retrieval reaches 0.4328 macro-F1 versus 0.4359 for frozen-GRU while improving Brier
-by 0.0053; the F1 interval [-0.0285, 0.0241] includes zero. Adapted-GRU passes a post-hoc descriptive
-non-inferiority and prediction-set gate, with 0.8072 cross-fitted coverage and mean set size 2.4845.
-No superiority claim is supported.
+The one-way Task A model is 0.0889 higher than A-only overall and is higher in four of five seeds.
+Its accuracy interval is [-0.0521, 0.2256], and its Brier point estimate is 0.0191 higher with an
+interval of [-0.0180, 0.0557]. For Task C, prototype retrieval reaches 0.4328 macro-F1 versus 0.4359
+for frozen-GRU and has a 0.0053 lower Brier point estimate; both paired intervals include zero.
+Adapted-GRU prediction sets have 0.8072
+cross-fitted coverage and a mean size of 2.4845 in a post-hoc analysis. These results do not establish
+superiority.
 
 ![SAFE-MI Task A and Task C results](assets/research/safe_mi_results.png)
 
 These tasks use no new manual labels. The quality target comes from source metadata and is not an
-independent measure of clinical fidelity. The pre-access MI-TAGS audit quarantines 9 of 12 public
-sample records as possible AnnoMI overlaps; the sample cannot support external performance. See the
+independent measure of clinical fidelity. A comparison of the public MI-TAGS samples with AnnoMI
+flagged 9 of 12 records as possible overlaps, leaving too little independent data for external
+evaluation. See the
 [earlier Q-TRACE-MI result](docs/research/QTRACE_MI_V1_RESULT.md) and
 [complete SAFE-MI result](docs/research/SAFE_MI_V2_RESULT.md).
 
@@ -98,10 +101,8 @@ Soft label-distribution learning beats the transcript prior on therapist log sco
 (95% interval **[-0.7257, -0.5055]**, exact sign-flip p = **0.0078**, 7/7 transcripts) and on
 client log score by **-0.1113** (interval **[-0.1773, -0.0402]**, p = **0.0156**, 6/7).
 
-The annotator-conditioned PANEL-MI model is an informative negative primary result. It
-fails its registered log-score gate, although it gives the best therapist JSD and entropy error.
-That Pareto trade-off is retained rather than relabeled as a win. The full method, failure log,
-selection trace, and results are in the
+PANEL-MI did not improve the primary log-score metric, although it had the lowest therapist JSD and
+entropy-error point estimates. Full results and selection details are in the
 [PANEL-MI report](docs/research/PANEL_MI_V1_RESULT.md).
 
 ![Registered paired effects with cluster-level intervals](assets/research/registered_effect_intervals.png)
@@ -113,11 +114,10 @@ selection trace, and results are in the
 - Every outer fold is retained; no favorable fold is selected.
 - Tokenization, PCA, scaling, class weights, early stopping, and recipe choice are training-only.
 - Inputs are causal: the target utterance and, where registered, preceding turns only.
-- Every metric reconstructs from out-of-fold probability ledgers whose hashes are recorded.
+- Metrics can be recomputed from out-of-fold probability files whose hashes are recorded.
 - Bootstrap sampling respects source or transcript clusters. Seeds and annotation rows are never
   treated as independent samples.
-- Smoke gates, numerical failures, convergence fallbacks, ablations, and failed success gates remain
-  visible.
+- Run records include failed checks, convergence fallbacks, and ablation results.
 
 The dataset creators describe AnnoMI as 133 professionally transcribed, expert-annotated
 demonstration dialogues and explicitly distinguish it from real therapy sessions
@@ -136,10 +136,10 @@ uv run python tools/validate_repository.py
 ```
 
 Data-backed validation, classical reproduction, CUDA/BF16 neural reproduction, and the optional
-MI-TAGS audit have different access and hardware requirements. The exact commands and environment
-boundaries are in [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). Evidence writers are create-only:
-an identical rerun is a safe no-op, while a different payload must use a new output lineage.
-Dataset files are commit-pinned and checksum-verified before fitting.
+MI-TAGS audit have different access and hardware requirements. See
+[REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) for the commands and requirements. Existing result
+files are not overwritten; changed runs use a new versioned directory. Dataset files are pinned to
+a commit and checked by SHA-256 before training.
 
 ## Repository map
 
@@ -159,8 +159,9 @@ tools/                            Pinned download, validation, and asset builder
 .github/workflows/                Cross-platform CI, data audit, and history secret scan
 ```
 
-The earlier single-holdout portfolio result remains in the notebook and legacy result directories as
-development-consumed evidence. It is not silently deleted and is not the source-disjoint headline.
+Earlier exploratory results are available in `results/main/`, `results/extensions/`, and
+`results/summarisation/`. They use a different holdout design and are not directly comparable with
+the source-grouped results above.
 
 ## License and attribution
 

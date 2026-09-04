@@ -31,7 +31,7 @@ uv run annomi-research run-safe-mi
 uv run annomi-research run-safe-mi-extension
 ```
 
-Its authority and claim boundary are recorded in
+The governing protocols and limits on interpretation are recorded in
 `docs/research/QTRACE_MI_REGISTRATION_V1.md` and the SAFE-MI protocol files under
 `configs/research/`. Q-TRACE uses a frozen encoder and a causal session model; raw text, embedding
 caches, and weights remain outside Git. The completed metrics, failed gates, and interpretation are

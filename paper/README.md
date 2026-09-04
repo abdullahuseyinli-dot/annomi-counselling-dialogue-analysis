@@ -1,9 +1,8 @@
 # Paper package
 
-This directory is a publication-facing index for the completed AnnoMI experiments. It is a
-manuscript scaffold, not evidence that a paper has been submitted, accepted, or archived. The
-current full narrative is the [study report](../docs/research/STUDY_REPORT.md); the files here keep
-the proposed paper structure and its claims tied to machine-readable evidence.
+This directory contains the manuscript outline, references, and links between reported claims and
+their supporting results. The complete narrative is in the
+[study report](../docs/research/STUDY_REPORT.md).
 
 ## Contents
 
@@ -29,14 +28,11 @@ Each directory contains a manifest that binds its tables to source-result and bu
 underlying out-of-source prediction ledgers remain in `results/research/` and are checked by the
 repository validator.
 
-## Reporting discipline
+## Reporting terms
 
-Use the following distinctions consistently:
+Where a protocol was fixed in local Git before evaluation, the relevant commit is recorded. This
+does not amount to public preregistration. The labels below are used as follows:
 
-- **commit-locked** means that a local Git commit fixed the stated protocol before the relevant
-  evaluation. It does not mean public preregistration.
-- **development-consumed** means that earlier outcomes had already influenced the question,
-  architecture, or analysis.
 - **exploratory** identifies the SAFE-MI v2 search conducted after all AnnoMI outer-fold outcomes
   had been inspected.
 - **post-hoc** identifies the separately recorded SAFE-MI v2.1 extension.

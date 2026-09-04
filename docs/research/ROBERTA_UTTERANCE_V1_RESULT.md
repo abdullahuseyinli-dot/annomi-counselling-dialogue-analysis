@@ -19,9 +19,8 @@ significance claim.
 | equal-frequency ECE (lower is better) | **0.0237** | 0.0658 | +0.0422 |
 | worst-20% source log-loss CVaR (lower is better) | 1.2391 | **1.1006** | **-0.1385** |
 
-RoBERTa improves discrimination and proper scoring rules but is less calibrated by the recorded ECE
-diagnostic. That calibration weakness remains visible and must not be concealed by the stronger
-F1/Brier values.
+RoBERTa's higher F1 and lower Brier score coexist with worse calibration under the recorded ECE
+diagnostic.
 
 Per-class F1 for the ensemble is 0.8848 (`other`), 0.8566 (`question`), 0.7670
 (`reflection`), and 0.6565 (`therapist_input`). All five individual seeds are positive relative to

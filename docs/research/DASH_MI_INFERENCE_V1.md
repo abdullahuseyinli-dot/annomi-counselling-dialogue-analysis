@@ -30,7 +30,8 @@ The registered primary gate therefore resolves as follows:
 - Source-balanced Brier degradation no greater than +0.01: pass (+0.0032 point estimate).
 - No class collapse: pass.
 
-Overall primary gate: **fail**. DASH-MI is not promoted over target-only RoBERTa.
+Overall primary gate: **fail**. DASH-MI did not meet the criterion for replacing target-only
+RoBERTa.
 
 ## Secondary mechanism ablation: full DASH-MI versus its target path
 
@@ -65,11 +66,9 @@ analysis does not distinguish the models statistically.
 
 ## Interpretation and evidence
 
-The results favor a restrained conclusion: most of the reliable gain over TF-IDF comes from the
-pretrained RoBERTa target representation, not from either tested dialogue-context mechanism.
-Simple flat causal concatenation gives the highest F1 point estimate but has a null F1 interval and
-a supported log-loss deterioration versus target-only RoBERTa. DASH-MI does not repair that
-probabilistic tradeoff and its gated context branch has a null within-model effect.
+Simple flat causal concatenation gives the highest F1 point estimate, but its F1 interval includes
+zero and its log-loss deterioration versus target-only RoBERTa is supported. DASH-MI does not
+repair that probabilistic trade-off, and the within-model context effect is unresolved.
 
 The 119 source-video clusters were sampled with replacement as paired units. Each sampled source
 retained all of its utterances and received equal total mass. Every comparison used 10,000

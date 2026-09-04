@@ -132,7 +132,7 @@ select = ["E4", "E7", "E9", "F", "I", "B", "UP", "RUF"]
 "tools/validate_repository.py" = ["E402"]
 
 [tool.ruff.format]
-# These builders are byte-pinned by create-only publication manifests.
+# Publication manifests record the exact hashes of these builders.
 exclude = [
   "tools/build_ac_assets.py",
   "tools/build_research_assets.py",

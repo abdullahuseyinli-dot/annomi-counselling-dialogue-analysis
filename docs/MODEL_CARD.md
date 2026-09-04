@@ -47,8 +47,9 @@ probabilities average five fixed seeds after every item has received one out-of-
 
 Target-only RoBERTa improves macro-F1 over TF-IDF by 0.0935, 95% paired source-bootstrap interval
 [0.0778, 0.1097]. Causal context adds 0.0056 over target-only, interval [-0.0040, 0.0154], and
-worsens log loss. DASH-MI is not better than causal RoBERTa and its registered context ablation is
-null. Numerical rankings must not be restated as supported pairwise differences.
+worsens log loss. DASH-MI is not statistically distinguished from causal RoBERTa, and its context
+ablation does not show a reliable context effect. Numerical rankings must not be restated as
+supported pairwise differences.
 
 The weakest class remains `therapist_input`: causal RoBERTa F1 is 0.6683, compared with 0.8898 for
 `other`, 0.8516 for `question`, and 0.7826 for `reflection`. This class gap should remain visible in
@@ -62,8 +63,8 @@ seven transcript clusters. The primary distribution metric is transcript-balance
 - Soft-linear strongly improves over the transcript prior on both tasks: therapist delta -0.6309
   (exact p = 0.0078) and client delta -0.1113 (p = 0.0156).
 - PANEL-MI fails its registered therapist log-score gate: +0.0435 versus soft-linear, interval
-  [-0.0353, 0.1074]. It does achieve the best therapist JSD (0.1169) and entropy MAE (0.2910), an
-  exploratory Pareto trade-off rather than a primary win.
+  [-0.0353, 0.1074]. It has the lowest therapist JSD (0.1169) and entropy MAE (0.2910) point
+  estimates, but these are secondary metrics.
 - With seven clusters, intervals and transcript-specific effects are more informative than small
   numerical rank changes.
 
@@ -72,12 +73,13 @@ seven transcript clusters. The primary distribution metric is transcript-balance
 Task A uses 115 eligible transcripts from 108 sources at the primary ten-therapist-turn checkpoint.
 The post-hoc one-way model reaches 0.7389 source-balanced balanced accuracy, versus 0.7000 for the
 earlier Q-TRACE-MI candidate. Its paired interval against A-only crosses zero and its Brier score
-degrades beyond the frozen limit, so it is a numerical result rather than a supported replacement.
+exceeds the prespecified tolerance, so it is a numerical result rather than a supported replacement.
 
 Task C uses 4,743 strict client-to-therapist handoffs from 119 sources. Frozen-GRU reaches 0.4359
-source-balanced macro-F1. Safe prototype retrieval reaches 0.4328 and improves Brier from 0.6851 to
-0.6798, but its F1 interval versus frozen-GRU crosses zero. Adapted-GRU reaches 0.4339 and passes a
-post-hoc descriptive non-inferiority/calibrated-set gate; it does not establish superiority.
+source-balanced macro-F1. Safe prototype retrieval reaches 0.4328 and has a 0.0053 lower Brier
+point estimate; the paired intervals for both metrics include zero. Adapted-GRU reaches 0.4339 and
+passes a post-hoc descriptive non-inferiority/calibrated-set gate; it does not establish
+superiority.
 
 The uploader-designated Task A label is not a MITI rating. Task C predicts an observed action, not
 an appropriate or optimal intervention. The official MI-TAGS public samples are insufficient for
@@ -132,8 +134,8 @@ The code does not make AnnoMI or RoBERTa part of this repository's MIT license.
 
 The protocol, data digests, exact encoder revision, code commit, seed list, selected recipes,
 runtime environment, prediction hashes, failed attempts, and paired inference are retained. Evidence
-files are create-only. Run `python -m annomi_research validate`, `pytest -q`, and
+files are immutable once written. Run `python -m annomi_research validate`, `pytest -q`, and
 `python tools/validate_repository.py` to verify the current package.
 
-The older 31-transcript portfolio holdout remains preserved as development-consumed evidence. It is
-not the source-disjoint result described in this card.
+The older 31-transcript holdout is retained for reference. It follows a different evaluation design
+and is not directly comparable with the source-grouped results in this card.

@@ -196,9 +196,9 @@ def _require_registered_state(
     protocol = read_json(AC_PROTOCOL)
     config = read_json(QTRACE_CONFIG)
     if protocol["status"] != "locked_before_task_ac_evaluation":
-        raise ValueError("Task A/C protocol is not prospectively locked")
+        raise ValueError("Task A/C protocol is missing its pre-evaluation status")
     if config["status"] != "registered_before_qtrace_neural_evaluation":
-        raise ValueError("Q-TRACE configuration is not prospectively registered")
+        raise ValueError("Q-TRACE configuration is missing its pre-evaluation status")
     if config["protocol_id"] != protocol["protocol_id"]:
         raise ValueError("Q-TRACE configuration and Task A/C protocol disagree")
     validate_source_folds(load_corpus_for_validation(), split_manifest)

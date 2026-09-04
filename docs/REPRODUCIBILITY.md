@@ -32,8 +32,8 @@ uv run python -m annomi_research make-splits
 uv run python -m annomi_research validate
 ```
 
-Existing evidence is create-only. An identical rerun is a no-op; a changed payload must use a new
-lineage rather than overwrite a prior result.
+Existing evidence is immutable once written. An identical rerun is a no-op; a changed payload must
+use a new lineage rather than overwrite a prior result.
 
 ## 3. Classical reproduction
 
@@ -76,10 +76,9 @@ uv run annomi-research run-safe-mi
 uv run annomi-research run-safe-mi-extension
 ```
 
-These commands perform nested folds and fixed multi-seed evaluation and can be expensive. Run them
-only against a fresh output lineage if the recorded environment or payload would differ. Hardware
-observations from the completed campaign are in [HARDWARE.md](HARDWARE.md); they are provenance,
-not a portable minimum specification.
+These commands perform nested folds and fixed multi-seed evaluation and can be expensive. If a run
+would produce different output, write it to a new versioned directory. Hardware observations from
+the completed experiments are in [HARDWARE.md](HARDWARE.md); they are not minimum requirements.
 
 ## 5. Publication assets
 

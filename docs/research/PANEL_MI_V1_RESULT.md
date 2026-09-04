@@ -31,18 +31,17 @@ exact **p = 0.0156**, with six of seven transcripts improving.
 
 Bold values are within-task numerical optima, not separate significance claims.
 
-## Registered candidate decision
+## Prespecified candidate decision
 
 PANEL-MI does **not** pass the registered primary success gate. Against soft-linear on therapist
 turns, its log-score delta is **+0.0435** (positive is worse), with a 95% interval of
 **[-0.0353, +0.1074]**, exact one-sided **p = 0.8672**, and improvement on only two of seven
-transcripts. It also increases Brier by 0.0027.
+transcripts. It also has a 0.0027 higher Brier point estimate.
 
-The negative primary result hides a useful Pareto trade-off: PANEL-MI obtains the best therapist JSD
-(0.1169 versus 0.1260) and entropy MAE (0.2910 versus 0.3725). Its item-level predicted-versus-vote
-entropy Spearman correlation is 0.3611 versus 0.3368 for soft-linear. This suggests that the panel
-heads capture aspects of disagreement shape while sacrificing strict predictive likelihood. It is a
-hypothesis for external follow-up, not grounds to override the preregistered endpoint.
+Although PANEL-MI did not improve log score, it had lower therapist JSD (0.1169 versus 0.1260) and
+entropy MAE (0.2910 versus 0.3725) point estimates. Its item-level predicted-versus-vote entropy
+Spearman correlation is 0.3611 versus 0.3368 for soft-linear. These values motivate testing whether
+annotator-conditioned heads capture aspects of disagreement shape in an independent dataset.
 
 Soft labels do not significantly dominate hard plurality labels in this small study. Therapist
 soft-minus-hard log score is +0.0033 (exact p = 0.5625); client is -0.0345 (exact p = 0.1328), with
@@ -56,7 +55,7 @@ mass.
   seven. Soft-linear selected `C=0.1` or `C=1.0` for therapist and `C=0.1` throughout client.
 - Six of seven therapist folds selected rank-4 PANEL-MI with shrinkage 0.01. Client selections were
   mixed across ranks 2/4 and shrinkage 0.01/0.1. Final epochs ranged from 40 to 66.
-- L-BFGS completed all therapist fits. Two of 175 client soft-linear fits used the preregistered
+- L-BFGS completed all therapist fits. Two of 175 client soft-linear fits used the prespecified
   `newton-cholesky` convergence fallback; all other reported linear fits used L-BFGS.
 - Every item has one out-of-transcript prediction per deterministic model and one per each of five
   PANEL-MI seeds. Seed probabilities are averaged before inference.

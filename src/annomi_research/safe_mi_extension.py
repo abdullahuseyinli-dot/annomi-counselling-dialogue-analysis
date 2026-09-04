@@ -372,7 +372,7 @@ def validate_safe_mi_extension(output_dir: Path = SAFE_MI_EXTENSION_RESULTS) -> 
         return
     summary = read_json(summary_path)
     if summary["status"] != "complete_posthoc_exploratory_not_confirmatory":
-        raise ValueError("SAFE-MI v2.1 lost its posthoc claim boundary")
+        raise ValueError("SAFE-MI v2.1 result is missing its post-hoc status")
     for name, expected in summary["evidence_sha256"].items():
         if sha256_file(output_dir / name) != expected:
             raise ValueError(f"SAFE-MI v2.1 evidence hash mismatch: {name}")

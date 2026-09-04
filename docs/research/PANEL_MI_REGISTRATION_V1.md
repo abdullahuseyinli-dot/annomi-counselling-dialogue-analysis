@@ -10,7 +10,7 @@ The study asks whether text predicts the *distribution* of AnnoMI coding judgmen
 retaining stable anonymous-annotator tendencies improves that prediction. It contains 428
 utterances, each coded by the same ten anonymous annotator IDs, across seven transcripts. Therapist
 and client codes have different label spaces and are therefore modeled as two linked tasks rather
-than falsely merged. The therapist task is primary; the client task is a preregistered secondary
+than falsely merged. The therapist task is primary; the client task is a prespecified secondary
 replication.
 
 This is label-distribution learning in the sense of [Geng (2016)](https://doi.org/10.1109/TKDE.2016.2545658).

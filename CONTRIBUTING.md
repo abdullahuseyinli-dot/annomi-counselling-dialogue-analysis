@@ -1,7 +1,7 @@
 # Contributing
 
-Contributions should preserve the separation between software changes, commit-locked protocols,
-and completed evidence. Start by reading the [documentation index](docs/README.md), the
+Contributions should keep software changes, protocols fixed before evaluation, and completed
+results separate. Start by reading the [documentation index](docs/README.md), the
 [locked protocol](docs/research/LOCKED_PROTOCOL.md), and the
 [result-lineage policy](docs/RESULT_LINEAGE.md).
 
@@ -45,5 +45,5 @@ the maintained environment.
 - Any result change is added as a new lineage rather than replacing prior evidence.
 
 Small documentation and test improvements are welcome. Changes that introduce a new experiment
-should include a machine-readable protocol, stopping rule, comparison target, and claim boundary
-before outcomes are inspected.
+should include a machine-readable protocol, stopping rule, comparison target, and limits on
+interpretation before outcomes are inspected.

@@ -13,25 +13,24 @@ public archive deposit.
   ledgers.
 - A leave-one-transcript-out study of label-distribution learning from the existing ten-annotator
   subset.
-- Commit-locked DASH-MI, PANEL-MI, and Q-TRACE-MI evaluations, with unsuccessful acceptance gates
-  retained as negative results.
+- DASH-MI, PANEL-MI, and Q-TRACE-MI evaluations whose protocols were fixed in Git before testing,
+  including results for candidates that did not meet their prespecified acceptance criteria.
 - Exploratory SAFE-MI Task A/C experiments covering asymmetric transfer, fold-local adaptation,
   source-safe prototype retrieval, and cross-fitted prediction sets.
-- A protocol-bound MI-TAGS public-sample overlap audit. Full external evaluation remains blocked
-  pending authorized access to the complete corpus.
+- An MI-TAGS public-sample overlap audit conducted under a protocol written before data access. Full
+  external evaluation remains blocked pending authorized access to the complete corpus.
 - Deterministic publication tables, figures, manifests, repository validation, and the documentation
   set indexed in `docs/README.md`.
 
 ### Changed
 
-- The earlier transcript-level portfolio analysis is now explicitly development-consumed; new
-  headline claims use normalized source video URL as the dependency group.
+- The new benchmark groups data by normalized source-video URL. The older transcript-level
+  analysis remains available for reference.
 - Results are separated into supported improvements, numerical-only rankings, exploratory findings,
   and failed gates.
 - Raw dialogue text, embeddings, checkpoints, and model weights remain outside version control.
 
-## Preserved portfolio lineage
+## Earlier portfolio snapshot
 
-The original portfolio state is preserved by the annotated tag
-`portfolio-v0.1.0-development-consumed`. Its notebook and aggregate exports remain available for
-audit, but they are not the confirmatory endpoint of the source-disjoint study.
+The original portfolio state remains available at commit `e3ff100`. Its notebook and aggregate
+exports use the earlier evaluation design.

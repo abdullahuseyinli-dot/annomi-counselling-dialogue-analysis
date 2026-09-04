@@ -19,15 +19,15 @@ supported gain until the separately registered paired source bootstrap is comple
 | equal-frequency ECE (lower is better) | **0.0237** | 0.0658 | 0.0800 | +0.0141 |
 | worst-20% source log-loss CVaR (lower is better) | 1.2391 | **1.1006** | 1.2039 | +0.1033 |
 
-Flat causal context improves the two F1 endpoints but worsens every recorded probabilistic metric
-relative to target-only RoBERTa. This is a mixed result, not evidence that context is uniformly
-better. It motivates the registered DASH-MI candidate's explicit target path and gated context
-residual: dialogue history should be allowed to help without erasing a strong target representation.
+Flat causal context has higher point estimates for the two F1 endpoints and worse values for every
+recorded probabilistic metric relative to target-only RoBERTa. The paired F1 interval later crossed
+zero. This mixed pattern motivated the registered DASH-MI candidate's explicit target path and gated
+context residual.
 
 Per-class F1 for the causal ensemble is 0.8898 (`other`), 0.8516 (`question`), 0.7826
-(`reflection`), and 0.6683 (`therapist_input`). Relative to target-only RoBERTa, causal context
-improves `other`, `reflection`, and `therapist_input` F1 by 0.0050, 0.0156, and 0.0118,
-respectively, while `question` F1 declines by 0.0051.
+(`reflection`), and 0.6683 (`therapist_input`). Relative to target-only RoBERTa, causal context has
+higher F1 point estimates for `other`, `reflection`, and `therapist_input` by 0.0050, 0.0156, and
+0.0118, respectively, while the `question` point estimate is 0.0051 lower.
 
 Four of five causal seeds have a higher source-balanced macro-F1 than the matching target-only
 seed. Causal seed scores are 0.8139 (17), 0.8091 (42), 0.8153 (101), 0.8016 (314), and 0.8087

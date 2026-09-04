@@ -21,8 +21,8 @@ a new identifier and is labeled accordingly.
 
 ## Result versions
 
-Completed result directories are create-only. If code, dependencies, data, split, seed policy, or
-hardware changes produce a different payload, retain the old output and create a new lineage. Each
+Completed result directories are immutable once written. If code, dependencies, data, split, seed
+policy, or hardware changes produce a different payload, retain the old output and create a new lineage. Each
 new lineage should record:
 
 - governing protocol and configuration hashes;
@@ -37,7 +37,7 @@ hashes, and builder code; they do not create a new scientific result by themselv
 
 ## Tags and releases
 
-The existing `portfolio-v0.1.0-development-consumed` tag preserves the earlier portfolio state, and
-`dash-mi-protocol-v1` preserves a protocol boundary. Neither is a tag for the current software
+Commit `e3ff100` marks the earlier portfolio state, and `dash-mi-protocol-v1` marks the DASH-MI
+protocol commit. Neither is a tag for the current software
 candidate. A future release tag must point to the exact verified commit and must not be used to hide
 or replace those historical lineages.

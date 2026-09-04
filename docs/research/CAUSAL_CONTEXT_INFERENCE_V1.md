@@ -32,9 +32,9 @@ diagnostic rather than a separate hypothesis test.
 - Source-balanced Brier degradation no greater than +0.01: pass (+0.0041 point estimate).
 - No class collapse: pass.
 
-Overall gate: **fail**. Flat causal concatenation remains a useful control, but it is not promoted
-as a superior model. The next candidate must preserve the target signal explicitly and make context
-an ablatable residual contribution.
+Overall gate: **fail**. Flat causal concatenation remains a useful control but did not meet the
+criterion for replacing target-only RoBERTa. A subsequent model should preserve the target signal
+explicitly and make context an ablatable residual contribution.
 
 The complete bootstrap draw ledger, per-source diagnostic ledger, source hashes, prediction-ledger
 hashes, code commit, and configuration digest are stored under

@@ -4,7 +4,7 @@ The public evidence is a curated subset of the completed run artifacts. File-lev
 are recorded in `results/provenance.json`; the executed source pipeline is identified only by its
 SHA-256 digest, so no machine-specific path or personal identifier is required.
 
-The headline lineage is:
+The legacy portfolio outputs are:
 
 1. `results/protocol/official_split.json` fixes transcript membership.
 2. `results/protocol/roberta_config.json` fixes the selected encoder configuration.
@@ -14,10 +14,8 @@ The headline lineage is:
 6. `results/main/mcnemar_summary.csv` records paired item correctness.
 7. `results/main/calibration.csv` and `calibration_summary.json` record probability quality.
 
-A stale narrative sentence had described BERTopic + MMR as the overall summarisation winner.
-The exported aggregate table shows the opposite: KMeans + MMR scores 2.790 overall
-usefulness versus 2.445. The repository text follows the recorded table and retains both
-methods' component scores so the trade-off remains auditable.
+For summarisation, KMeans + MMR has an overall usefulness score of 2.790, compared with 2.445 for
+BERTopic + MMR. Component scores for both methods are included in the results.
 
 ## Source-disjoint research lineage
 
@@ -47,7 +45,8 @@ The `results/research/` tree is a second, independent evidence lineage governed 
 10. `safe_mi_v2_1/` retains the separately registered post-hoc Task A/C audit, including 20 missing
     one-way-model fits and outer-cross-fitted prediction sets. Its stopping rule forbids further
     AnnoMI architecture selection.
-11. `mi_tags_external_v1/` retains the protocol-bound public-sample overlap audit. The raw official
+11. `mi_tags_external_v1/` contains the public-sample overlap audit run under its written protocol.
+    The raw official
     samples remain ignored local evidence; the tracked audit records their hashes and quarantines.
     `publication_safe_mi_v2/` derives compact tables and figures from these immutable summaries.
 
@@ -57,14 +56,15 @@ data, embeddings, and checkpoints remain ignored local artifacts.
 
 ## Interpretation lineage
 
-Three distinctions are intentionally preserved:
+The results fall into five categories:
 
 - **Supported improvement:** target-only RoBERTa over TF-IDF; soft-linear label-distribution
   prediction over a transcript-balanced prior on both multi-annotator tasks.
 - **Numerical-only leader:** causal-history RoBERTa has the highest observed classification
   macro-F1, but its interval versus target-only includes zero and its log loss is worse.
 - **Negative registered candidates:** DASH-MI does not add supported contextual value, and PANEL-MI
-  does not improve its primary therapist vote log score despite better JSD/entropy diagnostics.
+  does not improve its primary therapist vote log score despite lower JSD and entropy-error point
+  estimates.
   Q-TRACE-MI does not pass its joint Task A/C gate: the Task A point gain is uncertain and the
   Task C effect is reliably negative relative to C-only.
 - **Task-specific Task A/C leaders:** Q-TRACE-MI is the numerical non-oracle Task A leader at
@@ -76,4 +76,4 @@ Three distinctions are intentionally preserved:
   AnnoMI-overlap quarantine. The sample is insufficient for performance evaluation, so external
   confirmation remains explicitly incomplete pending authorized full-corpus access.
 
-No aggregate ranking may erase these inference and calibration qualifications.
+Report aggregate rankings with the corresponding uncertainty and calibration results.

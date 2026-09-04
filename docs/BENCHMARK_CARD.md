@@ -21,14 +21,14 @@ Causal history is the numerical leader at 0.8163, but its difference from target
 and its log loss is worse. DASH-MI does not add supported contextual value.
 
 On the seven-transcript multi-annotator subset, soft-linear vote prediction improves log score over
-the transcript prior by -0.6309 for therapist turns and -0.1113 for client turns. PANEL-MI improves
-some disagreement-shape diagnostics but fails its commit-locked log-score gate.
+the transcript prior by -0.6309 for therapist turns and -0.1113 for client turns. PANEL-MI has lower
+JSD and entropy-error point estimates but fails the log-score criterion fixed before evaluation.
 
 Task A's 0.7389 result is exploratory and post-hoc, not a confirmed replacement. In Task C,
-source-safe prototype retrieval reaches 0.4328 and improves Brier score relative to frozen-GRU, but
-its macro-F1 interval includes zero. Cross-fitted prediction sets meet the recorded descriptive
-coverage/size thresholds for frozen-GRU and adapted-GRU; they are action-label sets, not treatment
-recommendations.
+source-safe prototype retrieval reaches 0.4328 and has a 0.0053 lower Brier point estimate than
+frozen-GRU; the paired intervals for both metrics include zero. Cross-fitted prediction sets meet
+the recorded descriptive coverage/size thresholds for frozen-GRU and adapted-GRU; they are
+action-label sets, not treatment recommendations.
 
 ## Leakage controls
 

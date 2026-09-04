@@ -3,23 +3,24 @@
 ## Verdict
 
 The executable AnnoMI stages are complete. SAFE-MI v2 screened ten neural configurations plus
-source-safe prototype retrieval, advanced two candidates under a frozen stopping rule, and then
+source-safe prototype retrieval, advanced two candidates under a prespecified stopping rule, and then
 ran five-seed source-disjoint evaluation. The registered exploratory candidates did not beat the
 matched Task C baseline. A separately registered post-hoc audit found a stronger Task A point
-estimate and a useful calibrated-set result, but neither is confirmatory.
+estimate and a post-hoc calibrated-set result, but neither is confirmatory.
 
 The strongest updated point estimates are:
 
 - **Task A:** one-way detached multitask learning reaches **0.7389** source-balanced balanced
   accuracy at ten therapist turns. This is +0.0389 over the earlier Q-TRACE-MI point estimate, but
-  its paired interval against A-only crosses zero and its Brier score is worse.
+  its paired intervals against A-only cross zero for both accuracy and Brier.
 - **Task C:** the new frozen-GRU baseline reaches **0.4359** source-balanced macro-F1. The best
-  SAFE-MI candidate is safe prototype retrieval at 0.4328; it improves Brier score but not F1.
+  SAFE-MI candidate is safe prototype retrieval at 0.4328. Its Brier point estimate is 0.0053
+  lower, but the paired intervals for both Brier and F1 include zero.
 - **Calibrated Task C sets:** outer-cross-fitted sets for adapted-GRU reach **0.8072** coverage with
   mean size **2.4845**, passing the descriptive 0.80 coverage and 2.50 size thresholds.
 
-All values reconstruct from retained out-of-source probability ledgers. No manual labels were
-added, and no failed gate was discarded.
+All reported values can be recalculated from the retained out-of-source predictions. The study used
+existing labels.
 
 ## Execution
 
@@ -54,15 +55,15 @@ true quality at Task C inference, and source metadata were unavailable to the mo
 | Earlier Q-TRACE-MI | 0.7000 | **0.6276** | 0.1453 |
 | **One-way detached multitask** | **0.7389** | 0.5990 | 0.1526 |
 
-The one-way model improves balanced accuracy over its registered A-only reference by +0.0889 and
-does so in four of five seeds. Its paired-source 95% interval is [-0.0521, 0.2256], however, and
-its Brier delta is +0.0191 with interval [-0.0180, 0.0557]. It therefore passes the point-gain and
-seed-direction components but fails the calibration constraint. Relative to Q-TRACE-MI, +0.0389
-is a descriptive cross-run point difference, not a new confirmatory contrast.
+The one-way model has a 0.0889 higher balanced-accuracy point estimate than its registered A-only
+reference and is higher in four of five seeds. Its paired-source 95% interval is [-0.0521, 0.2256],
+however, and its Brier delta is +0.0191 with interval [-0.0180, 0.0557]. It therefore passes the
+point-gain and seed-direction components but fails the calibration constraint. Relative to
+Q-TRACE-MI, +0.0389 is a descriptive cross-run point difference, not a new confirmatory contrast.
 
-The result suggests that blocking Task A gradients from changing the Task C path can reduce the
-negative-transfer problem seen in Q-TRACE-MI. It does not establish that demonstration-quality
-metadata measures MI fidelity, clinical quality, or patient outcome.
+The higher point estimate motivates testing whether blocking Task A gradients reduces negative
+transfer on independent data. It does not establish that demonstration-quality metadata measures
+MI fidelity, clinical quality, or patient outcome.
 
 ## Task C: strict next therapist-action forecasting
 
@@ -76,15 +77,16 @@ metadata measures MI fidelity, clinical quality, or patient outcome.
 | Discounted one-way | 0.4218 | 0.6843 | 1.2536 | Registered candidate gate fail |
 
 Safe prototype retrieval changes F1 by -0.0032 versus frozen-GRU, with paired-source interval
-[-0.0285, 0.0241], while improving Brier by -0.0053. Four of five seed-level F1 contrasts are
-positive, but the ensemble contrast is not. Discounted one-way transfer changes F1 by -0.0141,
+[-0.0285, 0.0241]. Its Brier point estimate is 0.0053 lower, with interval [-0.0124, 0.0020]. Four
+of five seed-level F1 contrasts are positive, but the ensemble contrast is not. Discounted one-way
+transfer changes F1 by -0.0141,
 interval [-0.0423, 0.0151]. The post-hoc adapted-GRU result is non-inferior under its descriptive
-margin and has slightly better Brier, but it is not superior: F1 delta -0.0021, interval
-[-0.0261, 0.0243].
+margin and has a slightly lower Brier point estimate, but it is not superior: F1 delta -0.0021,
+interval [-0.0261, 0.0243].
 
 The numerical increase from the earlier C-only run (0.4251) to the frozen-GRU baseline (0.4359) is
-+0.0108. Because that comparison was not a registered paired candidate contrast, it should be
-reported as a pipeline update rather than a supported population-level improvement.
++0.0108. This is a descriptive cross-run difference, not a paired comparison or evidence of a
+population-level improvement.
 
 ## Prediction-set audit
 
@@ -116,24 +118,21 @@ test groups. The samples therefore support schema and leakage checks only; no ex
 claim is permitted. Full confirmation remains blocked until the researcher obtains authorized
 access to the official full files.
 
-## Research contribution and interpretation
+## Interpretation
 
-The publishable unit is not an unsupported state-of-the-art claim. It is a falsifiable, auditable
-study of asymmetric transfer and uncertainty under strict source separation:
+The study evaluates asymmetric transfer and uncertainty under strict source separation using:
 
 - a staged negative-transfer diagnosis across shared, detached, and time-discounted objectives;
 - fold-local parameter-efficient adaptation without test-source or calibration-source leakage;
 - retrieval augmentation with explicit same-source and repeated-text exclusion;
 - zero-initialized bounded transition residuals and matched ablations;
 - source-cluster inference, seed stability, proper scores, and cross-fitted prediction sets;
-- a pre-access external-overlap protocol that detected likely benchmark reuse before evaluation.
+- a pre-access external-overlap protocol that flagged possible source overlap before evaluation.
 
-The substantive finding is that Task A discrimination and Task C probability quality can improve
-on different Pareto axes, while more coupling does not reliably improve Task C F1. That negative
-result, plus the detected external overlap, is more defensible than selecting the best fold or
-metric after the fact. The repository-specific combination is a candidate methodological
-contribution; this study does not claim that each component, or the combination, is the first of
-its kind.
+Task A discrimination and Task C probability quality show favourable point differences on different
+metrics, but their paired intervals include zero, and stronger coupling does not reliably improve
+Task C F1. The external sample audit also found possible source overlap. These findings require
+replication on independent data.
 
 ## Reproduce and audit
 

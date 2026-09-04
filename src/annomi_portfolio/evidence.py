@@ -32,15 +32,15 @@ def validate_evidence(root: Path = DEFAULT_ROOT) -> list[str]:
 
     models = read_csv("results/main/model_comparison.csv", root)
     if len(models) != 2:
-        raise ValueError("Headline comparison must contain exactly two models")
+        raise ValueError("Legacy comparison must contain exactly two models")
     baseline, roberta = models
     if "Elastic-net" not in baseline["model"] or "roberta-base" not in roberta["model"]:
-        raise ValueError("Unexpected model order in headline comparison")
+        raise ValueError("Unexpected model order in legacy comparison")
     _require_close(_number(baseline, "accuracy"), 0.7769784172661871, "baseline accuracy")
     _require_close(_number(baseline, "f1_macro"), 0.7358350528097619, "baseline macro-F1")
     _require_close(_number(roberta, "accuracy"), 0.8180883864337102, "RoBERTa accuracy")
     _require_close(_number(roberta, "f1_macro"), 0.7744389233180415, "RoBERTa macro-F1")
-    checks.append("headline metrics match the locked evidence")
+    checks.append("legacy aggregate metrics match the recorded results")
 
     deltas = {row["metric"]: row for row in read_csv("results/main/metric_deltas.csv", root)}
     for metric in ("accuracy", "f1_macro", "f1_weighted", "precision_macro", "recall_macro"):
@@ -89,24 +89,24 @@ def validate_evidence(root: Path = DEFAULT_ROOT) -> list[str]:
     winner = max(summaries, key=lambda row: _number(row, "Overall Usefulness"))
     if winner["Method"] != "Pre-BERTopic KMeans + MMR":
         raise ValueError("Summarisation winner does not match the aggregate evidence")
-    checks.append("summarisation narrative matches the aggregate ranking")
+    checks.append("summarisation results match the aggregate ranking")
 
     split = read_json("results/protocol/official_split.json", root)
     train = set(split["train_transcripts"])
     test = set(split["test_transcripts"])
     if train & test:
-        raise ValueError("Official transcript split overlaps")
+        raise ValueError("Project-defined transcript split overlaps")
     if len(train) != split["n_train_transcripts"] or len(test) != split["n_test_transcripts"]:
-        raise ValueError("Official split counts do not match transcript lists")
+        raise ValueError("Project-defined split counts do not match transcript lists")
     if len(train | test) != 133:
-        raise ValueError("Official split does not cover all 133 transcripts")
-    checks.append("official transcript split is disjoint and exhaustive")
+        raise ValueError("Project-defined split does not cover all 133 transcripts")
+    checks.append("project-defined transcript split is disjoint and exhaustive")
 
     manifest = read_json("data/source_manifest.json", root)
     if manifest["sha256"] != "b178db3b0b9858a0fa4ed670dabeccd63e975ba67e141d7ae16f2e8214f78e61":
         raise ValueError("Dataset digest is not the verified AnnoMI-simple digest")
     if manifest["rows"] != 9_699 or manifest["transcripts"] != 133:
         raise ValueError("Dataset manifest cardinality is incorrect")
-    checks.append("dataset source is commit-pinned and checksum-locked")
+    checks.append("dataset commit and checksum match the recorded values")
 
     return checks

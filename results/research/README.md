@@ -1,12 +1,12 @@
 # Source-disjoint research evidence
 
-This tree is independent of the portfolio aggregate exports in `results/main`, `results/extensions`,
-and `results/summarisation`. Those earlier exports are preserved as development-consumed evidence.
+This directory contains the source-grouped studies. The earlier portfolio exports in `results/main`,
+`results/extensions`, and `results/summarisation` use a different evaluation design.
 
-Research outputs are written create-only. A command may confirm an existing byte-identical output,
-but it refuses to replace evidence with different content. Large checkpoints and transient training
-state remain under ignored `artifacts/`; compact prediction ledgers and result summaries are retained
-here so every reported number can be reconstructed.
+Existing result files are immutable. A command may confirm a byte-identical output, while changed
+outputs must use a new versioned directory. Large checkpoints and transient training state remain
+under ignored `artifacts/`; compact prediction ledgers and result summaries are retained here so
+every reported number can be reconstructed.
 
 ## Current contents
 
@@ -25,8 +25,8 @@ here so every reported number can be reconstructed.
 - `publication_safe_mi_v2/`: exact Task A/C, prediction-set, and overlap tables with a hash manifest.
 
 Run `uv run annomi-research validate` to reconstruct the executable evidence. Run
-`uv run python tools/build_research_assets.py` to reproduce the publication tables and figures; the
-create-only writer refuses drift under an existing filename.
+`uv run python tools/build_research_assets.py` to reproduce the publication tables and figures. If
+an existing filename has different content, use a new versioned directory.
 
 Run `uv run python tools/build_ac_assets.py` and
 `uv run python tools/build_safe_mi_assets.py` to reproduce the Task A/C publication layers.
@@ -34,10 +34,10 @@ Run `uv run python tools/build_ac_assets.py` and
 The main numerical classification score is 0.8163 source-balanced macro-F1 for causal RoBERTa. The
 supported neural gain is target-only RoBERTa over TF-IDF (+0.0935, interval [0.0778, 0.1097]). In
 the separate multi-annotator study, soft-linear vote prediction beats the transcript prior on both
-therapist and client log score. DASH-MI and PANEL-MI fail their commit-locked primary gates and
-remain visible as negative results. In the Task A/C track, the post-hoc one-way model has the
+therapist and client log score. DASH-MI and PANEL-MI did not meet their prespecified primary
+criteria and are reported as negative results. In the Task A/C track, the post-hoc one-way model has the
 largest Task A point estimate at 0.7389 t10 balanced accuracy, but its interval against A-only
-crosses zero and its Brier score is worse. The updated frozen-GRU baseline has the largest Task C
+crosses zero and its Brier point estimate is higher. The updated frozen-GRU baseline has the largest Task C
 point estimate at 0.4359 source-balanced macro-F1; no screened candidate exceeds it. Q-TRACE-MI
 also fails its joint gate because its Task A interval includes zero and its Task C result is worse
 than its matched C-only baseline.

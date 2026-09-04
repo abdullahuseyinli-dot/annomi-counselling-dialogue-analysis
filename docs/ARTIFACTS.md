@@ -10,14 +10,13 @@
 | `results/research/baseline_v1/` | Nested sparse out-of-source predictions and summaries | Main classical baseline |
 | `results/research/neural_v1/` | Per-seed and ensemble predictions, selections, and summaries | Main neural evidence |
 | `results/research/multiannotator_v1/` | Vote-distribution predictions, inference, and selection trace | Multi-annotator evidence |
-| `results/research/ac_v1/` | Earlier Task A/C baselines and Q-TRACE-MI evidence | Commit-locked Task A/C lineage |
+| `results/research/ac_v1/` | Earlier Task A/C baselines and Q-TRACE-MI evidence | Task A/C study with a protocol fixed before evaluation |
 | `results/research/safe_mi_v2/` and `safe_mi_v2_1/` | Staged SAFE-MI and post-hoc extension ledgers | Exploratory Task A/C lineage |
-| `results/research/publication_*` | Derived exact tables plus hash manifests | Publication-facing evidence |
+| `results/research/publication_*` | Derived exact tables plus hash manifests | Tables prepared for reports and papers |
 | `assets/research/` | Builder-generated figures | Visualizations derived from tracked results |
 
-The legacy notebook and `results/main`, `results/extensions`, and `results/summarisation` remain as
-development-consumed evidence. They are preserved for audit but do not replace the source-disjoint
-headline lineage.
+The legacy notebook and earlier aggregate exports are retained for reproducibility. The principal
+findings are based on the source-disjoint experiments in `results/research/`.
 
 ## Local-only artifacts
 
@@ -32,9 +31,9 @@ contains its own manifest binding source summaries, derived tables, figures, and
 Research validators recompute metrics from row-level probability ledgers instead of trusting only
 aggregate JSON.
 
-Evidence writers are create-only. A byte-identical rerun may confirm an existing artifact; a
-different payload must be written to a new versioned directory. Failed gates, quarantines,
-fallbacks, and prior dry runs are evidence and must not be removed during cleanup.
+Existing evidence files are not overwritten. A byte-identical rerun may confirm an existing
+artifact; a different payload must be written to a new versioned directory. Failed gates,
+quarantines, fallbacks, and prior dry runs remain part of the study record.
 
 Before distributing an archive, use the [release evidence gate](RELEASE_EVIDENCE_GATE.md) to verify
 that local-only files, build products, and machine-specific paths have not entered the package.

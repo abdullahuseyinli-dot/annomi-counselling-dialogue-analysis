@@ -2,10 +2,10 @@
 
 ## Verdict
 
-The registered run is complete. Q-TRACE-MI is the best observed non-oracle Task A model, but it
-does **not** pass the joint success gate because its Task A interval includes zero and it performs
-worse than the matched C-only model on Task C. This negative joint result is retained without
-post-test tuning.
+The registered run is complete. Within this comparison, Q-TRACE-MI has the highest observed
+non-oracle Task A result, but it does **not** pass the joint success gate because its Task A interval
+includes zero and it performs worse than the matched C-only model on Task C. No additional model
+selection was performed after this test.
 
 The strongest task-specific systems are:
 
@@ -47,8 +47,8 @@ out-of-source probability ledgers and all failed gates are retained.
 | **Q-TRACE-MI** | **0.7000** | **0.6276** | 0.1453 |
 | Gold-code oracle | 0.7435 | 0.6407 | 0.1474 |
 
-Q-TRACE-MI improves the point estimate over A-only by +0.0500, with improvement in four of five
-seeds. The paired-source 95% interval is [-0.0734, 0.1731], however, so the registered evidence
+Q-TRACE-MI has a 0.0500 higher point estimate than A-only and is higher in four of five seeds. The
+paired-source 95% interval is [-0.0734, 0.1731], however, so the registered evidence
 does not establish a positive population-level gain. Its t10 low-class AUPRC approaches the
 gold-code oracle without using gold behaviour codes at inference.
 
@@ -70,7 +70,7 @@ be interpreted as a reliable learning curve.
 Against C-only, Q-TRACE-MI changes macro-F1 by -0.0509 (paired-source 95% interval
 [-0.0768, -0.0258]) and worsens Brier by +0.0212 ([0.0101, 0.0316]). Every one of the five seed
 contrasts is negative. The evidence therefore supports the simpler task-specific model for this
-forecasting target; latent quality conditioning and transition regularization do not help here.
+forecasting target. The full Q-TRACE-MI system does not improve on C-only here.
 
 At the registered 20% set-miscoverage target, Q-TRACE-MI obtains 0.8844 source-balanced coverage
 with mean set size 3.1192 and zero singleton sets. The coverage target is met, but the wide sets
@@ -97,10 +97,10 @@ single test split and features that included offline state; this study excludes 
 future length, true quality, and gold historical codes. The old and new scores therefore measure
 different evaluation contracts and must not be presented as direct regressions or improvements.
 
-The research contribution is the source-safe joint formulation, uncertainty-propagating history,
-quality-conditioned transition mechanism, calibrated action sets, fixed multi-seed ablations, and
-the falsifiable negative result. A stronger claim about MI fidelity still requires independent MITI
-ratings or external validation.
+Q-TRACE-MI combines a joint model evaluated with source-grouped folds, uncertainty-propagating history, a
+quality-conditioned transition mechanism, calibrated action sets, and fixed multi-seed ablations.
+Under the recorded evaluation, it underperformed C-only on Task C while the Task A difference
+remained uncertain. Independent MITI ratings or external data are needed to assess MI fidelity.
 
 ## Reproduce and audit
 

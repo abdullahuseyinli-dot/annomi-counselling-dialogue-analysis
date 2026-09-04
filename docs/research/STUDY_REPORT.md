@@ -4,21 +4,22 @@
 
 Automatic coding of motivational-interviewing dialogue is commonly evaluated at utterance level,
 although utterances from the same source share speakers, production conditions, and conversational
-content. This study audits and replaces a development-consumed AnnoMI portfolio split with nested
-cross-validation grouped by normalized source video URL. On 4,882 therapist utterances from 119
+content. This study revisits an earlier AnnoMI portfolio analysis using nested cross-validation
+grouped by normalized source video URL. On 4,882 therapist utterances from 119
 sources, a target-only RoBERTa classifier improves source-balanced macro-F1 from 0.7172 for an
 elastic-net TF-IDF baseline to 0.8108 (paired source-bootstrap difference 0.0935, 95% interval
 [0.0778, 0.1097]). Causal conversational context reaches the numerical maximum of 0.8163, but its
 difference from target-only is uncertain and log loss is worse. A registered gated context model,
-DASH-MI, does not improve performance.
+DASH-MI, does not show a reliable improvement.
 
 A separate registered study uses 428 utterances from seven transcripts with ten existing
 annotations each. Frozen text representations predict full coding-vote distributions under
 leave-one-transcript-out evaluation. Soft label-distribution learning improves transcript-balanced
 vote log score over a transcript-balanced prior for both therapist (difference -0.6309, interval
 [-0.7257, -0.5055], exact p = 0.0078) and client turns (-0.1113, interval
-[-0.1773, -0.0402], p = 0.0156). A low-rank annotator-conditioned model, PANEL-MI, improves
-therapist Jensen-Shannon divergence and entropy error but fails its registered log-score gate. The
+[-0.1773, -0.0402], p = 0.0156). A low-rank annotator-conditioned model, PANEL-MI, has lower
+therapist Jensen-Shannon divergence and entropy-error point estimates but fails its registered
+log-score gate. The
 results support text-based research coding under this source-held-out protocol, while providing no
 evidence of clinical validity or transportability to real care.
 
@@ -32,8 +33,12 @@ A subsequent explicitly exploratory SAFE-MI campaign tests parameter-efficient f
 adaptation, asymmetric transfer, bounded transition residuals, and source-safe prototype retrieval.
 One-way transfer raises the post-hoc Task A point estimate to 0.7389 but fails its Brier constraint;
 its paired interval against A-only still crosses zero. A new frozen-GRU Task C baseline reaches
-0.4359 macro-F1, while no SAFE-MI candidate improves it. An overlap audit quarantines 9 of 12
+0.4359 macro-F1, while no SAFE-MI candidate has a higher macro-F1 point estimate. An overlap audit
+quarantines 9 of 12
 official MI-TAGS public-sample records, preventing an external performance claim from the sample.
+
+In this report, *registered* means that the analysis plan was committed before the corresponding
+local run; it does not mean public preregistration.
 
 ## 1. Motivation
 
@@ -43,7 +48,7 @@ reproducible work possible in a domain where clinical data access is unusually c
 creates two methodological risks: demonstrations from the same source video can appear as multiple
 transcripts, and hard-label aggregation can hide genuine coding ambiguity.
 
-The study addresses six questions:
+The study addresses eight questions:
 
 1. How well do sparse and transformer classifiers generalize to entirely unseen video sources?
 2. Does causal conversational history add reliable value beyond the current therapist utterance?
@@ -68,9 +73,8 @@ task-specific architecture, not as the first annotator-conditioned model.
 
 The pinned simple release contains 9,699 utterances across 133 transcripts. Normalized source URLs
 identify 119 source groups. The audit found that grouping only by transcript permits source overlap,
-and that prior cached portfolio outputs did not retain row-level probabilities sufficient to
-reconstruct every inferential claim. Those outputs remain preserved under an annotated
-development-consumed lineage.
+and that earlier portfolio outputs did not retain the row-level probabilities needed to reconstruct
+every inferential result. They remain available for reference.
 
 The new primary population comprises 4,882 therapist utterances. Labels are `reflection`,
 `question`, `therapist_input`, and `other`. Inputs exclude future turns, eventual transcript length,
@@ -180,8 +184,8 @@ crosses zero. Its source-balanced log loss is 0.5880 versus 0.5587, a supported 
 
 DASH-MI reaches 0.8116 and is not distinguished from either target-only or causal RoBERTa. Removing
 its context branch changes macro-F1 by only 0.0011, interval crossing zero. Context alters 26 of
-4,882 ensemble decisions. This rejects the registered hypothesis that a constrained context
-residual would deliver a material improvement under source shift.
+4,882 ensemble decisions. This does not support the registered hypothesis that a constrained
+context residual would deliver a material improvement under source shift.
 
 ### 4.2 Vote distributions
 
@@ -190,33 +194,37 @@ therapist improvement occurs in all seven transcripts; the client improvement oc
 versus hard-label differences are not statistically resolved: therapist log-score delta +0.0033,
 client -0.0345, both intervals crossing zero.
 
-PANEL-MI worsens therapist log score by 0.0435 relative to soft-linear and improves only two
-transcripts. It therefore fails every directional component of the registered primary gate except
-non-degradation in JSD. Its therapist JSD improves from 0.1260 to 0.1169, entropy mean absolute error
-from 0.3725 to 0.2910, and entropy Spearman correlation from 0.3368 to 0.3611. The divergence between
-proper scores indicates a sharper-versus-shape trade-off rather than a uniformly better model.
+PANEL-MI has a 0.0435 higher therapist log-score point estimate than soft-linear and has a lower
+score on only two transcripts. It therefore fails every directional component of the registered
+primary gate except non-degradation in JSD. Its therapist JSD point estimate is 0.1169 versus 0.1260,
+entropy mean absolute error is 0.2910 versus 0.3725, and entropy Spearman correlation is 0.3611
+versus 0.3368. These point estimates suggest a trade-off between predictive likelihood and the
+shape of the predicted distributions rather than a uniformly better model.
 
 ### 4.3 Early quality and next action
 
-At ten therapist turns, Q-TRACE-MI is the best non-oracle Task A model: balanced accuracy 0.7000 and
-low-class AUPRC 0.6276, compared with 0.6500 and 0.4921 for A-only. Its +0.0500 balanced-accuracy
+Within the original Q-TRACE-MI comparison, Q-TRACE-MI has the highest non-oracle Task A result at
+ten therapist turns: balanced accuracy 0.7000 and low-class AUPRC 0.6276, compared with 0.6500 and
+0.4921 for A-only. Its +0.0500 balanced-accuracy
 delta has paired-source interval [-0.0734, 0.1731], so the positive effect is not established.
 
-For Task C, C-only neural is best at 0.4251 source-balanced macro-F1 and 0.6904 Brier. Q-TRACE-MI
-reaches 0.3742 and 0.7116, respectively. The candidate-minus-C-only macro-F1 interval is
+Within the original Q-TRACE-MI comparison, C-only neural has the highest Task C result at 0.4251
+source-balanced macro-F1 and 0.6904 Brier. Q-TRACE-MI reaches 0.3742 and 0.7116, respectively. The
+candidate-minus-C-only macro-F1 interval is
 [-0.0768, -0.0258], and all five seed contrasts are negative. Adaptive sets obtain 0.8844 coverage
 at a target of 0.80, but average 3.12 of four labels and produce no singletons. The registered joint
 gate fails.
 
 SAFE-MI's post-hoc one-way model raises the Task A t10 point estimate to 0.7389, +0.0889 versus
 A-only and +0.0389 versus the earlier Q-TRACE-MI point result. Four of five seed contrasts versus
-A-only are positive, but the paired-source interval is [-0.0521, 0.2256]. Brier worsens by +0.0191,
-so the descriptive gate fails.
+A-only are positive, but the paired-source interval is [-0.0521, 0.2256]. The Brier point estimate
+is 0.0191 higher, with interval [-0.0180, 0.0557], so the descriptive gate fails.
 
 For Task C, the updated frozen-GRU baseline reaches 0.4359 macro-F1 and 0.6851 Brier. Safe prototype
-retrieval reaches 0.4328 and 0.6798: probability quality improves, while the F1 delta is -0.0032
-with interval [-0.0285, 0.0241]. Adapted-GRU reaches 0.4339 and passes its post-hoc descriptive
-non-inferiority and calibrated-set gate, but is not superior. Outer-cross-fitted adapted-GRU sets
+retrieval reaches 0.4328 and 0.6798. Its Brier point estimate is 0.0053 lower, with interval
+[-0.0124, 0.0020]; its F1 delta is -0.0032 with interval [-0.0285, 0.0241]. Adapted-GRU reaches
+0.4339 and passes its post-hoc descriptive non-inferiority and calibrated-set gate, but is not
+superior. Outer-cross-fitted adapted-GRU sets
 reach 0.8072 coverage with mean size 2.4845 at the 0.80/2.50 thresholds.
 
 The MI-TAGS public-sample audit observes 12 records, quarantines 9 possible overlaps, and leaves
@@ -225,29 +233,26 @@ external performance result is calculated from these samples.
 
 ## 5. Discussion
 
-The largest robust result is not a novel architecture: it is the combination of a pretrained text
-encoder and a leakage-resistant evaluation boundary. More elaborate context mechanisms fail to add
-supported value. The current utterance contains most of the recoverable four-class signal, and
-context can worsen probability quality even when top-1 F1 rises slightly.
+The clearest supported finding is the target-only RoBERTa improvement over TF-IDF under
+source-grouped evaluation. None of the tested context models showed a reliable gain over target-only
+RoBERTa.
 
 The vote study shows that disagreement is predictable beyond transcript-level label prevalence.
 That matters scientifically even though soft targets do not decisively beat hard targets: the model
-can estimate a graded coding distribution on unseen dialogues. PANEL-MI's entropy/JSD advantage
-suggests a future calibration or mixture model, but tuning such a model on these completed outer
-predictions would be post-selection. It should be registered as a new study and evaluated on new
-dialogues or an external corpus, not optimized against the seven reported clusters.
+can estimate a graded coding distribution on unseen dialogues. PANEL-MI's lower entropy and JSD
+point estimates motivate testing a future calibration or mixture model. That model should be
+specified in advance and evaluated on new dialogues or an external corpus, not tuned against the
+seven reported clusters.
 
-The Task A/C result similarly argues against adding complexity by default. The joint model extracts
-a promising early quality signal, but the available low-quality sample is too small to resolve its
-gain. For action forecasting, quality-conditioned transitions create negative transfer relative to
-the C-only representation. Future work should register task-specific encoders or collect external
-quality ratings rather than tune this mechanism on the completed outer predictions.
+The joint model has a higher Task A point estimate, but its interval crosses zero and the
+low-quality sample is too small to resolve the difference. For action forecasting,
+the full Q-TRACE-MI model underperforms C-only; this experiment does not isolate which coupled
+component causes the difference. Future work should specify task-specific encoders in advance or
+collect external quality ratings.
 
-SAFE-MI sharpens that conclusion. Detaching the Task A path yields the strongest quality point
-estimate, but its worse Brier score shows that discrimination and probability quality occupy
-different Pareto axes. Prototype retrieval improves Task C proper scores without improving F1.
-This combination of positive secondary signals, failed primary gates, and an enforced stopping rule
-is a useful negative result rather than a basis for more post-test AnnoMI tuning.
+The one-way Task A model has the highest balanced-accuracy point estimate, and prototype retrieval
+has the lowest Task C Brier point estimate. Their paired intervals include zero, so these patterns
+need independent testing.
 
 ## 6. Limitations
 
@@ -276,6 +281,7 @@ candidate gates are retained. The separate Q-TRACE-MI gate failure is also retai
 ledgers, selection traces, package versions, hardware, seeds, code commits, and output hashes permit
 exact metric reconstruction without releasing raw dialogue text.
 
-SAFE-MI adds 130 neural fits, create-only probability ledgers, a registered post-hoc boundary,
-outer-cross-fitted set predictions, and a deterministic publication manifest. The external audit
+SAFE-MI adds 130 neural fits, immutable probability ledgers, a post-hoc analysis plan committed
+before that analysis, outer-cross-fitted set predictions, and a deterministic publication manifest.
+The external audit
 records the exact upstream commit and sample hashes while keeping third-party raw files untracked.

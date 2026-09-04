@@ -80,8 +80,12 @@ def _source_components(frame: pd.DataFrame) -> dict[str, Any]:
     support = np.zeros(len(source_values), dtype=int)
     for source_index, source in enumerate(source_values):
         group = frame[frame["source_id"].eq(source)]
-        true_indices = np.asarray([label_to_index[value] for value in group["label"]])
-        predicted_indices = np.asarray([label_to_index[value] for value in group["prediction"]])
+        true_indices = np.asarray(
+            [label_to_index[value] for value in group["label"]], dtype=np.intp
+        )
+        predicted_indices = np.asarray(
+            [label_to_index[value] for value in group["prediction"]], dtype=np.intp
+        )
         probabilities = group[probability_columns].to_numpy(dtype=float)
         one_hot = np.eye(len(LABELS), dtype=float)[true_indices]
         count = len(group)

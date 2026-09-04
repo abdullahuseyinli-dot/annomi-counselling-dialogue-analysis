@@ -13,11 +13,11 @@ OUTPUT = ROOT / "annomi_counselling_dialogue_analysis.ipynb"
 def build() -> None:
     cells = [
         new_markdown_cell(
-            """# AnnoMI counselling dialogue analysis
+            """# Legacy AnnoMI portfolio analysis
 
-This notebook is the compact, executable view of the repository's verified evidence. It
-loads only tracked aggregate results; raw counselling text and model checkpoints are not
-required."""
+This notebook recreates the tables and figures from the original transcript-held-out experiment
+using tracked result files. The current source-grouped results are reported in the README. Raw
+counselling text and model checkpoints are not required."""
         ),
         new_code_cell(
             """from pathlib import Path
@@ -39,11 +39,12 @@ pd.set_option("display.precision", 4)
 plt.style.use("seaborn-v0_8-whitegrid")"""
         ),
         new_markdown_cell(
-            """## Data and split contract
+            """## Data split
 
-AnnoMI-simple contains 9,699 utterances from 133 transcripts. The primary classifier uses
-102 transcripts for training and reserves 31 entire transcripts for final evaluation, preventing
-utterances from the same dialogue from crossing the boundary."""
+AnnoMI-simple contains 9,699 utterances from 133 transcripts. The original classifier used
+102 transcripts for training and reserved 31 entire transcripts for evaluation. This kept each
+transcript in one partition, but different transcripts from the same source video could appear
+in both partitions."""
         ),
         new_code_cell(
             """manifest = json.loads((ROOT / "data/source_manifest.json").read_text())
@@ -57,16 +58,16 @@ display(pd.DataFrame({
 }))"""
         ),
         new_markdown_cell(
-            """## Primary comparison
+            """## Model comparison
 
-The context-aware RoBERTa model improves both accuracy and macro-F1 over the sparse
-elastic-net baseline on 973 therapist turns from unseen transcripts."""
+On the original 31-transcript holdout, context-aware RoBERTa improves accuracy and macro-F1
+over the elastic-net baseline."""
         ),
         new_code_cell(
             """comparison = pd.read_csv(ROOT / "results/main/model_comparison.csv")
-headline = comparison[["model", "accuracy", "f1_macro", "f1_weighted", "brier_multiclass"]].copy()
-headline.columns = ["Model", "Accuracy", "Macro-F1", "Weighted F1", "Brier"]
-display(headline.style.format({
+comparison_view = comparison[["model", "accuracy", "f1_macro", "f1_weighted", "brier_multiclass"]].copy()
+comparison_view.columns = ["Model", "Accuracy", "Macro-F1", "Weighted F1", "Brier"]
+display(comparison_view.style.format({
     "Accuracy": "{:.2%}", "Macro-F1": "{:.2%}", "Weighted F1": "{:.2%}", "Brier": "{:.4f}"
 }).highlight_max(subset=["Accuracy", "Macro-F1", "Weighted F1"], color="#DCFCE7")
   .highlight_min(subset=["Brier"], color="#DCFCE7"))"""
@@ -124,9 +125,9 @@ display(calibration[["model", "accuracy", "f1_macro", "brier_multiclass", "ece"]
         new_markdown_cell(
             """## Extractive summarisation
 
-The aggregate evidence selects **KMeans + MMR** on overall usefulness (2.790 versus 2.445).
-BERTopic + MMR is stronger on average faithfulness/support and coverage, but its lower specificity
-reduces the combined score."""
+Under the stored scoring rubric, **KMeans + MMR** has the higher overall usefulness score
+(2.790 versus 2.445). BERTopic + MMR scores higher for faithfulness/support and coverage but
+lower for specificity."""
         ),
         new_code_cell(
             """summary_methods = pd.read_csv(ROOT / "results/summarisation/method_means.csv")
@@ -137,10 +138,11 @@ display(summary_methods[rubric_columns].style.format({column: "{:.3f}" for colum
         ),
         new_markdown_cell("![Summarisation comparison](assets/summarisation_comparison.png)"),
         new_markdown_cell(
-            """## Extensions
+            """## Original portfolio extensions
 
-Transcript-quality classification and next-behaviour forecasting are separate experiments. They
-broaden the analysis but do not participate in selection of the primary classifier."""
+These tables show the transcript-quality and next-behaviour experiments from the original
+portfolio. They use different inputs and evaluation rules from the current Tasks A and C, so the
+scores are not directly comparable."""
         ),
         new_code_cell(
             """quality = json.loads((ROOT / "results/extensions/transcript_classification.json").read_text())
@@ -152,10 +154,10 @@ display(forecast.style.format({"top_1_accuracy": "{:.2%}", "top_2_accuracy": "{:
                                "top_3_accuracy": "{:.2%}"}))"""
         ),
         new_markdown_cell(
-            """## Evidence validation
+            """## Validation
 
-The final cell rechecks headline values, arithmetic deltas, grouped intervals, paired counts,
-calibration, summarisation ranking, split integrity, and dataset provenance."""
+The final cell checks the stored metrics, intervals, calibration results, split, and dataset
+provenance."""
         ),
         new_code_cell(
             """checks = validate_evidence(ROOT)
@@ -165,7 +167,7 @@ for check in checks:
         new_markdown_cell(
             """## Scope
 
-These results support method comparison on the pinned benchmark. They do not establish clinical
+These results apply only to the original transcript holdout. They do not establish clinical
 validity, demographic fairness, or safe use in patient-facing systems. See
 `docs/MODEL_CARD.md` for the full limitations statement."""
         ),

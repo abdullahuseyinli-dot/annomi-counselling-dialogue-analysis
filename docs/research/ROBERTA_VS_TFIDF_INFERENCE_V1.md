@@ -27,8 +27,8 @@ macro-F1 improves for 90 sources, declines for 22, and ties for 7; the median so
 - Source-balanced Brier degradation no greater than +0.01: pass (it improves by 0.1109).
 - No class collapse: pass.
 
-The ECE diagnostic still worsens, as documented in the model result, and is not erased by this gate.
-Future calibration work must fit parameters without using the relevant outer-test labels.
+The ECE diagnostic is worse despite the higher F1 and better Brier score. Future calibration work
+must fit parameters without using the relevant outer-test labels.
 
 The complete bootstrap draw ledger, per-source diagnostic ledger, source hashes, prediction-ledger
 hashes, code commit, and configuration digest are stored under

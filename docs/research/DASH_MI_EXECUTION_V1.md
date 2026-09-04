@@ -1,10 +1,9 @@
 # DASH-MI execution registration v1
 
-`configs/research/dash_mi_v1.json` was registered before executing DASH-MI or inspecting any of
-its outer-fold predictions. The candidate was named in the locked protocol, but its detailed
-architecture was designed after observing the completed target-only and flat-context RoBERTa
-controls. Its evaluation is therefore a rigorous adaptive experiment, not an untouched external
-confirmation; any positive result still requires replication on independent counselling data.
+`configs/research/dash_mi_v1.json` was committed before DASH-MI was run or its outer-fold
+predictions were inspected. The detailed architecture was designed after reviewing the target-only
+and flat-context RoBERTa results, so this evaluation is exploratory and requires replication on
+independent counselling data.
 
 DASH-MI means **Disagreement-Aware, Source-Hardened Motivational Interviewing classifier**. It has
 two separately encoded, shared-weight RoBERTa streams:

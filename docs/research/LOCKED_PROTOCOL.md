@@ -33,7 +33,7 @@ study. Vote-distribution Brier/log score, Jensen-Shannon divergence, and entropy
 primary there. Utterances are not treated as 4,280 independent observations, and claims are bounded
 to the seven source dialogues.
 
-## Claim boundary
+## Limits on interpretation
 
 AnnoMI consists of public demonstrations, not a representative clinical cohort. Results concern
 automatic research coding. They do not validate diagnosis, treatment recommendations, therapist

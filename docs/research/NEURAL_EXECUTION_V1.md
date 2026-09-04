@@ -26,4 +26,4 @@ gate and is not a performance result.
 
 Model checkpoints and Hugging Face cache files live under ignored `artifacts/`. Completed evidence
 contains row-level predictions, source-grouped selections, hashes, resolved software/device
-provenance, and the exact pretrained revision. Evidence files are create-only.
+provenance, and the exact pretrained revision. Evidence files are immutable once written.

@@ -46,7 +46,8 @@ as proof that every component is new.
     sources for Task C.
 - Explain source grouping, nested selection, seed ensembling, causal feature boundaries, and
   source-cluster inference.
-- Introduce the evidence-status vocabulary from the [claim crosswalk](CLAIM_EVIDENCE_CROSSWALK.md).
+- Explain which analyses were prespecified, exploratory, post hoc, or excluded because of overlap,
+  following the [claim crosswalk](CLAIM_EVIDENCE_CROSSWALK.md).
 - State that raw dialogue text is not included in released prediction ledgers.
 
 Suggested Table 1: analysis populations, prediction units, grouping units, targets, primary metrics,
@@ -87,9 +88,8 @@ annotator-conditioned model. The inferential unit is the transcript, not the ind
 
 - The soft-distribution model improves vote log score over the transcript prior for therapist and
   client turns, with intervals excluding zero in the favorable direction.
-- The annotator-conditioned model fails its primary therapist log-score gate. Its better
-  Jensen–Shannon divergence and entropy error are secondary trade-offs, not grounds to reverse the
-  primary conclusion.
+- The annotator-conditioned model fails its primary therapist log-score gate. Its lower
+  Jensen–Shannon divergence and entropy-error point estimates are secondary.
 - Soft versus hard-label training is unresolved in this seven-transcript sample.
 
 Suggested Table 3: use
@@ -98,7 +98,7 @@ Suggested Table 3: use
 
 ## 6. Study III: early quality and next recorded action
 
-### 6.1 Commit-locked joint study
+### 6.1 Task A/C study with a protocol fixed before evaluation
 
 Define Task A as prediction of uploader-designated demonstration quality from an absolute causal
 prefix and Task C as prediction of the next recorded therapist behaviour before its text is seen.
@@ -114,10 +114,11 @@ gate fails.
 
 Describe the staged comparison of frozen and fold-adapted representations, detached one-way
 transfer, discounted evidence, bounded transition residuals, and source-safe prototype retrieval.
-Separate the commit-locked exploratory v2 screen from the v2.1 post-hoc extension.
+Distinguish the exploratory v2 screen, whose protocol was fixed before evaluation, from the v2.1
+post-hoc extension.
 
 - Task A: the post-hoc one-way model reaches 0.7389 balanced accuracy, but its interval against
-  A-only crosses zero and Brier score worsens.
+  A-only crosses zero and its Brier point estimate is higher.
 - Task C: the matched frozen-GRU baseline reaches 0.4359 macro-F1. No tested candidate exceeds it;
   prototype retrieval has a lower Brier point estimate without a supported F1 gain.
 - Outer-cross-fitted adapted-GRU sets reach 0.8072 coverage with mean size 2.4845. These are

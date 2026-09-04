@@ -21,7 +21,7 @@ body:
   - type: textarea
     id: boundary
     attributes:
-      label: Evidence boundary
-      description: Identify development-consumed outcomes and the independent evaluation needed.
+      label: Prior results
+      description: Identify any earlier results that informed the proposal and the independent evaluation needed.
     validations:
       required: true
