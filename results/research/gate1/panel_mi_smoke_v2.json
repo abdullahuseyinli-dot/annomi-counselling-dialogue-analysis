@@ -1,0 +1,32 @@
+{
+  "code_commit": "0b0e598980bbe979ef3f5d03f34e69d7653d8494",
+  "config_sha256": "aaa9a31df44094a0e7cecae2d3f908c7ea38ee7035abf05d8b35e7b86115076b",
+  "development_validation_transcript": 27,
+  "elapsed_seconds": 1.9714515000232495,
+  "embedding_dimensions": 768,
+  "engineering_gate_not_performance_result": true,
+  "gate_id": "panel-mi-frozen-encoder-smoke-v1",
+  "maximum_probability_sum_error": 1.1920928955078125e-07,
+  "optimizer_epochs": 2,
+  "outer_test_transcript": 7,
+  "outer_test_votes_touched": false,
+  "peak_encoder_memory_bytes": 636997632,
+  "probabilities_finite": true,
+  "projected_dimensions": 32,
+  "runtime_environment": {
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "scikit_learn": "1.9.0",
+    "scipy": "1.17.1",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "status": "pass",
+  "train_items": 171,
+  "validation_items": 12
+}

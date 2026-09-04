@@ -17,3 +17,12 @@ result; it reports no evaluation metric and cannot support a model-quality claim
 
 The complete machine-readable record is
 `results/research/gate1/panel_mi_smoke_v1.json`.
+
+## Post-amendment rerun
+
+After the recorded L-BFGS engineering failure and convergence-fallback amendment, the same smoke
+gate passed again at commit `0b0e598980bbe979ef3f5d03f34e69d7653d8494` with configuration hash
+`aaa9a31df44094a0e7cecae2d3f908c7ea38ee7035abf05d8b35e7b86115076b`. The dimensions,
+partition sizes, peak memory, and maximum probability-sum error were unchanged; elapsed time was
+1.97 seconds. The second immutable record is
+`results/research/gate1/panel_mi_smoke_v2.json`.
