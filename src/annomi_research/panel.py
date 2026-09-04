@@ -75,6 +75,7 @@ class PanelFitOutcome:
     best_score: float | None
     best_epoch: int
     epochs_completed: int
+    base_linear_solver: str
 
 
 class PanelMIHead(nn.Module):
@@ -353,29 +354,41 @@ def _fit_linear_model(
     weights: np.ndarray,
     inverse_l2: float,
     maximum_iterations: int,
+    tolerance: float = 1e-6,
+    fallback_solver: str = "newton-cholesky",
 ) -> LogisticRegression:
     n_items, n_classes = targets.shape
     expanded_features = np.repeat(features, n_classes, axis=0)
     expanded_labels = np.tile(np.arange(n_classes, dtype=int), n_items)
     expanded_weights = (weights[:, None] * targets).reshape(-1)
     keep = expanded_weights > 0
-    model = LogisticRegression(
-        C=float(inverse_l2),
-        solver="lbfgs",
-        max_iter=int(maximum_iterations),
-        tol=1e-9,
-        fit_intercept=True,
-    )
-    with warnings.catch_warnings():
-        warnings.simplefilter("error", ConvergenceWarning)
-        model.fit(
-            expanded_features[keep],
-            expanded_labels[keep],
-            sample_weight=expanded_weights[keep],
+    convergence_failures: list[str] = []
+    for solver in ("lbfgs", fallback_solver):
+        model = LogisticRegression(
+            C=float(inverse_l2),
+            solver=solver,
+            max_iter=int(maximum_iterations),
+            tol=float(tolerance),
+            fit_intercept=True,
         )
-    if not np.array_equal(model.classes_, np.arange(n_classes)):
-        raise ValueError("Linear label-distribution model did not fit every class")
-    return model
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("error", ConvergenceWarning)
+                model.fit(
+                    expanded_features[keep],
+                    expanded_labels[keep],
+                    sample_weight=expanded_weights[keep],
+                )
+        except ConvergenceWarning as error:
+            convergence_failures.append(f"{solver}: {error}")
+            continue
+        if not np.array_equal(model.classes_, np.arange(n_classes)):
+            raise ValueError("Linear label-distribution model did not fit every class")
+        model.annomi_solver_used_ = solver
+        return model
+    raise RuntimeError(
+        "All registered linear solvers failed to converge: " + " | ".join(convergence_failures)
+    )
 
 
 def _hard_targets(votes: np.ndarray) -> np.ndarray:
@@ -547,6 +560,8 @@ def _fit_panel(
         _item_weights(train_transcript_ids),
         inverse_l2=1.0,
         maximum_iterations=int(settings["linear_max_iterations"]),
+        tolerance=float(settings["linear_tolerance"]),
+        fallback_solver="newton-cholesky",
     )
     model = PanelMIHead(
         input_size=train_features.shape[1],
@@ -656,6 +671,7 @@ def _fit_panel(
         best_score=None if fixed_epochs is not None else float(best_score),
         best_epoch=best_epoch,
         epochs_completed=epochs_completed,
+        base_linear_solver=str(base_model.annomi_solver_used_),
     )
 
 
@@ -728,6 +744,8 @@ def _select_linear(
                 _item_weights(partition["train_transcript_ids"]),
                 recipe.inverse_l2,
                 maximum_iterations,
+                tolerance=float(config["training"]["linear_tolerance"]),
+                fallback_solver="newton-cholesky",
             )
             probabilities = fitted.predict_proba(partition["validation_features"])
             score = _weighted_log_score(
@@ -739,6 +757,7 @@ def _select_linear(
                 {
                     "validation_transcript": partition["validation_transcript"],
                     "vote_log_score": score,
+                    "solver": str(fitted.annomi_solver_used_),
                 }
             )
         evaluations.append(
@@ -784,6 +803,7 @@ def _select_panel(
                     "vote_log_score": outcome.best_score,
                     "best_epoch": outcome.best_epoch,
                     "epochs_completed": outcome.epochs_completed,
+                    "base_linear_solver": outcome.base_linear_solver,
                 }
             )
         evaluations.append(
@@ -1075,7 +1095,10 @@ def run_panel_mi(
                     train_weights,
                     recipe.inverse_l2,
                     int(config["training"]["linear_max_iterations"]),
+                    tolerance=float(config["training"]["linear_tolerance"]),
+                    fallback_solver="newton-cholesky",
                 )
+                selection["final_solver"] = str(fitted.annomi_solver_used_)
                 linear_ledger = _ledger(
                     task_data,
                     test_indices,
@@ -1089,6 +1112,7 @@ def run_panel_mi(
             panel_recipe = _find_panel_recipe(config, panel_selection["selected_recipe"])
             seed_probabilities: list[np.ndarray] = []
             seed_disagreements: list[np.ndarray] = []
+            final_base_solvers: list[str] = []
             for seed in config["final_seeds"]:
                 outcome = _fit_panel(
                     train_features,
@@ -1105,6 +1129,7 @@ def run_panel_mi(
                 )
                 seed_probabilities.append(outcome.probabilities)
                 seed_disagreements.append(outcome.head_disagreement)
+                final_base_solvers.append(outcome.base_linear_solver)
                 run_ledgers.append(
                     _ledger(
                         task_data,
@@ -1115,6 +1140,7 @@ def run_panel_mi(
                         head_disagreement=outcome.head_disagreement,
                     )
                 )
+            panel_selection["final_seed_base_solvers"] = final_base_solvers
             ensemble_ledgers.append(
                 _ledger(
                     task_data,
@@ -1203,7 +1229,7 @@ def run_panel_mi(
 
 def run_panel_smoke(corpus: Corpus) -> dict[str, Any]:
     _, config = _require_registered_state()
-    output_path = RESEARCH_RESULTS / "gate1" / "panel_mi_smoke_v1.json"
+    output_path = RESEARCH_RESULTS / "gate1" / "panel_mi_smoke_v2.json"
     if output_path.exists():
         return read_json(output_path)
     tasks = _tasks(corpus, config)

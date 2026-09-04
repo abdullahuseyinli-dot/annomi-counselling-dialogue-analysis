@@ -3,9 +3,11 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 import torch
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.linear_model import LogisticRegression
 
 from annomi_research.data import Corpus, build_multiannotator_task
-from annomi_research.panel import PanelMIHead, evaluate_vote_predictions
+from annomi_research.panel import PanelMIHead, _fit_linear_model, evaluate_vote_predictions
 
 
 def _synthetic_corpus() -> Corpus:
@@ -107,3 +109,27 @@ def test_vote_metrics_use_transcript_balancing() -> None:
         0.5 * (transcript_one + transcript_two),
     )
     assert result["transcript_balanced_plurality_macro_f1"] == 1.0
+
+
+def test_linear_fit_uses_registered_convergence_fallback(monkeypatch) -> None:
+    original_fit = LogisticRegression.fit
+    attempted_solvers: list[str] = []
+
+    def fail_primary(self, *args, **kwargs):
+        attempted_solvers.append(self.solver)
+        if self.solver == "lbfgs":
+            raise ConvergenceWarning("forced engineering-test failure")
+        return original_fit(self, *args, **kwargs)
+
+    monkeypatch.setattr(LogisticRegression, "fit", fail_primary)
+    features = np.asarray([[-1.0], [-0.5], [0.5], [1.0]], dtype=np.float32)
+    targets = np.asarray([[0.8, 0.1, 0.1], [0.6, 0.2, 0.2], [0.2, 0.6, 0.2], [0.1, 0.2, 0.7]])
+    fitted = _fit_linear_model(
+        features,
+        targets,
+        np.ones(4),
+        inverse_l2=1.0,
+        maximum_iterations=200,
+    )
+    assert attempted_solvers == ["lbfgs", "newton-cholesky"]
+    assert fitted.annomi_solver_used_ == "newton-cholesky"

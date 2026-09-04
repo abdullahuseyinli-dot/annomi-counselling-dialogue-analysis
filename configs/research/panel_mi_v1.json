@@ -93,7 +93,9 @@
   "training": {
     "transcript_balanced_item_weights": true,
     "linear_solver": "scikit-learn lbfgs multinomial logistic regression",
+    "linear_convergence_fallback": "scikit-learn newton-cholesky on an L-BFGS ConvergenceWarning, optimizing the identical registered objective",
     "linear_max_iterations": 2000,
+    "linear_tolerance": 0.000001,
     "panel_optimizer": "AdamW",
     "panel_learning_rate": 0.01,
     "panel_base_weight_decay": 0.001,
@@ -147,5 +149,14 @@
     "Seven public demonstration transcripts, not a representative clinical cohort",
     "Prediction of coding distributions, not diagnosis or treatment guidance",
     "No state-of-the-art or algorithmic-novelty claim without external benchmarks and replication"
+  ],
+  "engineering_amendments_before_result_inspection": [
+    {
+      "date": "2026-09-04",
+      "trigger": "L-BFGS status 2 abnormal line-search termination during client outer fold 56",
+      "change": "explicit 1e-6 convergence tolerance and deterministic newton-cholesky fallback for the identical linear objective",
+      "result_files_produced_before_change": false,
+      "scores_inspected_before_change": false
+    }
   ]
 }
