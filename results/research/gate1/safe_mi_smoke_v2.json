@@ -1,0 +1,38 @@
+{
+  "code_commit": "076be05047800fcb7000f25609e63ae6eb668219",
+  "config_sha256": "ec739450b2200566ea4bee2b3dc3e12f8fca74fefb893e8fcf8f033bebc746a9",
+  "elapsed_seconds": 0.7208029000030365,
+  "engineering_gate_not_performance_result": true,
+  "exploratory_protocol": {
+    "annomi_status": "development_consumed_by_qtrace_v1_and_safe_mi_hypothesis_generation",
+    "confirmatory_claim_permitted": false,
+    "external_confirmation_required": true,
+    "reason": "All five AnnoMI outer-fold outcomes were inspected before SAFE-MI was designed."
+  },
+  "gate_id": "annomi-safe-mi-v2-cuda-smoke",
+  "loss": 1.905064344406128,
+  "loss_components": {
+    "action": 1.6515554189682007,
+    "auxiliary": 1.2675442695617676,
+    "quality": 0.7828912734985352,
+    "total": 1.905064344406128,
+    "transition_kl": 0.13257774710655212,
+    "transition_residual_penalty": 0.0
+  },
+  "maximum_probability_sum_error": 1.1920928955078125e-07,
+  "outer_test_labels_used": false,
+  "peak_memory_bytes": 182632960,
+  "probabilities_finite": true,
+  "runtime_environment": {
+    "bf16_supported": true,
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "status": "pass",
+  "transition_residual_initially_zero": true
+}
