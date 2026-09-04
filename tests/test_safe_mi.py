@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 import torch
 
 from annomi_research.constants import CLIENT_LABELS, LABELS
 from annomi_research.safe_mi_model import SafeMIMode, SafeMIModel, safe_mi_loss
+from annomi_research.safe_mi_extension import crossfit_prediction_sets
 
 
 def _architecture() -> dict[str, float | int]:
@@ -133,3 +135,25 @@ def test_detached_task_a_loss_does_not_update_causal_trunk() -> None:
     assert model.quality_head.weight.grad is not None
     assert model.input_projection[0].weight.grad is None
     assert model.action_head.weight.grad is None
+
+
+def test_crossfit_prediction_sets_never_use_target_fold_sources() -> None:
+    rows: list[dict[str, object]] = []
+    for fold in range(3):
+        for index, label in enumerate(LABELS):
+            probabilities = np.full(len(LABELS), 0.1)
+            probabilities[index] = 0.7
+            row: dict[str, object] = {
+                "model": "candidate",
+                "outer_fold": fold,
+                "source_id": f"source-{fold}-{index}",
+                "label": label,
+            }
+            for class_index, class_label in enumerate(LABELS):
+                row[f"prob_{class_label}"] = probabilities[class_index]
+            rows.append(row)
+    result, records = crossfit_prediction_sets(pd.DataFrame(rows), 0.2)
+    assert len(result) == len(rows)
+    assert result["prediction_set_method"].eq("outer-crossfit-source-crc").all()
+    assert result["set_covered"].all()
+    assert all(record["calibration_sources"] == 8 for record in records)

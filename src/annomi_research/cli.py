@@ -16,6 +16,7 @@ from .neural import run_environment_gate, run_neural, run_neural_smoke
 from .panel import run_panel_mi, run_panel_smoke
 from .qtrace import run_qtrace, run_qtrace_smoke
 from .safe_mi import run_safe_mi, run_safe_mi_smoke
+from .safe_mi_extension import run_safe_mi_extension
 from .splits import build_source_folds
 from .validation import legacy_inventory, validate_research
 
@@ -85,6 +86,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     safe.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     safe.add_argument("--output-dir", type=Path)
+    safe_extension = subparsers.add_parser(
+        "run-safe-mi-extension",
+        help="Run the registered posthoc SAFE-MI v2.1 reporting extension",
+    )
+    safe_extension.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    safe_extension.add_argument("--output-dir", type=Path)
     comparison = subparsers.add_parser(
         "compare-models", help="Run the registered paired source bootstrap"
     )
@@ -258,6 +265,20 @@ def main(argv: list[str] | None = None) -> int:
             for model in finalists
         )
         print(f"SAFE-MI final Task C macro-F1: {rendered}")
+        return 0
+    if args.command == "run-safe-mi-extension":
+        result = run_safe_mi_extension(
+            corpus,
+            read_json(args.splits),
+            output_dir=args.output_dir,
+        )
+        task_a = result["task_a_metrics"]["m2_oneway"]["t10"]
+        task_c = result["task_c_metrics"]["c1_adapted_gru"]
+        print(
+            "SAFE-MI v2.1 posthoc audit: "
+            f"m2 Task A t10 balanced accuracy={task_a['source_balanced_balanced_accuracy']:.4f}; "
+            f"c1 Task C macro-F1={task_c['source_balanced_macro_f1']:.4f}"
+        )
         return 0
     if args.command == "compare-models":
         result = run_comparison(args.config, args.output_dir)

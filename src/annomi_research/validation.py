@@ -144,6 +144,13 @@ def validate_research(
         validate_safe_mi_evidence(safe_dir)
         checks.append("SAFE-MI exploratory metrics reconstruct from prediction ledgers")
 
+    safe_extension_dir = RESEARCH_RESULTS / "safe_mi_v2_1"
+    if safe_extension_dir.exists():
+        from .safe_mi_extension import validate_safe_mi_extension
+
+        validate_safe_mi_extension(safe_extension_dir)
+        checks.append("SAFE-MI v2.1 posthoc metrics reconstruct from prediction ledgers")
+
     from .mi_tags_external import validate_mi_tags_sample_audit
 
     validate_mi_tags_sample_audit(corpus)
