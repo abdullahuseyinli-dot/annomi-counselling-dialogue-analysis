@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from .ac_baselines import run_ac_baselines
 from .audit import build_data_audit
 from .baselines import run_baselines
 from .constants import FULL_DATA, RESEARCH_RESULTS, SIMPLE_DATA
@@ -12,6 +13,7 @@ from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
 from .neural import run_environment_gate, run_neural, run_neural_smoke
 from .panel import run_panel_mi, run_panel_smoke
+from .qtrace import run_qtrace, run_qtrace_smoke
 from .splits import build_source_folds
 from .validation import legacy_inventory, validate_research
 
@@ -55,6 +57,20 @@ def _parser() -> argparse.ArgumentParser:
         "run-panel", help="Run the seven-transcript multi-annotator study"
     )
     panel.add_argument("--output-dir", type=Path)
+    ac_baselines = subparsers.add_parser(
+        "run-ac-baselines", help="Run source-disjoint Task A and Task C baselines"
+    )
+    ac_baselines.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    ac_baselines.add_argument("--output-dir", type=Path)
+    qtrace_smoke = subparsers.add_parser(
+        "smoke-qtrace", help="Run the Q-TRACE-MI CUDA engineering gate"
+    )
+    qtrace_smoke.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    qtrace = subparsers.add_parser(
+        "run-qtrace", help="Run source-disjoint joint Task A/C Q-TRACE-MI"
+    )
+    qtrace.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
+    qtrace.add_argument("--output-dir", type=Path)
     comparison = subparsers.add_parser(
         "compare-models", help="Run the registered paired source bootstrap"
     )
@@ -156,6 +172,45 @@ def main(argv: list[str] | None = None) -> int:
             "panel_mi therapist: transcript-balanced vote log score="
             f"{primary['transcript_balanced_vote_log_score']:.4f}; "
             f"candidate_gate_pass={gate}"
+        )
+        return 0
+    if args.command == "run-ac-baselines":
+        result = run_ac_baselines(
+            corpus,
+            read_json(args.splits),
+            output_dir=args.output_dir,
+        )
+        task_a = result["task_a_metrics"]["tfidf_raw_prefix"]["t10"]
+        task_c = result["task_c_metrics"]["tfidf_causal10"]
+        print(
+            "Task A TF-IDF t10 balanced accuracy="
+            f"{task_a['source_balanced_balanced_accuracy']:.4f}; "
+            "Task C TF-IDF source-balanced macro-F1="
+            f"{task_c['source_balanced_macro_f1']:.4f}"
+        )
+        return 0
+    if args.command == "smoke-qtrace":
+        result = run_qtrace_smoke(corpus, read_json(args.splits))
+        print(
+            "PASS Q-TRACE-MI CUDA smoke: "
+            f"loss={result['loss']:.4f}; "
+            f"peak={result['peak_memory_bytes'] / (1024**3):.2f} GiB"
+        )
+        return 0
+    if args.command == "run-qtrace":
+        result = run_qtrace(
+            corpus,
+            read_json(args.splits),
+            output_dir=args.output_dir,
+        )
+        task_a = result["task_a_metrics"]["qtrace_mi"]["t10"]
+        task_c = result["task_c_metrics"]["qtrace_mi"]
+        print(
+            "Q-TRACE-MI: Task A t10 balanced accuracy="
+            f"{task_a['source_balanced_balanced_accuracy']:.4f}; "
+            "Task C source-balanced macro-F1="
+            f"{task_c['source_balanced_macro_f1']:.4f}; "
+            f"joint_gate_pass={result['candidate_success_gate']['pass']}"
         )
         return 0
     if args.command == "compare-models":

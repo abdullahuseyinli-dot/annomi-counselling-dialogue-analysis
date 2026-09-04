@@ -1,0 +1,81 @@
+{
+  "protocol_id": "annomi-qtrace-ac-source-cv-v1",
+  "status": "locked_before_task_ac_evaluation",
+  "locked_date": "2026-09-04",
+  "prior_task_ac_evidence_status": "legacy_and_classical_baseline_development_consumed_qtrace_neural_unevaluated",
+  "labels": {
+    "task_a": ["high", "low"],
+    "task_c": ["reflection", "question", "therapist_input", "other"]
+  },
+  "task_a": {
+    "name": "uploader-designated demonstration-quality alignment",
+    "unit": "transcript at an absolute observed therapist-turn budget",
+    "therapist_turn_budgets": [3, 5, 10, 20],
+    "endpoint": "full observed session",
+    "primary_checkpoint": "t10",
+    "primary_metric": "source_balanced_balanced_accuracy",
+    "secondary_metrics": [
+      "source_balanced_low_auprc",
+      "source_balanced_macro_f1",
+      "source_balanced_brier",
+      "source_balanced_log_loss"
+    ],
+    "claim_boundary": "The high/low target derives from source metadata and is not independent MITI fidelity or a patient outcome."
+  },
+  "task_c": {
+    "name": "recorded next therapist behaviour at a client-to-therapist handoff",
+    "unit": "client turn immediately followed by a therapist turn",
+    "expected_decisions": 4743,
+    "context_turns_for_flat_baseline": 10,
+    "primary_metric": "source_balanced_macro_f1",
+    "secondary_metrics": [
+      "source_balanced_brier",
+      "source_balanced_log_loss",
+      "source_balanced_prediction_set_coverage",
+      "source_balanced_mean_prediction_set_size"
+    ],
+    "claim_boundary": "Forecasts reproduce the recorded action; they do not identify a safe, optimal, or causal intervention."
+  },
+  "data": {
+    "simple_manifest": "data/source_manifest.json",
+    "full_manifest": "data/source_manifest_full.json",
+    "outer_split_manifest": "results/research/gate0/source_folds_v1.json",
+    "group_key": "normalized_video_url",
+    "all_outer_folds_reported": true,
+    "manual_labels_required": false
+  },
+  "input_contract": {
+    "causal_only": true,
+    "permitted": [
+      "raw utterance text observed by the decision point",
+      "speaker identity",
+      "absolute observed turn order",
+      "model-predicted soft historical behaviour distributions"
+    ],
+    "forbidden": [
+      "target therapist utterance text for Task C",
+      "future utterances",
+      "eventual transcript length before session endpoint",
+      "future-normalized position",
+      "video title",
+      "topic",
+      "gold historical behaviour codes as confirmatory inputs",
+      "true mi_quality as a Task C input"
+    ]
+  },
+  "inference": {
+    "cluster_unit": "normalized video_url source",
+    "bootstrap_resamples": 5000,
+    "confidence_level": 0.95,
+    "seeds_are_not_sampling_units": true,
+    "calibration_unit": "source"
+  },
+  "candidate_success_gate": {
+    "task_a_requires_positive_paired_source_interval_vs_a_only": true,
+    "task_c_minimum_macro_f1_delta_vs_c_only": 0.02,
+    "task_c_paired_source_interval_must_exclude_zero": true,
+    "maximum_task_c_brier_degradation": 0.01,
+    "minimum_positive_seed_count": 4,
+    "class_collapse_permitted": false
+  }
+}

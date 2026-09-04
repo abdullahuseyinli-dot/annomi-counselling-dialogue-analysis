@@ -11,12 +11,15 @@ PROTOCOL = ROOT / "configs" / "research" / "protocol_v1.json"
 NEURAL_CONFIG = ROOT / "configs" / "research" / "neural_v1.json"
 DASH_CONFIG = ROOT / "configs" / "research" / "dash_mi_v1.json"
 PANEL_CONFIG = ROOT / "configs" / "research" / "panel_mi_v1.json"
+AC_PROTOCOL = ROOT / "configs" / "research" / "protocol_ac_v1.json"
+QTRACE_CONFIG = ROOT / "configs" / "research" / "qtrace_mi_v1.json"
 LEGACY_SPLIT = ROOT / "results" / "protocol" / "official_split.json"
 RESEARCH_RESULTS = ROOT / "results" / "research"
 ARTIFACTS = ROOT / "artifacts"
 
 LABELS = ("reflection", "question", "therapist_input", "other")
 CLIENT_LABELS = ("change", "neutral", "sustain")
+QUALITY_LABELS = ("high", "low")
 LABEL_COLUMNS = (
     "therapist_input_exists",
     "therapist_input_subtype",

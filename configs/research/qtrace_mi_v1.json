@@ -1,0 +1,93 @@
+{
+  "config_id": "annomi-qtrace-mi-v1",
+  "status": "registered_before_qtrace_neural_evaluation",
+  "registered_date": "2026-09-04",
+  "protocol_id": "annomi-qtrace-ac-source-cv-v1",
+  "pretrained_encoder": {
+    "model_id": "FacebookAI/roberta-base",
+    "revision": "e2da8e2f811d1448a5b465c236feacd80ffbac7b",
+    "trust_remote_code": false,
+    "frozen": true,
+    "max_length": 128,
+    "batch_size": 64,
+    "pooling": "attention-mask mean"
+  },
+  "architecture": {
+    "name": "Quality-conditioned Transition-Regularized Causal Evidence for MI",
+    "short_name": "Q-TRACE-MI",
+    "hidden_size": 192,
+    "role_embedding_size": 16,
+    "gru_layers": 1,
+    "dropout": 0.2,
+    "quality_text_evidence_bound": 0.25,
+    "quality_prior": "active-fit-source prevalence",
+    "transition_dirichlet_strength": 4.0,
+    "transition_minimum_probability": 0.000001,
+    "quality_conditioning": "two action policies mixed by predicted online quality posterior",
+    "historical_behaviours": "differentiable soft auxiliary predictions only",
+    "transition_gate": "learned per quality and decision point"
+  },
+  "models": [
+    {
+      "model": "a_only",
+      "task_a_loss": true,
+      "task_c_loss": false,
+      "action_likelihood_quality_evidence": false,
+      "transition_regularization": false
+    },
+    {
+      "model": "c_only",
+      "task_a_loss": false,
+      "task_c_loss": true,
+      "action_likelihood_quality_evidence": false,
+      "transition_regularization": false
+    },
+    {
+      "model": "joint_no_transition",
+      "task_a_loss": true,
+      "task_c_loss": true,
+      "action_likelihood_quality_evidence": true,
+      "transition_regularization": false
+    },
+    {
+      "model": "qtrace_mi",
+      "task_a_loss": true,
+      "task_c_loss": true,
+      "action_likelihood_quality_evidence": true,
+      "transition_regularization": true
+    }
+  ],
+  "training": {
+    "seeds": [17, 42, 101, 314, 2718],
+    "inner_split_seed": 20260904,
+    "inner_source_folds": 5,
+    "validation_fold": 0,
+    "calibration_fold": 1,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size_sessions": 12,
+    "maximum_epochs": 80,
+    "minimum_epochs": 10,
+    "early_stopping_patience": 10,
+    "maximum_gradient_norm": 1.0,
+    "quality_loss_weight": 1.0,
+    "action_loss_weight": 1.0,
+    "quality_expert_action_loss_weight": 0.25,
+    "auxiliary_behaviour_loss_weight": 0.2,
+    "transition_kl_loss_weight": 0.1,
+    "joint_selection_score": "mean of Task A t10 source-balanced balanced accuracy and Task C source-balanced macro-F1",
+    "mixed_precision": "bfloat16",
+    "deterministic_algorithms": "warn_only"
+  },
+  "calibration": {
+    "temperature_bounds": [0.25, 4.0],
+    "prediction_set_method": "deterministic APS with source-level conformal risk control",
+    "prediction_set_alpha": 0.2,
+    "risk_loss": "mean decision miscoverage within each calibration source"
+  },
+  "baselines": {
+    "task_a": ["class_prior", "structure_only", "tfidf_raw_prefix", "oracle_gold_codes"],
+    "task_c": ["class_prior", "tfidf_causal10", "oracle_gold_markov"]
+  }
+}

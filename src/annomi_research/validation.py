@@ -3,12 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from .ac_baselines import validate_ac_baseline_evidence
+from .ac_data import build_task_a_examples, build_task_c_examples
 from .baselines import validate_baseline_evidence
 from .constants import (
+    AC_PROTOCOL,
     FULL_DATA,
     FULL_MANIFEST,
     LABELS,
     PROTOCOL,
+    QTRACE_CONFIG,
     RESEARCH_RESULTS,
     ROOT,
     SIMPLE_DATA,
@@ -57,6 +61,26 @@ def validate_research(
         raise ValueError("Research protocol is not locked")
     checks.append("machine-readable protocol and label order")
 
+    ac_protocol = read_json(AC_PROTOCOL)
+    qtrace_config = read_json(QTRACE_CONFIG)
+    if ac_protocol["status"] != "locked_before_task_ac_evaluation":
+        raise ValueError("Task A/C protocol is not locked")
+    if qtrace_config["status"] != "registered_before_qtrace_neural_evaluation":
+        raise ValueError("Q-TRACE configuration is not registered")
+    if qtrace_config["protocol_id"] != ac_protocol["protocol_id"]:
+        raise ValueError("Task A/C protocol and Q-TRACE configuration disagree")
+    task_a = build_task_a_examples(
+        corpus, tuple(ac_protocol["task_a"]["therapist_turn_budgets"])
+    )
+    task_c = build_task_c_examples(
+        corpus, int(ac_protocol["task_c"]["context_turns_for_flat_baseline"])
+    )
+    if task_a[task_a["checkpoint"].eq("full")]["transcript_id"].nunique() != 133:
+        raise ValueError("Task A endpoint does not cover 133 transcripts")
+    if len(task_c) != int(ac_protocol["task_c"]["expected_decisions"]):
+        raise ValueError("Task C handoff count differs from registration")
+    checks.append("Task A absolute prefixes and Task C strict handoffs")
+
     split_manifest = read_json(split_manifest_path)
     validate_source_folds(corpus, split_manifest)
     checks.append("source-disjoint exhaustive outer folds")
@@ -70,6 +94,18 @@ def validate_research(
     if baseline_dir.exists():
         validate_baseline_evidence(baseline_dir)
         checks.append("baseline metrics reconstruct from row-level predictions")
+
+    ac_baseline_dir = RESEARCH_RESULTS / "ac_v1" / "baselines"
+    if ac_baseline_dir.exists():
+        validate_ac_baseline_evidence(ac_baseline_dir)
+        checks.append("Task A/C baseline metrics reconstruct from prediction ledgers")
+
+    qtrace_dir = RESEARCH_RESULTS / "ac_v1" / "qtrace_mi"
+    if qtrace_dir.exists():
+        from .qtrace import validate_qtrace_evidence
+
+        validate_qtrace_evidence(qtrace_dir)
+        checks.append("Q-TRACE Task A/C metrics reconstruct from prediction ledgers")
 
     neural_root = RESEARCH_RESULTS / "neural_v1"
     if neural_root.exists():

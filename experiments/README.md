@@ -14,3 +14,15 @@ Before running it:
 
 The pipeline is computationally expensive. A CUDA-capable GPU is recommended for encoder
 training. The notebook never installs packages at runtime.
+
+The registered Task A/C track is executable from the package CLI:
+
+```bash
+python -m annomi_research run-ac-baselines
+python -m annomi_research smoke-qtrace
+python -m annomi_research run-qtrace
+```
+
+Its authority and claim boundary are recorded in
+`docs/research/QTRACE_MI_REGISTRATION_V1.md`. Q-TRACE uses a frozen encoder and a causal session
+model; raw text, embedding caches, and weights remain outside Git.

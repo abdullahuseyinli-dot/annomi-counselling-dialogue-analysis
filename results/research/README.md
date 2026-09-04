@@ -17,6 +17,7 @@ here so every reported number can be reconstructed.
 - `comparisons/`: paired 10,000-resample source-bootstrap comparisons.
 - `multiannotator_v1/panel_mi/`: seven-transcript, ten-vote label-distribution study.
 - `publication_v1/`: exact compact tables and a source/asset hash manifest.
+- `ac_v1/`: source-disjoint Task A/C baselines, Q-TRACE ledgers, calibration, and paired inference.
 
 Run `python -m annomi_research validate` to reconstruct the executable evidence. Run
 `python tools/build_research_assets.py` to reproduce the publication tables and figures; the
