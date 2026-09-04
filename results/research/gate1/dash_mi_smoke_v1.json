@@ -1,0 +1,33 @@
+{
+  "code_commit": "67f3cefaecf71108de63758a98678ebec0caf465",
+  "config_sha256": "bc4cb75e2c0981ef1860298240fc4a8ed227a90429a76b916d2837e11541fc3b",
+  "elapsed_seconds": 7.221945500001311,
+  "engineering_gate_not_performance_result": true,
+  "gate_id": "dash-mi-cuda-smoke-v1",
+  "maximum_probability_sum_error": 1.1920928955078125e-07,
+  "model": "dash_mi",
+  "optimizer_steps": 16,
+  "outer_test_partition_touched": false,
+  "peak_memory_bytes": 3910104064,
+  "probabilities_finite": true,
+  "recipe": "dash_hist256_votes",
+  "runtime_environment": {
+    "bf16_supported": true,
+    "compute_capability": [
+      12,
+      0
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "cudnn": 92400,
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "split_manifest_sha256": "f19693581bc9a85703c903e9d7f9fff4d9119b0381bcd06c34cc0a715c8af1b3",
+  "status": "pass",
+  "train_rows": 256,
+  "validation_rows": 128
+}
