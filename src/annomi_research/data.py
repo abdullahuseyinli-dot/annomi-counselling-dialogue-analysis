@@ -31,6 +31,15 @@ class Corpus:
     annotations: pd.DataFrame
 
 
+@dataclass(frozen=True)
+class MultiAnnotatorTask:
+    task: str
+    labels: tuple[str, ...]
+    items: pd.DataFrame
+    annotation_label_indices: np.ndarray
+    annotator_ids: tuple[str, ...]
+
+
 def _read_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(
@@ -156,9 +165,9 @@ def add_therapist_vote_distributions(
     probability_values = probabilities.to_numpy(dtype=float)
     log_probability = np.zeros_like(probability_values)
     np.log(probability_values, out=log_probability, where=probability_values > 0)
-    vote_frame["vote_entropy"] = -(
-        probability_values * log_probability
-    ).sum(axis=1) / np.log(len(LABELS))
+    vote_frame["vote_entropy"] = -(probability_values * log_probability).sum(axis=1) / np.log(
+        len(LABELS)
+    )
 
     result = examples.merge(vote_frame, on=list(KEY_COLUMNS), how="left", validate="one_to_one")
     vote_columns = [f"vote_prob_{label}" for label in LABELS]
@@ -172,3 +181,93 @@ def add_therapist_vote_distributions(
     ]
     result["annotator_disagreement"] = result[vote_columns].max(axis=1).lt(1.0)
     return result
+
+
+def build_multiannotator_task(
+    corpus: Corpus,
+    task: str,
+    label_column: str,
+    labels: tuple[str, ...],
+    expected_annotations_per_item: int = 10,
+    expected_items: int | None = None,
+) -> MultiAnnotatorTask:
+    """Build one speaker-specific task from items with a complete annotation panel."""
+    if task not in {"therapist", "client"}:
+        raise ValueError(f"Unexpected multi-annotator task: {task}")
+    if label_column not in corpus.annotations.columns:
+        raise ValueError(f"Missing annotation label column: {label_column}")
+    if not labels or len(set(labels)) != len(labels):
+        raise ValueError("Registered task labels must be non-empty and unique")
+
+    annotation_counts = corpus.annotations.groupby(list(KEY_COLUMNS), sort=True).size()
+    complete_keys = annotation_counts[annotation_counts.eq(expected_annotations_per_item)].index
+    utterances = corpus.utterances[corpus.utterances["interlocutor"].eq(task)].copy()
+    utterance_index = pd.MultiIndex.from_frame(utterances.loc[:, KEY_COLUMNS])
+    utterances = utterances.loc[utterance_index.isin(complete_keys)].copy()
+    utterances = utterances.sort_values(list(KEY_COLUMNS), kind="stable").reset_index(drop=True)
+    if expected_items is not None and len(utterances) != expected_items:
+        raise ValueError(
+            f"Expected {expected_items} complete {task} items, found {len(utterances)}"
+        )
+    if utterances.empty:
+        raise ValueError(f"No complete multi-annotator items for {task}")
+
+    item_keys = pd.MultiIndex.from_frame(utterances.loc[:, KEY_COLUMNS])
+    annotation_index = pd.MultiIndex.from_frame(corpus.annotations.loc[:, KEY_COLUMNS])
+    annotations = corpus.annotations.loc[annotation_index.isin(item_keys)].copy()
+    annotations["annotator_id"] = annotations["annotator_id"].astype(str)
+    if not annotations[label_column].isin(labels).all():
+        unexpected = sorted(set(annotations[label_column]) - set(labels))
+        raise ValueError(f"Unexpected {task} annotation labels: {unexpected}")
+
+    annotator_sets = annotations.groupby(list(KEY_COLUMNS), sort=True)["annotator_id"].agg(
+        lambda values: tuple(sorted(values))
+    )
+    if annotator_sets.nunique() != 1:
+        raise ValueError(f"Complete {task} items do not share one annotation panel")
+    annotator_ids = tuple(annotator_sets.iloc[0])
+    if len(annotator_ids) != expected_annotations_per_item:
+        raise ValueError(f"The {task} annotation panel has an unexpected size")
+
+    label_to_index = {label: index for index, label in enumerate(labels)}
+    matrix = annotations.pivot(
+        index=list(KEY_COLUMNS), columns="annotator_id", values=label_column
+    ).reindex(index=item_keys, columns=annotator_ids)
+    if matrix.isna().any(axis=None):
+        raise ValueError(f"At least one complete {task} item lacks an annotator label")
+    annotation_label_indices = matrix.map(label_to_index.__getitem__).to_numpy(dtype=int)
+    vote_probabilities = np.stack(
+        [(annotation_label_indices == index).mean(axis=1) for index in range(len(labels))],
+        axis=1,
+    )
+    if not np.allclose(vote_probabilities.sum(axis=1), 1.0, atol=1e-12):
+        raise AssertionError("Multi-annotator vote probabilities do not sum to one")
+
+    items = utterances[
+        [
+            "transcript_id",
+            "utterance_id",
+            "source_id",
+            "utterance_text",
+            "normalized_text",
+        ]
+    ].copy()
+    items["task"] = task
+    items["role_prefixed_text"] = task + ": " + items["utterance_text"].astype(str)
+    items["annotation_count"] = expected_annotations_per_item
+    for index, label in enumerate(labels):
+        items[f"vote_prob_{label}"] = vote_probabilities[:, index]
+    log_votes = np.zeros_like(vote_probabilities)
+    np.log(vote_probabilities, out=log_votes, where=vote_probabilities > 0)
+    items["vote_entropy"] = -(vote_probabilities * log_votes).sum(axis=1) / np.log(len(labels))
+    maxima = vote_probabilities.max(axis=1, keepdims=True)
+    items["plurality_tie"] = np.isclose(vote_probabilities, maxima).sum(axis=1) > 1
+    items["plurality_label"] = np.asarray(labels, dtype=object)[vote_probabilities.argmax(axis=1)]
+
+    return MultiAnnotatorTask(
+        task=task,
+        labels=labels,
+        items=items,
+        annotation_label_indices=annotation_label_indices,
+        annotator_ids=annotator_ids,
+    )

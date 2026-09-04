@@ -11,6 +11,7 @@ from .data import load_corpus
 from .inference import DEFAULT_CONFIG, DEFAULT_OUTPUT, run_comparison
 from .io import read_json, write_json_create_only
 from .neural import run_environment_gate, run_neural, run_neural_smoke
+from .panel import run_panel_mi, run_panel_smoke
 from .splits import build_source_folds
 from .validation import legacy_inventory, validate_research
 
@@ -44,15 +45,16 @@ def _parser() -> argparse.ArgumentParser:
     )
     neural.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     neural.add_argument("--output-dir", type=Path)
-    dash_smoke = subparsers.add_parser(
-        "smoke-dash", help="Run the CUDA DASH-MI engineering gate"
-    )
+    dash_smoke = subparsers.add_parser("smoke-dash", help="Run the CUDA DASH-MI engineering gate")
     dash_smoke.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
-    dash = subparsers.add_parser(
-        "run-dash", help="Run nested source-grouped DASH-MI"
-    )
+    dash = subparsers.add_parser("run-dash", help="Run nested source-grouped DASH-MI")
     dash.add_argument("--splits", type=Path, default=DEFAULT_SPLITS)
     dash.add_argument("--output-dir", type=Path)
+    subparsers.add_parser("smoke-panel", help="Run the frozen-encoder PANEL-MI engineering gate")
+    panel = subparsers.add_parser(
+        "run-panel", help="Run the seven-transcript multi-annotator study"
+    )
+    panel.add_argument("--output-dir", type=Path)
     comparison = subparsers.add_parser(
         "compare-models", help="Run the registered paired source bootstrap"
     )
@@ -66,9 +68,7 @@ def main(argv: list[str] | None = None) -> int:
     corpus = load_corpus(args.simple_data, args.full_data)
     if args.command == "audit-data":
         audit_hash = write_json_create_only(GATE0 / "data_audit.json", build_data_audit(corpus))
-        inventory_hash = write_json_create_only(
-            GATE0 / "legacy_inventory.json", legacy_inventory()
-        )
+        inventory_hash = write_json_create_only(GATE0 / "legacy_inventory.json", legacy_inventory())
         print(f"Wrote/verified Gate 0 audit: {audit_hash}")
         print(f"Wrote/verified legacy inventory: {inventory_hash}")
         return 0
@@ -139,11 +139,28 @@ def main(argv: list[str] | None = None) -> int:
             f"ordinary macro-F1={metrics['utterance_macro_f1']:.4f}"
         )
         return 0
+    if args.command == "smoke-panel":
+        result = run_panel_smoke(corpus)
+        print(
+            "PASS PANEL-MI smoke: "
+            f"encoder_dimensions={result['embedding_dimensions']}; "
+            f"projected_dimensions={result['projected_dimensions']}; "
+            f"epochs={result['optimizer_epochs']}"
+        )
+        return 0
+    if args.command == "run-panel":
+        result = run_panel_mi(corpus, output_dir=args.output_dir)
+        primary = result["metrics"]["seed_ensemble"]["therapist"]["panel_mi"]
+        gate = result["inference"]["candidate_success_gate"]["pass"]
+        print(
+            "panel_mi therapist: transcript-balanced vote log score="
+            f"{primary['transcript_balanced_vote_log_score']:.4f}; "
+            f"candidate_gate_pass={gate}"
+        )
+        return 0
     if args.command == "compare-models":
         result = run_comparison(args.config, args.output_dir)
-        delta = result["point_deltas_candidate_minus_baseline"][
-            "source_balanced_macro_f1"
-        ]
+        delta = result["point_deltas_candidate_minus_baseline"]["source_balanced_macro_f1"]
         interval = result["bootstrap"]["intervals"]["source_balanced_macro_f1"]
         print(
             f"paired source macro-F1 delta={delta:.4f}; "

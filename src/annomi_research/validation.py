@@ -91,6 +91,14 @@ def validate_research(
         for result_dir in sorted(path.parent for path in comparison_root.glob("*/summary.json")):
             validate_comparison_evidence(result_dir)
             checks.append(f"paired-source inference reconstructs for {result_dir.name}")
+
+    panel_root = RESEARCH_RESULTS / "multiannotator_v1"
+    if panel_root.exists():
+        from .panel import validate_panel_evidence
+
+        for result_dir in sorted(path.parent for path in panel_root.glob("*/summary.json")):
+            validate_panel_evidence(result_dir)
+            checks.append(f"multi-annotator evidence reconstructs for {result_dir.name}")
     return checks
 
 

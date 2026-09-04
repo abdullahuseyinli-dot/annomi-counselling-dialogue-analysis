@@ -97,6 +97,7 @@
     "panel_optimizer": "AdamW",
     "panel_learning_rate": 0.01,
     "panel_base_weight_decay": 0.001,
+    "panel_batching": "one full active training partition per optimizer step",
     "panel_maximum_epochs": 400,
     "panel_minimum_epochs": 40,
     "panel_early_stopping_patience": 40,
