@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -50,6 +51,12 @@ FORBIDDEN = {
     ),
 }
 HEAVY_SUFFIXES = {".joblib", ".pkl", ".pt", ".pth", ".ckpt", ".safetensors", ".npy", ".npz"}
+MAX_TRACKED_BYTES = 10 * 1024 * 1024
+LARGE_EVIDENCE_SHA256 = {
+    "results/research/neural_v1/dash_mi/predictions_by_seed.csv": (
+        "f503530b1048206ff9ba15fabaffe944f858dda0e3006e4694e92f629ceb5a86"
+    )
+}
 
 
 def repository_files() -> list[Path]:
@@ -129,8 +136,13 @@ def main() -> None:
 
     for path in files:
         rel = path.relative_to(ROOT).as_posix()
-        if path.stat().st_size > 10 * 1024 * 1024:
-            raise ValueError(f"Tracked file exceeds 10 MiB: {rel}")
+        if path.stat().st_size > MAX_TRACKED_BYTES:
+            expected_hash = LARGE_EVIDENCE_SHA256.get(rel)
+            if expected_hash is None:
+                raise ValueError(f"Tracked file exceeds 10 MiB: {rel}")
+            observed_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+            if observed_hash != expected_hash:
+                raise ValueError(f"Large evidence hash mismatch: {rel}")
         if path.suffix.lower() in HEAVY_SUFFIXES:
             raise ValueError(f"Model or binary experiment artifact is tracked: {rel}")
         if rel.startswith("data/raw/"):

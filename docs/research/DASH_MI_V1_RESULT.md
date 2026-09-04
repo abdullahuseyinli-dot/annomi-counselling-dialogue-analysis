@@ -8,8 +8,8 @@ The DASH-MI seed-probability ensemble obtains source-balanced macro-F1 **0.8116*
 utterance macro-F1 **0.7926** over all 4,882 out-of-source therapist utterances from 119 source
 videos. It does not exceed the completed flat causal-context RoBERTa control (0.8163), and its
 **+0.0009** point difference over the independently trained target-only RoBERTa control (0.8108)
-is too small to support a superiority claim without the separately registered paired source
-bootstrap.
+is too small to support a superiority claim. The separately registered paired source bootstrap is
+reported in `DASH_MI_INFERENCE_V1.md` and does not support an improvement.
 
 | Metric | TF-IDF target | RoBERTa target | RoBERTa causal-10 | DASH-MI |
 |---|---:|---:|---:|---:|
@@ -43,7 +43,7 @@ a point estimate. Context changes only 26 of 4,882 ensemble hard predictions (0.
 Context slightly improves F1 and Brier but slightly worsens log loss and worst-source tail loss.
 Only three of five matched seeds improve: -0.0005 (17), -0.0019 (42), +0.0005 (101), +0.0012
 (314), and +0.0007 (2718). These are descriptive diagnostics, not independent tests. The paired
-source bootstrap must determine whether any difference is distinguishable from sampling noise.
+source-bootstrap interval is [-0.0008, +0.0031] and does not support a measurable context effect.
 
 The learned gate remains conservative: its mean is 0.1268, with mean context-residual L2 norm
 0.1557. Mean normalized context-attention entropy is 0.9674 and the mean maximum attention weight
