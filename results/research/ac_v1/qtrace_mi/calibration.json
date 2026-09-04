@@ -1,0 +1,306 @@
+{
+  "task_a": [
+    {
+      "calibration_rows": 93,
+      "calibration_sources": 19,
+      "model": "a_only",
+      "outer_fold": 0,
+      "task": "A",
+      "temperature": 0.7318019467653856
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "a_only",
+      "outer_fold": 1,
+      "task": "A",
+      "temperature": 0.5212654908774969
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "a_only",
+      "outer_fold": 2,
+      "task": "A",
+      "temperature": 1.2264282462417582
+    },
+    {
+      "calibration_rows": 96,
+      "calibration_sources": 20,
+      "model": "a_only",
+      "outer_fold": 3,
+      "task": "A",
+      "temperature": 0.7766426576415053
+    },
+    {
+      "calibration_rows": 100,
+      "calibration_sources": 19,
+      "model": "a_only",
+      "outer_fold": 4,
+      "task": "A",
+      "temperature": 0.519972767960193
+    },
+    {
+      "calibration_rows": 93,
+      "calibration_sources": 19,
+      "model": "joint_no_transition",
+      "outer_fold": 0,
+      "task": "A",
+      "temperature": 0.7380884176548801
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "joint_no_transition",
+      "outer_fold": 1,
+      "task": "A",
+      "temperature": 0.9680159553629449
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "joint_no_transition",
+      "outer_fold": 2,
+      "task": "A",
+      "temperature": 1.88866878488588
+    },
+    {
+      "calibration_rows": 96,
+      "calibration_sources": 20,
+      "model": "joint_no_transition",
+      "outer_fold": 3,
+      "task": "A",
+      "temperature": 0.7848850342539994
+    },
+    {
+      "calibration_rows": 100,
+      "calibration_sources": 19,
+      "model": "joint_no_transition",
+      "outer_fold": 4,
+      "task": "A",
+      "temperature": 1.2427427025195605
+    },
+    {
+      "calibration_rows": 93,
+      "calibration_sources": 19,
+      "model": "qtrace_mi",
+      "outer_fold": 0,
+      "task": "A",
+      "temperature": 0.7278390218170284
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "qtrace_mi",
+      "outer_fold": 1,
+      "task": "A",
+      "temperature": 0.7527094707674981
+    },
+    {
+      "calibration_rows": 97,
+      "calibration_sources": 19,
+      "model": "qtrace_mi",
+      "outer_fold": 2,
+      "task": "A",
+      "temperature": 0.7437479038138312
+    },
+    {
+      "calibration_rows": 96,
+      "calibration_sources": 20,
+      "model": "qtrace_mi",
+      "outer_fold": 3,
+      "task": "A",
+      "temperature": 1.8110086302418997
+    },
+    {
+      "calibration_rows": 100,
+      "calibration_sources": 19,
+      "model": "qtrace_mi",
+      "outer_fold": 4,
+      "task": "A",
+      "temperature": 0.6549368006676575
+    }
+  ],
+  "task_c": [
+    {
+      "alpha": 0.2,
+      "calibration_rows": 742,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.1303290167115147,
+      "finite_sample_risk_bound": 0.17381256587593896,
+      "model": "c_only",
+      "outer_fold": 0,
+      "task": "C",
+      "temperature": 2.006829644792791,
+      "threshold": 0.9999999999999999
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 573,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15758355488167836,
+      "finite_sample_risk_bound": 0.19970437713759442,
+      "model": "c_only",
+      "outer_fold": 1,
+      "task": "C",
+      "temperature": 2.009872982647485,
+      "threshold": 0.9049577944634828
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 994,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15300755238561542,
+      "finite_sample_risk_bound": 0.19535717476633463,
+      "model": "c_only",
+      "outer_fold": 2,
+      "task": "C",
+      "temperature": 2.7710104425355513,
+      "threshold": 0.9056967582788598
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 626,
+      "calibration_sources": 20,
+      "empirical_source_mean_miscoverage": 0.15947111360396035,
+      "finite_sample_risk_bound": 0.19949629867043842,
+      "model": "c_only",
+      "outer_fold": 3,
+      "task": "C",
+      "temperature": 1.8051393750491276,
+      "threshold": 0.919620420961135
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 1040,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15763756042110644,
+      "finite_sample_risk_bound": 0.1997556824000511,
+      "model": "c_only",
+      "outer_fold": 4,
+      "task": "C",
+      "temperature": 1.3834706585143333,
+      "threshold": 0.9203473321975395
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 742,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15733612581557657,
+      "finite_sample_risk_bound": 0.19946931952479774,
+      "model": "joint_no_transition",
+      "outer_fold": 0,
+      "task": "C",
+      "temperature": 1.0986270123846429,
+      "threshold": 0.8683025365898378
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 573,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.1553354857938216,
+      "finite_sample_risk_bound": 0.19756871150413052,
+      "model": "joint_no_transition",
+      "outer_fold": 1,
+      "task": "C",
+      "temperature": 1.873872466296801,
+      "threshold": 0.890755574147608
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 994,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15546830453571187,
+      "finite_sample_risk_bound": 0.19769488930892626,
+      "model": "joint_no_transition",
+      "outer_fold": 2,
+      "task": "C",
+      "temperature": 1.07044332073156,
+      "threshold": 0.9999999999999998
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 626,
+      "calibration_sources": 20,
+      "empirical_source_mean_miscoverage": 0.13526081943566928,
+      "finite_sample_risk_bound": 0.17643887565301836,
+      "model": "joint_no_transition",
+      "outer_fold": 3,
+      "task": "C",
+      "temperature": 1.2638043267751642,
+      "threshold": 0.9999999999999999
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 1040,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.13938991707657578,
+      "finite_sample_risk_bound": 0.182420421222747,
+      "model": "joint_no_transition",
+      "outer_fold": 4,
+      "task": "C",
+      "temperature": 1.1996367564283008,
+      "threshold": 0.9999999999999999
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 742,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15633128150256476,
+      "finite_sample_risk_bound": 0.19851471742743654,
+      "model": "qtrace_mi",
+      "outer_fold": 0,
+      "task": "C",
+      "temperature": 1.192839802338121,
+      "threshold": 0.887153176578177
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 573,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.1574436428975338,
+      "finite_sample_risk_bound": 0.19957146075265708,
+      "model": "qtrace_mi",
+      "outer_fold": 1,
+      "task": "C",
+      "temperature": 1.1617193813221693,
+      "threshold": 0.9041861365579145
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 994,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.1319109278823489,
+      "finite_sample_risk_bound": 0.17531538148823145,
+      "model": "qtrace_mi",
+      "outer_fold": 2,
+      "task": "C",
+      "temperature": 0.7643181581272978,
+      "threshold": 0.9999999999999999
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 626,
+      "calibration_sources": 20,
+      "empirical_source_mean_miscoverage": 0.15629115269305663,
+      "finite_sample_risk_bound": 0.19646776446957773,
+      "model": "qtrace_mi",
+      "outer_fold": 3,
+      "task": "C",
+      "temperature": 1.0973642402507848,
+      "threshold": 0.902744341096483
+    },
+    {
+      "alpha": 0.2,
+      "calibration_rows": 1040,
+      "calibration_sources": 19,
+      "empirical_source_mean_miscoverage": 0.15693353948858102,
+      "finite_sample_risk_bound": 0.19908686251415197,
+      "model": "qtrace_mi",
+      "outer_fold": 4,
+      "task": "C",
+      "temperature": 0.9633889464056079,
+      "threshold": 0.9057473816793428
+    }
+  ]
+}

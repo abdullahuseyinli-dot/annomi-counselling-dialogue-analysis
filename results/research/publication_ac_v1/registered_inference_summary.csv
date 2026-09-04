@@ -1,0 +1,4 @@
+task,comparison,metric,favorable_direction,point_delta,registered_limit,passed,bootstrap_mean_delta,ci95_low,ci95_high
+A,qtrace_mi - a_only,t10_source_balanced_balanced_accuracy,positive,0.05,0,False,0.04910622999,-0.07338020435,0.1731211929
+C,qtrace_mi - c_only,source_balanced_macro_f1,positive,-0.05093506052,0.02,False,-0.0510145416,-0.07679880655,-0.0257605759
+C,qtrace_mi - c_only,source_balanced_brier,negative,0.02118020004,0.01,False,0.02115045877,0.010118654,0.03162896285

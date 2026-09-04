@@ -41,6 +41,31 @@ supported and best probabilistic system. See the
 [DASH-MI result](docs/research/DASH_MI_V1_RESULT.md), and
 [paired inference](docs/research/DASH_MI_INFERENCE_V1.md).
 
+## Early quality and next-action forecasting
+
+The registered Task A/C track adds causal early-session quality classification and strict
+client-to-therapist next-action forecasting. It evaluates four neural modes across five
+source-disjoint folds and five seeds, with separate inner fit, selection, and calibration sources.
+
+| Task | Best non-oracle model | Primary score | Q-TRACE-MI result |
+|---|---|---:|---|
+| A: quality after 10 therapist turns | **Q-TRACE-MI** | **0.7000 balanced accuracy** | +0.0500 vs A-only; 95% interval [-0.0734, 0.1731] |
+| C: next therapist action | **C-only neural** | **0.4251 macro-F1** | -0.0509 vs C-only; 95% interval [-0.0768, -0.0258] |
+
+Q-TRACE-MI improves the Task A point estimate in four of five seeds, but its interval includes zero.
+For Task C, its joint quality conditioning and transition regularization are reliably harmful; the
+task-specific C-only model also has the best Brier score (0.6904). The registered joint gate
+therefore **fails** and remains visible as a negative result. Prediction sets reach 0.8844
+source-balanced coverage at the 0.80 target, but average 3.12 of four actions and are never
+singletons, quantifying substantial unresolved ambiguity for these models.
+
+![Task A and Task C model results](assets/research/qtrace_ac_results.png)
+
+These tasks use no new manual labels. The quality target comes from source metadata and is not an
+independent measure of clinical fidelity. See the
+[registration](docs/research/QTRACE_MI_REGISTRATION_V1.md) and
+[complete result](docs/research/QTRACE_MI_V1_RESULT.md).
+
 ## Multi-annotator result
 
 No additional labeling is needed. AnnoMI already contains 428 utterances with ten annotations each
@@ -114,7 +139,12 @@ python -m annomi_research run-dash
 python -m annomi_research smoke-panel
 python -m annomi_research run-panel
 
+python -m annomi_research run-ac-baselines
+python -m annomi_research smoke-qtrace
+python -m annomi_research run-qtrace
+
 python tools/build_research_assets.py
+python tools/build_ac_assets.py
 python tools/validate_repository.py
 ```
 
@@ -131,6 +161,7 @@ configs/research/                 Locked machine-readable protocols and comparis
 src/annomi_research/              Audits, splits, models, inference, and validators
 results/research/                 Reconstructable out-of-fold evidence and summaries
 results/research/publication_v1/  Derived exact tables plus a hash manifest
+results/research/publication_ac_v1/  Derived Task A/C tables plus a hash manifest
 docs/research/                    Registrations, execution logs, and result reports
 assets/research/                  Script-generated publication figures
 tests/                            Fast contracts for data, models, metrics, and evidence

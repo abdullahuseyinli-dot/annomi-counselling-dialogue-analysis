@@ -25,4 +25,5 @@ python -m annomi_research run-qtrace
 
 Its authority and claim boundary are recorded in
 `docs/research/QTRACE_MI_REGISTRATION_V1.md`. Q-TRACE uses a frozen encoder and a causal session
-model; raw text, embedding caches, and weights remain outside Git.
+model; raw text, embedding caches, and weights remain outside Git. The completed metrics, failed
+joint gate, and interpretation are recorded in `docs/research/QTRACE_MI_V1_RESULT.md`.

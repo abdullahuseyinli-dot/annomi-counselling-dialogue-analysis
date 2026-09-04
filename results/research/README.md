@@ -18,13 +18,19 @@ here so every reported number can be reconstructed.
 - `multiannotator_v1/panel_mi/`: seven-transcript, ten-vote label-distribution study.
 - `publication_v1/`: exact compact tables and a source/asset hash manifest.
 - `ac_v1/`: source-disjoint Task A/C baselines, Q-TRACE ledgers, calibration, and paired inference.
+- `publication_ac_v1/`: exact Task A/C tables and a source/asset hash manifest.
 
 Run `python -m annomi_research validate` to reconstruct the executable evidence. Run
 `python tools/build_research_assets.py` to reproduce the publication tables and figures; the
 create-only writer refuses drift under an existing filename.
 
+Run `python tools/build_ac_assets.py` to reproduce the separate Task A/C tables and figures.
+
 The main numerical classification score is 0.8163 source-balanced macro-F1 for causal RoBERTa. The
 supported neural gain is target-only RoBERTa over TF-IDF (+0.0935, interval [0.0778, 0.1097]). In
 the separate multi-annotator study, soft-linear vote prediction beats the transcript prior on both
 therapist and client log score. DASH-MI and PANEL-MI fail their registered primary gates and remain
-visible as negative results.
+visible as negative results. In the Task A/C track, Q-TRACE-MI leads non-oracle early-quality
+classification at 0.7000 t10 balanced accuracy, while C-only neural leads next-action forecasting
+at 0.4251 source-balanced macro-F1. Q-TRACE-MI fails its joint gate because its Task A interval
+includes zero and its Task C result is worse than C-only.

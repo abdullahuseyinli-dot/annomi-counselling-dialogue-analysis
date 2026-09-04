@@ -1,0 +1,36 @@
+{
+  "batch_sessions": 12,
+  "batch_turns": 1108,
+  "code_commit": "b55ebdf3367fbd14f3391d846f133eea95063a9c",
+  "config_sha256": "04830519f2396163da8f3ea10eca2c1bbb231730eb7b75d755816dc28c2c3030",
+  "elapsed_seconds": 0.5645517000230029,
+  "engineering_gate_not_performance_result": true,
+  "fit_sessions_available": 64,
+  "frozen_embedding_extraction_all_rows": true,
+  "gate_id": "annomi-qtrace-mi-cuda-smoke-v1",
+  "loss": 3.592316150665283,
+  "loss_components": {
+    "action": 1.7188485860824585,
+    "auxiliary": 1.2809969186782837,
+    "quality": 1.1938070058822632,
+    "quality_expert_action": 1.6770845651626587,
+    "total": 3.592316150665283,
+    "transition_kl": 0.04189956188201904
+  },
+  "maximum_probability_sum_error": 1.1920928955078125e-07,
+  "outer_test_labels_used": false,
+  "peak_memory_bytes": 118497792,
+  "probabilities_finite": true,
+  "runtime_environment": {
+    "bf16_supported": true,
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA RTX PRO 3000 Blackwell Generation Laptop GPU",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "torch": "2.14.0+cu130",
+    "transformers": "5.16.1"
+  },
+  "split_manifest_sha256": "f19693581bc9a85703c903e9d7f9fff4d9119b0381bcd06c34cc0a715c8af1b3",
+  "status": "pass"
+}

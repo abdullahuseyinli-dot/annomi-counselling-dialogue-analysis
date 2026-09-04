@@ -36,6 +36,11 @@ The `results/research/` tree is a second, independent evidence lineage governed 
    128 sign-flip assignments summarized exactly.
 6. `publication_v1/` contains compact tables derived from those immutable summaries. Its manifest
    binds every table and figure to its input hashes and builder hash.
+7. `ac_v1/baselines/` and `ac_v1/qtrace_mi/` retain the registered Task A/C baselines, 100 neural
+   fits summarized as per-seed and ensemble out-of-source ledgers, calibration records, prediction
+   sets, and 5,000 paired source-bootstrap draws.
+8. `publication_ac_v1/` derives exact Task A/C tables and figures from the immutable summaries. Its
+   independent manifest binds the inputs, tables, figures, and builder.
 
 Research validators recompute metrics from row-level ledgers rather than trusting aggregate JSON.
 The prediction ledgers deliberately exclude utterance text and anonymous annotator identity. Raw
@@ -51,5 +56,10 @@ Three distinctions are intentionally preserved:
   macro-F1, but its interval versus target-only includes zero and its log loss is worse.
 - **Negative registered candidates:** DASH-MI does not add supported contextual value, and PANEL-MI
   does not improve its primary therapist vote log score despite better JSD/entropy diagnostics.
+  Q-TRACE-MI does not pass its joint Task A/C gate: the Task A point gain is uncertain and the
+  Task C effect is reliably negative relative to C-only.
+- **Task-specific Task A/C leaders:** Q-TRACE-MI is the numerical non-oracle Task A leader at
+  0.7000 t10 balanced accuracy; C-only neural is the Task C leader at 0.4251 source-balanced
+  macro-F1.
 
 No aggregate ranking may erase these inference and calibration qualifications.

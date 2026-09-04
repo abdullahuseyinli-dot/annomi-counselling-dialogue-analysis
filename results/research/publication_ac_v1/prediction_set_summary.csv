@@ -1,0 +1,4 @@
+model,display_name,source_balanced_coverage,source_balanced_mean_set_size,source_balanced_singleton_rate,coverage_other,coverage_question,coverage_reflection,coverage_therapist_input
+c_only,C-only neural,0.8819175578,3.075122718,0,0.8989953921,0.8898541525,0.9043335962,0.8194682894
+joint_no_transition,"Joint, no transition",0.933219024,3.527726014,0,0.8489301458,0.9556413222,0.9627329007,0.9745502045
+qtrace_mi,Q-TRACE-MI,0.8844012076,3.119178241,0,0.8052519255,0.9444181398,0.915019677,0.8657933172

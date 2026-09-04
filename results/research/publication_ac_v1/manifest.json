@@ -1,0 +1,26 @@
+{
+  "builder_sha256": "21207da890e96fa3f94d9cba611883c7cc2c269d69017bdfda537e4f8912cdaa",
+  "figure_sha256": {
+    "qtrace_ac_intervals": {
+      "png": "b767ca3c32e9dab90c9f502dcb9a391df8ea99d3101f2a4b0d2611d218029b6b",
+      "svg": "4406cab969bfd959493cba061b4caa216ab330cf4b56911c11cd23e15127397b"
+    },
+    "qtrace_ac_results": {
+      "png": "f38eee5679aa28ecb5a6bb3d096de693c94b0218473810785bbf9456cbcd9efa",
+      "svg": "9b67d57cba504af7dcd92437add85b524535b40b380332e88cf270e4baf98f46"
+    }
+  },
+  "manifest_id": "annomi-qtrace-ac-publication-assets-v1",
+  "source_sha256": {
+    "results/research/ac_v1/baselines/summary.json": "d8c2be7c5299eb7df249292856ac588e1d764368b4829461bae47f0a3192ff59",
+    "results/research/ac_v1/qtrace_mi/bootstrap_draws.csv": "5cb8d7b2d0632bf3e5bbc2ca0c046773ee742b80e0b4077fd7eefecc32c6e4f7",
+    "results/research/ac_v1/qtrace_mi/calibration.json": "2d4157bc2e2d5820fdc520d376c90380f7f00c3e24f01a9068d6bf74fc5ff6d6",
+    "results/research/ac_v1/qtrace_mi/summary.json": "a8d39be5755a3ac7ef7d86b35206037234bb23823ea5c3cdb4f7a4cf230eaa98"
+  },
+  "table_sha256": {
+    "prediction_set_summary.csv": "016e22be54a7f20e718a3c18f1a6522a6c34dc2e2df442e70ff1e685e5d22510",
+    "registered_inference_summary.csv": "613a01f2f976c90320a3449596f664fdf786321228a7ce6ed97e55470b992cb5",
+    "task_a_summary.csv": "9194b352bde08779e33ef209cd7b09d13e0c4c5c36222ecf721b5e9d2794ec38",
+    "task_c_summary.csv": "6812c3a72a7b498ae24cd6d20d9990f0ec397de08b02847330cffb9bfaf495da"
+  }
+}

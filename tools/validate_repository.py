@@ -27,10 +27,37 @@ REQUIRED = {
     "results/research/publication_v1/classification_summary.csv",
     "results/research/publication_v1/multiannotator_summary.csv",
     "results/research/publication_v1/registered_inference_summary.csv",
+    "configs/research/protocol_ac_v1.json",
+    "configs/research/qtrace_mi_v1.json",
+    "docs/research/QTRACE_MI_REGISTRATION_V1.md",
+    "docs/research/QTRACE_MI_V1_RESULT.md",
+    "results/research/gate1/qtrace_mi_smoke_v1.json",
+    "results/research/ac_v1/baselines/summary.json",
+    "results/research/ac_v1/baselines/task_a_predictions.csv",
+    "results/research/ac_v1/baselines/task_c_predictions.csv",
+    "results/research/ac_v1/qtrace_mi/summary.json",
+    "results/research/ac_v1/qtrace_mi/bootstrap_draws.csv",
+    "results/research/ac_v1/qtrace_mi/calibration.json",
+    "results/research/ac_v1/qtrace_mi/partitions.json",
+    "results/research/ac_v1/qtrace_mi/selection.json",
+    "results/research/ac_v1/qtrace_mi/task_a_predictions_by_seed.csv",
+    "results/research/ac_v1/qtrace_mi/task_a_predictions_seed_ensemble.csv",
+    "results/research/ac_v1/qtrace_mi/task_c_predictions_by_seed.csv",
+    "results/research/ac_v1/qtrace_mi/task_c_predictions_seed_ensemble.csv",
+    "results/research/publication_ac_v1/manifest.json",
+    "results/research/publication_ac_v1/task_a_summary.csv",
+    "results/research/publication_ac_v1/task_c_summary.csv",
+    "results/research/publication_ac_v1/registered_inference_summary.csv",
+    "results/research/publication_ac_v1/prediction_set_summary.csv",
     "assets/research/research_overview.png",
     "assets/research/research_overview.svg",
     "assets/research/registered_effect_intervals.png",
     "assets/research/registered_effect_intervals.svg",
+    "assets/research/qtrace_ac_results.png",
+    "assets/research/qtrace_ac_results.svg",
+    "assets/research/qtrace_ac_intervals.png",
+    "assets/research/qtrace_ac_intervals.svg",
+    "tools/build_ac_assets.py",
 }
 TEXT_SUFFIXES = {".md", ".py", ".toml", ".yml", ".yaml", ".json", ".csv", ".txt", ".ipynb"}
 release_hygiene_terms = [
@@ -64,7 +91,10 @@ MAX_TRACKED_BYTES = 10 * 1024 * 1024
 LARGE_EVIDENCE_SHA256 = {
     "results/research/neural_v1/dash_mi/predictions_by_seed.csv": (
         "f503530b1048206ff9ba15fabaffe944f858dda0e3006e4694e92f629ceb5a86"
-    )
+    ),
+    "results/research/ac_v1/qtrace_mi/task_c_predictions_by_seed.csv": (
+        "815dbc04ba88f3cd8702eaae8718fae3372e44df6fd0b5df65198957575b5709"
+    ),
 }
 
 
@@ -161,6 +191,33 @@ def validate_research_publication_assets() -> list[str]:
     ]
 
 
+def validate_ac_publication_assets() -> list[str]:
+    publication_root = ROOT / "results" / "research" / "publication_ac_v1"
+    manifest = json.loads((publication_root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("manifest_id") != "annomi-qtrace-ac-publication-assets-v1":
+        raise ValueError("Unexpected Task A/C publication manifest ID")
+    for relative, expected in manifest["source_sha256"].items():
+        path = ROOT / relative
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Task A/C publication source hash mismatch: {relative}")
+    for filename, expected in manifest["table_sha256"].items():
+        path = publication_root / filename
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Task A/C publication table hash mismatch: {filename}")
+    for stem, formats in manifest["figure_sha256"].items():
+        for extension, expected in formats.items():
+            path = ROOT / "assets" / "research" / f"{stem}.{extension}"
+            if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                raise ValueError(f"Task A/C publication figure hash mismatch: {path.name}")
+    builder = ROOT / "tools" / "build_ac_assets.py"
+    if hashlib.sha256(builder.read_bytes()).hexdigest() != manifest["builder_sha256"]:
+        raise ValueError("Task A/C publication builder hash mismatch")
+    return [
+        "Task A/C publication inputs and tables match manifest",
+        "Task A/C publication figures and builder match manifest",
+    ]
+
+
 def main() -> None:
     from annomi_portfolio.evidence import validate_evidence
 
@@ -193,6 +250,7 @@ def main() -> None:
     checks.extend(validate_notebooks())
     checks.append(validate_links())
     checks.extend(validate_research_publication_assets())
+    checks.extend(validate_ac_publication_assets())
     checks.append(f"{len(files)} repository files passed hygiene checks")
     for check in checks:
         print(f"PASS  {check}")
